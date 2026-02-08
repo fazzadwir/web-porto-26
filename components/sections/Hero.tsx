@@ -65,7 +65,7 @@ const Hero = () => {
                   delay: 0.1,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="text-stone-500"
+                className="text-white"
               >
                 SYSTEMS
               </motion.span>

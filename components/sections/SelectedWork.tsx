@@ -29,6 +29,18 @@ const projects = [
     category: 'Design Systems',
     image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop',
   },
+  {
+    id: 5,
+    title: 'Vortex Analytics',
+    category: 'SaaS Platform',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop',
+  },
+  {
+    id: 6,
+    title: 'Horizon Travel',
+    category: 'Mobile App',
+    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2621&auto=format&fit=crop',
+  },
 ];
 
 const SelectedWork = () => {
@@ -39,12 +51,11 @@ const SelectedWork = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div>
             <h2 className="flex flex-col font-black uppercase leading-[0.85] tracking-tighter text-5xl md:text-[90px] mb-2">
-              <span className="text-white">SELECTED</span>
-              <span className="text-stone-500">WORK</span>
+              <span className="text-white">CRAFTING</span>
+              <span className="text-stone-500">CLARITY</span>
             </h2>
-            <p className="text-gray-400 text-lg max-w-lg mt-3">
-              A collection of digital products, interface systems, and creative
-              visual explorations.
+            <p className="text-gray-400 text-lg max-w-3xl mt-3">
+              Discover how I simplify intricate infrastructure into seamless user experiences. A showcase of selected works demonstrating the power of data-driven design in transforming heavy, complex systems into accessible products that users actually love to use.
             </p>
           </div>
 
@@ -63,11 +74,11 @@ const SelectedWork = () => {
         </div>
 
         {/* Project Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {projects.map((project) => (
             <div
               key={project.id}
-              className="group relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-zinc-900 cursor-pointer"
+              className="group relative aspect-square w-full overflow-hidden rounded-2xl bg-zinc-900 cursor-pointer"
             >
               {/* Background Image with Hover Scale */}
               <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
@@ -77,23 +88,24 @@ const SelectedWork = () => {
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  suppressHydrationWarning
                 />
               </div>
 
               {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-100 transition-all duration-500 group-hover:from-black/90" />
 
               {/* Content */}
-              <div className="absolute bottom-0 left-0 p-6 w-full">
-                <div className="flex items-center justify-between group-hover:translate-x-1 transition-transform duration-300">
+              <div className="absolute bottom-0 left-0 p-8 w-full opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
+                <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-white text-xl font-semibold mb-1">
+                    <h3 className="text-white text-2xl font-semibold mb-2">
                       {project.title}
                     </h3>
-                    <p className="text-gray-400 text-sm">{project.category}</p>
+                    <p className="text-gray-300 text-base">{project.category}</p>
                   </div>
-                  <div className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                    <ArrowUpRight className="text-white w-5 h-5" />
+                  <div>
+                    <ArrowUpRight className="text-white w-6 h-6" />
                   </div>
                 </div>
               </div>

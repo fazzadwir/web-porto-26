@@ -35,6 +35,7 @@ const ToolIcon = ({ name, icon }: { name: string; icon: string }) => (
         fill
         className="object-contain"
         sizes="64px"
+        suppressHydrationWarning
       />
     </div>
   </div>
@@ -46,7 +47,7 @@ const Toolkit = () => {
       <div className="mx-auto max-w-7xl px-6 md:px-16">
         {/* Header content */}
         <div className="mb-16 text-center">
-          <h2 className="mb-6 flex flex-col items-center font-black uppercase leading-[0.85] tracking-tighter text-5xl md:text-[90px] lg:text-[100px]">
+          <h2 className="mb-6 flex flex-col items-center font-black uppercase leading-[0.85] tracking-tighter text-4xl md:text-[90px] lg:text-[90px]">
             <span className="text-stone-900">THE</span>
             <span className="text-stone-400">TOOLKIT</span>
           </h2>
