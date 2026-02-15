@@ -21,6 +21,11 @@ export default function FloatingNav() {
   const [visible, setVisible] = useState(true);
   const timerRef = useRef<NodeJS.Timeout | number | null>(null);
 
+  // Don't render on Sanity Studio pages
+  if (pathname.startsWith("/studio")) {
+    return null;
+  }
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     // Top of page: Always visible
     if (latest < 50) {

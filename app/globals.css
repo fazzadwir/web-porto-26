@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* 
   If you are using Tailwind CSS v4 with a config file, 
