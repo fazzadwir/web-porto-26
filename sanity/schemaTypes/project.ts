@@ -164,5 +164,19 @@ export const project = defineType({
       type: 'text',
       hidden: true, 
     }),
+
+    defineField({
+      name: 'status',
+      title: 'Project Visibility',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Public (Clickable)', value: 'public' },
+          { title: 'Private / Coming Soon (Not Clickable)', value: 'private' },
+        ],
+      },
+      initialValue: 'public',
+      validation: (Rule) => Rule.required(),
+    }),
   ],
 })

@@ -13,6 +13,7 @@ export default async function Home() {
     _id,
     title,
     slug,
+    status,
     mainImage,
     categories
   }`;
@@ -20,7 +21,7 @@ export default async function Home() {
   const projects = await client.fetch(query);
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-zinc-800">
       <Hero />
       <SelectedWork projects={projects} />
       <Toolkit />

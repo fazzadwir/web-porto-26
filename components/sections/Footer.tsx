@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-black min-h-[50vh] py-32 flex flex-col items-center justify-center relative overflow-hidden">
+    <footer className="bg-zinc-800 min-h-[50vh] py-32 flex flex-col items-center justify-center relative overflow-hidden">
       {/* Decorative gradient blob - optional but adds to "high-impact" */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -14,17 +14,36 @@ const Footer = () => {
         </h2>
 
         <div className="flex items-center justify-center gap-8 md:gap-10">
-          <SocialLink href="https://linkedin.com" icon={<Linkedin />} label="LinkedIn" />
-          <SocialLink href="https://dribbble.com" icon={<Dribbble />} label="Dribbble" />
-          <SocialLink href="https://github.com" icon={<Github />} label="GitHub" />
-          <SocialLink href="https://instagram.com" icon={<Instagram />} label="Instagram" />
+          <SocialLink
+            href="https://www.linkedin.com/in/fazza-dwi-riandy/"
+            icon={<Linkedin />}
+            label="LinkedIn"
+          />
+          <SocialLink
+            href="https://dribbble.com/fazzadwiriandy"
+            icon={<Dribbble />}
+            label="Dribbble"
+          />
+          <SocialLink
+            href="https://github.com/fazzadwir"
+            icon={<Github />}
+            label="GitHub"
+          />
         </div>
       </div>
     </footer>
   );
 };
 
-const SocialLink = ({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) => {
+const SocialLink = ({
+  href,
+  icon,
+  label,
+}: {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+}) => {
   return (
     <Link
       href={href}

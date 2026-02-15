@@ -1,4 +1,3 @@
-
 import SelectedWork from "@/components/sections/SelectedWork";
 import Footer from "@/components/sections/Footer";
 
@@ -11,6 +10,7 @@ export default async function WorkPage() {
     _id,
     title,
     slug,
+    status,
     mainImage,
     categories
   }`;
@@ -18,7 +18,7 @@ export default async function WorkPage() {
   const projects = await client.fetch(query);
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-zinc-800">
       <div className="pt-32">
         <SelectedWork projects={projects} />
       </div>

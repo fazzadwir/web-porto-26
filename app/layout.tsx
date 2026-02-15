@@ -20,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${jakarta.variable} antialiased bg-black text-white`} suppressHydrationWarning>
+      <body
+        className={`${jakarta.variable} antialiased bg-zinc-800 text-white`}
+        suppressHydrationWarning
+      >
         <FloatingNav />
         {children}
       </body>
