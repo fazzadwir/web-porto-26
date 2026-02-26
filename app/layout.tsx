@@ -9,8 +9,16 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | UI/UX Designer",
-  description: "Personal portfolio website",
+  metadataBase: new URL("https://fazzadwr.my.id"),
+  title: {
+    default: "Fazzadwr | Web Developer Portfolio",
+    template: "%s | Fazzadwr",
+  },
+  description:
+    "Personal web developer portfolio of Fazzadwr, showcasing modern, responsive, and high-performance web applications built with Next.js, React, and TypeScript.",
+  verification: {
+    google: "eZzimI813TOueO-GV51GrNnvYMY3mocqUxeEIwmNiMk",
+  },
 };
 
 export default function RootLayout({
