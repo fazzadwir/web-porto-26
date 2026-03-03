@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import FloatingNav from "@/components/ui/FloatingNav";
+import { Analytics } from "@vercel/analytics/next";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -11,13 +12,37 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://fazzadwr.my.id"),
   title: {
-    default: "Fazzadwr | Web Developer Portfolio",
+    default: "Fazzadwr | UI/UX Designer Portfolio",
     template: "%s | Fazzadwr",
   },
   description:
-    "Personal web developer portfolio of Fazzadwr, showcasing modern, responsive, and high-performance web applications built with Next.js, React, and TypeScript.",
+    "Explore my portfolio where I bridge complex design systems with pixel-perfect React and Next.js development.",
   verification: {
     google: "eZzimI813TOueO-GV51GrNnvYMY3mocqUxeEIwmNiMk",
+  },
+  openGraph: {
+    title: "Fazzadwr | UI/UX Designer Portfolio",
+    description:
+      "Explore my portfolio where I bridge complex design systems with pixel-perfect React and Next.js development.",
+    url: "https://fazzadwr.my.id",
+    siteName: "Fazzadwr",
+    images: [
+      {
+        url: "/thumbnail.png",
+        width: 1200,
+        height: 630,
+        alt: "Fazzadwr Portfolio Thumbnail",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fazzadwr | UI/UX Designer Portfolio",
+    description:
+      "Explore my portfolio where I bridge complex design systems with pixel-perfect React and Next.js development.",
+    images: ["/thumbnail.png"],
   },
 };
 
@@ -34,6 +59,7 @@ export default function RootLayout({
       >
         <FloatingNav />
         {children}
+        <Analytics />
       </body>
     </html>
   );
