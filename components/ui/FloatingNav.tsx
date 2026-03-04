@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Folder, Briefcase, Wrench, Pen } from "lucide-react";
+import { Home, Folder, Briefcase, Wrench, Pen, ArrowLeft } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 import { useState, useRef, useEffect } from "react";
@@ -26,6 +26,8 @@ export default function FloatingNav() {
   if (pathname.startsWith("/studio")) {
     return null;
   }
+
+  const isProjectDetail = pathname.startsWith("/project/");
 
   // Listen for viewMode changes from PortfolioWrapper
   useEffect(() => {
@@ -80,24 +82,37 @@ export default function FloatingNav() {
       className="fixed top-8 left-1/2 -translate-x-1/2 z-50"
     >
       <nav className="flex items-center gap-1 md:gap-2 px-1.5 md:px-2 py-1.5 md:py-2 bg-zinc-800/80 backdrop-blur-md border border-white/10 rounded-full shadow-lg">
-        {navItems.map(({ href, icon: Icon, label }) => {
-          const isActive = pathname === href;
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={clsx(
-                "p-2 md:p-3 rounded-full transition-all duration-300 hover:scale-110 relative group",
-                isActive
-                  ? "bg-white text-zinc-800"
-                  : "text-stone-400 hover:text-white hover:bg-white/10",
-              )}
-              aria-label={label}
-            >
-              <Icon className="w-4 h-4 md:w-5 md:h-5 relative z-10" />
-            </Link>
-          );
-        })}
+        {isProjectDetail ? (
+          <Link
+            href="/"
+            className="flex items-center gap-2 group p-2 md:p-3 pr-4 md:pr-5 rounded-full transition-all duration-300 text-stone-200 hover:text-zinc-800 hover:bg-white"
+            aria-label="Back to Home"
+          >
+            <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:-translate-x-1" />
+            <span className="text-sm font-medium tracking-wide translate-y-[1px]">
+              Back to Home
+            </span>
+          </Link>
+        ) : (
+          navItems.map(({ href, icon: Icon, label }) => {
+            const isActive = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={clsx(
+                  "p-2 md:p-3 rounded-full transition-all duration-300 hover:scale-110 relative group",
+                  isActive
+                    ? "bg-white text-zinc-800"
+                    : "text-stone-400 hover:text-white hover:bg-white/10",
+                )}
+                aria-label={label}
+              >
+                <Icon className="w-4 h-4 md:w-5 md:h-5 relative z-10" />
+              </Link>
+            );
+          })
+        )}
       </nav>
     </motion.div>
   );

@@ -117,20 +117,7 @@ export default async function ProjectPage({ params }: Props) {
   return (
     <ZoomProvider>
       <main className="min-h-screen bg-[#F9F5F0] text-zinc-800 font-sans selection:bg-stone-200 selection:text-zinc-800">
-        {/* Navigation */}
-        <nav className="fixed top-0 left-0 w-full p-6 z-50 pointer-events-none">
-          <div className="max-w-7xl mx-auto flex justify-between items-center pointer-events-auto">
-            <Link
-              href="/"
-              className="group flex items-center gap-2 text-stone-500 hover:text-zinc-800 transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-              <span className="font-medium text-sm tracking-wide">
-                back to home
-              </span>
-            </Link>
-          </div>
-        </nav>
+        {/* Navigation is now handled globally via FloatingNav */}
 
         {/* Main Content */}
         <section className="pt-32 pb-12 px-6 max-w-7xl mx-auto">
