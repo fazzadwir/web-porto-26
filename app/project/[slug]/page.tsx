@@ -78,7 +78,40 @@ export default async function ProjectPage({ params }: Props) {
 
   // Check if the project is private
   if (project.status === "private") {
-    notFound();
+    return (
+      <main className="min-h-screen bg-[#F9F5F0] text-zinc-800 font-sans flex items-center justify-center p-6">
+        <div className="max-w-md text-center">
+          <div className="bg-stone-200/50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg
+              className="w-10 h-10 text-stone-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold mb-4">Project Restricted</h1>
+          <p className="text-stone-500 mb-8 leading-relaxed">
+            This project cannot be shown yet because it is under an NDA
+            (Non-Disclosure Agreement) or is still in development.
+          </p>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 bg-zinc-800 text-white px-6 py-3 rounded-full hover:bg-zinc-700 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Home</span>
+          </Link>
+        </div>
+      </main>
+    );
   }
 
   return (

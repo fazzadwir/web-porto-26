@@ -61,7 +61,9 @@ const SelectedWork = ({ projects }: { projects: Project[] }) => {
                       src={urlFor(project.mainImage).url()}
                       alt={project.title}
                       fill
-                      className="object-cover"
+                      className={`object-cover ${
+                        isPrivate ? "blur-xl scale-110" : ""
+                      }`}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                       suppressHydrationWarning
                     />
@@ -92,23 +94,12 @@ const SelectedWork = ({ projects }: { projects: Project[] }) => {
 
                 {/* Badge for Private Projects */}
                 {isPrivate && (
-                  <div className="absolute top-4 right-4 bg-zinc-800/60 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full uppercase tracking-wider font-bold border border-white/20 z-10">
-                    Coming Soon
+                  <div className="absolute top-4 right-4 bg-zinc-800/80 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full uppercase tracking-wider font-bold border border-white/20 z-10">
+                    Private / NDA
                   </div>
                 )}
               </>
             );
-
-            if (isPrivate) {
-              return (
-                <div
-                  key={project._id}
-                  className="group relative aspect-square w-full overflow-hidden rounded-2xl bg-zinc-900 cursor-not-allowed block select-none"
-                >
-                  {CardContent}
-                </div>
-              );
-            }
 
             return (
               <Link
