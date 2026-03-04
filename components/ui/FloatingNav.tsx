@@ -19,12 +19,26 @@ export default function FloatingNav() {
   const pathname = usePathname();
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
+  const [isSchemaMode, setIsSchemaMode] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | number | null>(null);
 
   // Don't render on Sanity Studio pages
   if (pathname.startsWith("/studio")) {
     return null;
   }
+
+  // Listen for viewMode changes from PortfolioWrapper
+  useEffect(() => {
+    const handleViewModeChange = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      setIsSchemaMode(customEvent.detail === "schema");
+    };
+
+    window.addEventListener("viewModeChange", handleViewModeChange);
+    return () => {
+      window.removeEventListener("viewModeChange", handleViewModeChange);
+    };
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     // Top of page: Always visible
@@ -52,17 +66,20 @@ export default function FloatingNav() {
     };
   }, []);
 
+  // True visibility combines scroll state and schema mode state
+  const shouldShow = visible && !isSchemaMode;
+
   return (
     <motion.div
       initial={{ y: -100, opacity: 0 }}
       animate={{
-        y: visible ? 0 : -100,
-        opacity: visible ? 1 : 0,
+        y: shouldShow ? 0 : -100,
+        opacity: shouldShow ? 1 : 0,
       }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className="fixed top-8 left-1/2 -translate-x-1/2 z-50"
     >
-      <nav className="flex items-center gap-2 px-2 py-2 bg-zinc-800/80 backdrop-blur-md border border-white/10 rounded-full shadow-lg">
+      <nav className="flex items-center gap-1 md:gap-2 px-1.5 md:px-2 py-1.5 md:py-2 bg-zinc-800/80 backdrop-blur-md border border-white/10 rounded-full shadow-lg">
         {navItems.map(({ href, icon: Icon, label }) => {
           const isActive = pathname === href;
           return (
@@ -70,15 +87,14 @@ export default function FloatingNav() {
               key={href}
               href={href}
               className={clsx(
-                "p-3 rounded-full transition-all duration-300 hover:scale-110 relative group",
+                "p-2 md:p-3 rounded-full transition-all duration-300 hover:scale-110 relative group",
                 isActive
                   ? "bg-white text-zinc-800"
                   : "text-stone-400 hover:text-white hover:bg-white/10",
               )}
               aria-label={label}
             >
-              <Icon className="w-5 h-5 relative z-10" />
-              {/* Optional tooltip on hover could go here, but keeping it minimalist for now */}
+              <Icon className="w-4 h-4 md:w-5 md:h-5 relative z-10" />
             </Link>
           );
         })}

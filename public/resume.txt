@@ -1,0 +1,258 @@
+================================================================
+  RESUME ANALISIS CODEBASE — PORTFOLIO SITE
+  Fazza Dwi Riandy | fazzadwr.my.id
+  Dibuat: 2026-03-04
+================================================================
+
+----------------------------------------------------------------
+1. GAMBARAN UMUM PROJECT
+----------------------------------------------------------------
+
+Nama Project  : Portfolio Personal Site
+Pemilik       : Fazza Dwi Riandy (UI/UX Designer & Product Designer)
+Domain Live   : https://fazzadwr.my.id
+Framework     : Next.js 16 (App Router) + React 19 + TypeScript
+Styling       : Tailwind CSS v4
+Animasi       : Framer Motion v12
+CMS           : Sanity v4 (Headless CMS)
+Deployment    : Vercel (dengan @vercel/analytics)
+Font          : Plus Jakarta Sans (Google Fonts)
+
+
+----------------------------------------------------------------
+2. STRUKTUR FOLDER UTAMA
+----------------------------------------------------------------
+
+portfolio-site/
+├── app/                        → Next.js App Router (routing & halaman)
+│   ├── layout.tsx              → Root layout (metadata SEO, font, FloatingNav)
+│   ├── page.tsx                → Halaman utama (Home)
+│   ├── globals.css             → CSS global + Tailwind import
+│   ├── project/[slug]/         → Halaman detail project (dynamic route)
+│   ├── work/                   → Halaman daftar semua work
+│   ├── experience/             → Halaman experience
+│   ├── toolkit/                → Halaman toolkit
+│   ├── contact/                → Halaman contact
+│   ├── studio/                 → Sanity Studio (embedded)
+│   ├── sitemap.ts              → Auto-generated sitemap.xml
+│   └── robots.ts               → Konfigurasi robots.txt
+│
+├── components/
+│   ├── sections/               → Section-level components (halaman utama)
+│   │   ├── Hero.tsx
+│   │   ├── SelectedWork.tsx
+│   │   ├── Toolkit.tsx
+│   │   ├── Experience.tsx
+│   │   └── Footer.tsx
+│   ├── ui/                     → Reusable UI components
+│   │   ├── FloatingNav.tsx
+│   │   ├── ImageLightbox.tsx
+│   │   └── ZoomableImage.tsx
+│   └── blocks/                 → Block-level components (PortableText, dll.)
+│
+├── lib/
+│   ├── sanity.ts               → Sanity client + urlFor helper
+│   └── env.ts                  → Environment variable accessor
+│
+├── sanity/
+│   ├── schemaTypes/project.ts  → Schema Sanity untuk dokumen "project"
+│   ├── structure.ts            → Konfigurasi Sanity Studio structure
+│   └── env.ts                  → Sanity env vars
+│
+├── context/                    → React Context (ZoomContext)
+├── public/                     → Aset statis (video, PDF CV, logo, thumbnail)
+└── types/                      → TypeScript type definitions
+
+
+----------------------------------------------------------------
+3. HALAMAN UTAMA (app/page.tsx)
+----------------------------------------------------------------
+
+Halaman Home bersifat async Server Component dengan ISR (revalidate: 60 detik).
+Data project di-fetch langsung dari Sanity menggunakan query GROQ, diurutkan 
+berdasarkan publishedAt (terbaru dulu). Terdiri dari 5 section berurutan:
+
+  [Hero] → [SelectedWork] → [Toolkit] → [Experience] → [Footer]
+
+
+----------------------------------------------------------------
+4. SECTION-BY-SECTION BREAKDOWN
+----------------------------------------------------------------
+
+── 4.1 Hero (components/sections/Hero.tsx) ──────────────────────
+  - Full-screen section (100vh) dengan background video (hero-vids.mp4)
+  - Overlay gelap (bg-zinc-800/40) untuk keterbacaan teks
+  - Headline animasi staggered: "DESIGNING SYSTEMS" (Framer Motion)
+  - Deskripsi diri: Product Designer yang bridge UI/UX dan visual storytelling
+  - Dua CTA button:
+      • "My Project" → scroll ke #selected-work
+      • "Download CV" → download UIUX_FazzaDwi.pdf
+  - Animasi: opacity + translateY dengan cubic-bezier ease [0.22, 1, 0.36, 1]
+
+── 4.2 SelectedWork (components/sections/SelectedWork.tsx) ──────
+  - Menerima props `projects` dari server (fetched di page.tsx)
+  - Grid 2 kolom (responsive, 1 kolom di mobile)
+  - Setiap card: gambar dari Sanity (urlFor), hover scale + gradient overlay
+  - Info project muncul saat hover (opacity + translateY transition)
+  - Project dengan status "private" → gambar di-blur + badge "Private / NDA"
+  - Project publik → linkable ke /project/[slug]
+  - Semua project → link ke /work (tombol "View all work")
+
+── 4.3 Toolkit (components/sections/Toolkit.tsx) ────────────────
+  - Background putih (kontras dengan section zinc lainnya)
+  - 2 kategori tool: Design & Creative (6 tools) dan Development (4 tools)
+  - Design Tools: Figma, Framer, Sketch, Affinity, Adobe Illustrator, Whimsical
+  - Dev Tools: Arc/Gravity, VS Code, Gemini, ChatGPT
+  - Tampilan ikon dalam grid dengan custom box-shadow "floating card" effect
+  - Layout: 2 card besar berdampingan (responsive grid)
+
+── 4.4 Experience (components/sections/Experience.tsx) ──────────
+  - Layout 12-kolom grid: header sticky di kiri, list di kanan
+  - 2 entri pengalaman kerja (hardcoded):
+      • PT. Awan Data Indonesia → 2025–Present
+        (Desain IaaS/PaaS dashboard, corporate visual assets, frontend slicing)
+      • PT. Kita Bantu Indonesia → March 2025 – June 2025
+        (Wireframing, rapid prototyping, developer handoff)
+  - Header kiri menggunakan `lg:sticky lg:top-32` agar tetap visible saat scroll
+
+── 4.5 Footer (components/sections/Footer.tsx) ───────────────────
+  - Background zinc-800 (dark), min-height 50vh
+  - Tagline: "Let's build something scalable together."
+  - Decorative gradient radial blur di tengah (ambient glow)
+  - 3 social link: LinkedIn, Dribbble, GitHub
+  - Hover: scale-110 + warna putih, ikon dari lucide-react
+
+
+----------------------------------------------------------------
+5. UI COMPONENTS (components/ui/)
+----------------------------------------------------------------
+
+── 5.1 FloatingNav (FloatingNav.tsx) ─────────────────────────────
+  - Fixed navbar mengambang di top-center (rounded-full, glassmorphism)
+  - Navigasi: Home / Work / Experience / Toolkit / Contact
+  - Active state: bg-white text-zinc-800, inactive: text-stone-400
+  - Perilaku scroll: hide saat scroll, muncul kembali 600ms setelah berhenti
+  - Tidak dirender di halaman /studio (Sanity Studio)
+  - Animasi: framer-motion dengan useScroll + useMotionValueEvent
+
+── 5.2 ImageLightbox (ImageLightbox.tsx) ────────────────────────
+  - Modal lightbox fullscreen untuk memperbesar gambar
+  - Membaca state dari ZoomContext (zoomedImageSrc, imageAlt, closeZoom)
+  - Backdrop hitam + blur saat aktif
+  - Animasi masuk/keluar: scale + opacity (AnimatePresence)
+  - Tombol X (close) di pojok kanan atas
+
+── 5.3 ZoomableImage (ZoomableImage.tsx) ────────────────────────
+  - Wrapper Next.js Image yang bisa diklik untuk membuka ImageLightbox
+  - Menggunakan ZoomContext untuk set state gambar yang diperbesar
+
+
+----------------------------------------------------------------
+6. HALAMAN DETAIL PROJECT (app/project/[slug]/page.tsx)
+----------------------------------------------------------------
+
+  - Dynamic Route: /project/[slug]
+  - Fetch data dari Sanity berdasarkan slug
+  - ISR: revalidate 60 detik
+  - Layout: background krem (#F9F5F0), serif-ish modern feel
+  - Komponen tampilan:
+      • Header: judul besar (trakcing-tighter) + short description
+      • Overview Box: bordered card dengan deskripsi panjang
+      • Metadata Grid (4 kolom): Role | Timeline | Company | Tools
+      • Hero Image: aspect ratio 21:9 (wide cinema-like)
+      • Body Content: PortableText dengan prose typography
+      • Showcase Images: 1 full-width + 2 kolom grid + 1 full-width terakhir
+      • Closing Statement: teks besar di tengah
+  - Private project → halaman restricted dengan ikon gembok + pesan NDA
+  - ZoomProvider membungkus seluruh page untuk fitur lightbox gambar
+  - Back nav floating di pojok kiri atas
+
+
+----------------------------------------------------------------
+7. CMS — SANITY SCHEMA (sanity/schemaTypes/project.ts)
+----------------------------------------------------------------
+
+Document type: "project" — field yang didefinisikan:
+
+  title             → Judul project (string)
+  slug              → URL-friendly slug (auto dari title)
+  shortDescription  → Deskripsi singkat (text, 2 rows)
+  projectOverview   → Overview panjang (text, 5 rows)
+  roles             → Array of string
+  publishedAt       → Tanggal publish (datetime)
+  categories        → Array of string
+  timeline          → Durasi project (string)
+  company           → Nama perusahaan (string)
+  technologies      → Array of string (tools yang digunakan)
+  mainImage         → Thumbnail utama (image + hotspot + alt)
+  body              → Rich text (block + inline images + caption)
+  showcaseImage1    → Showcase full-width pertama
+  showcaseImagesTwoColumn → Max 2 gambar (validasi), layout 2 kolom
+  showcaseImageLast → Showcase full-width terakhir
+  closingStatement  → Kalimat penutup (text, 3 rows)
+  status            → "public" | "private" (visibility control)
+
+
+----------------------------------------------------------------
+8. SEO & METADATA
+----------------------------------------------------------------
+
+  - Metadata lengkap di app/layout.tsx:
+      • Title default + template ("%s | Fazzadwr")
+      • Description, metadataBase (https://fazzadwr.my.id)
+      • Google Search Console verification
+      • Open Graph: title, description, URL, siteName, thumbnail (1200x630)
+      • Twitter Card: summary_large_image dengan thumbnail
+  - Sitemap: app/sitemap.ts → auto-generate /sitemap.xml
+  - Robots: app/robots.ts → konfigurasi crawling
+  - Thumbnail: /public/thumbnail.png (1.9MB, 1200x630px)
+
+
+----------------------------------------------------------------
+9. DEPENDENCIES UTAMA
+----------------------------------------------------------------
+
+  next                  16.1.6    → Framework utama
+  react                 19.2.3    → UI library
+  typescript            ^5        → Type safety
+  tailwindcss           ^4        → Utility-first CSS
+  framer-motion         ^12.29.2  → Animasi
+  sanity                ^4.22.0   → Headless CMS
+  next-sanity           ^11.6.12  → Sanity integration untuk Next.js
+  @sanity/image-url     ^1.2.0    → URL builder untuk Sanity images
+  @portabletext/react   ^6.0.2    → Render rich text dari Sanity
+  lucide-react          ^0.563.0  → Icon library
+  @vercel/analytics     ^1.6.1    → Analytics (Vercel)
+  react-zoom-pan-pinch  ^3.7.0    → Zoom/pan untuk gambar
+  clsx                  ^2.1.1    → Conditional classnames utility
+  @tailwindcss/typography ^0.5.19 → Prose typography untuk artikel
+
+
+----------------------------------------------------------------
+10. ASET STATIS (public/)
+----------------------------------------------------------------
+
+  hero-vids.mp4       → Video background Hero section (6.1MB)
+  UIUX_FazzaDwi.pdf   → CV/Resume yang bisa didownload
+  thumbnail.png       → OG image untuk social media preview (1.9MB)
+  app-logo/           → Folder ikon tool (Figma, Framer, VSCode, dll.)
+
+
+----------------------------------------------------------------
+11. DESIGN LANGUAGE & VISUAL IDENTITY
+----------------------------------------------------------------
+
+  Warna utama   : zinc-800 (#27272a) — dark slate sebagai primary background
+  Warna kontras : bg-white (#ffffff) — dipakai di Toolkit & Experience section
+  Warna teks    : white, stone-200, stone-400, stone-600 (hierarki keterbacaan)
+  Accent        : Tidak ada accent color dominan; estetika monokromatik
+  Typography    : Plus Jakarta Sans — black (900), bold, semibold
+  Heading style : Uppercase, tracking-tighter, leading-[0.85]
+                  Ukuran ekstrem (hingga 104px) — bold editorial style
+  Border radius : rounded-full (button/nav), rounded-2xl (card), rounded-3xl (tools)
+  Tone          : Premium dark portfolio, minimalis, editorial, modern
+
+
+================================================================
+  END OF RESUME — Generated on 2026-03-04
+================================================================

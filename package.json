@@ -13,6 +13,7 @@
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^4.22.0",
     "@tailwindcss/typography": "^0.5.19",
+    "@types/three": "^0.183.1",
     "@vercel/analytics": "^1.6.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.29.2",
@@ -21,8 +22,10 @@
     "next-sanity": "^11.6.12",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-zoom-pan-pinch": "^3.7.0",
     "sanity": "^4.22.0",
-    "styled-components": "^6.3.9"
+    "styled-components": "^6.3.9",
+    "three": "^0.183.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

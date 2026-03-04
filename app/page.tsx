@@ -1,10 +1,5 @@
-import Hero from "@/components/sections/Hero";
-import SelectedWork from "@/components/sections/SelectedWork";
-import Experience from "@/components/sections/Experience";
-import Toolkit from "@/components/sections/Toolkit";
-import Footer from "@/components/sections/Footer";
-
 import { client } from "@/lib/sanity";
+import PortfolioWrapper from "@/components/ui/PortfolioWrapper";
 
 export const revalidate = 60;
 
@@ -22,11 +17,7 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-zinc-800">
-      <Hero />
-      <SelectedWork projects={projects} />
-      <Toolkit />
-      <Experience />
-      <Footer />
+      <PortfolioWrapper projects={projects} />
     </main>
   );
 }

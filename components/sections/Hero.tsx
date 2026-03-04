@@ -2,33 +2,28 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-
 import { ArrowUpRight, Download } from "lucide-react";
+import ThreeWaveBackground from "@/components/ui/ThreeWaveBackground";
 
 const Hero = () => {
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-zinc-800 font-sans">
+    <section className="relative h-screen w-full overflow-hidden bg-[#2D4140] font-sans">
       {/* 
         -------------------------------------------
-        Background Animation (The "Breathing" Effect)
+        Background: Three.js Particle Wave
         -------------------------------------------
       */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Video Background */}
-        <div className="absolute inset-0">
-          <video
-            className="h-full w-full object-cover"
-            src="/hero-vids.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            suppressHydrationWarning
-          />
-        </div>
+        {/* Three.js canvas — edit props here to change wave appearance */}
+        <ThreeWaveBackground
+          dotColor={0xffaa00}
+          dotSize={0.2}
+          waveAmplitude={7}
+          opacity={1}
+        />
 
-        {/* Dark Overlay for readability */}
-        <div className="absolute inset-0 bg-zinc-800/40" />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-[#161312]/40" />
       </div>
 
       {/* 
@@ -98,7 +93,7 @@ const Hero = () => {
             >
               <a
                 href="#selected-work"
-                className="group inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-zinc-800 transition-all duration-300 hover:bg-zinc-800 hover:text-white"
+                className="group inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-zinc-800 transition-all duration-300 hover:bg-zinc-800 hover:text-white"
               >
                 My Project
                 <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 hover:text-zinc-800" />
@@ -108,7 +103,7 @@ const Hero = () => {
                 download
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-bold text-white transition-all duration-300 hover:bg-zinc-800 hover:text-white"
+                className="group inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:bg-zinc-800 hover:text-white"
               >
                 <Download className="h-4 w-4" />
                 Download CV

@@ -4,8 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-
-import { urlFor } from "@/lib/sanity"; // Adjust path if needed
+import { urlFor } from "@/lib/sanity";
 
 interface Project {
   _id: string;
