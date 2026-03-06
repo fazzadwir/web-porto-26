@@ -72,8 +72,8 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
             <Hero />
-            <SelectedWork projects={projects} />
             <Toolkit />
+            <SelectedWork projects={projects} />
             <Experience />
             <Footer />
           </motion.div>

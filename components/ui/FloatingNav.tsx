@@ -11,7 +11,7 @@ const navItems = [
   { href: "/", icon: Home, label: "Home" },
   { href: "/work", icon: Folder, label: "Work" },
   { href: "/experience", icon: Briefcase, label: "Experience" },
-  { href: "/toolkit", icon: Wrench, label: "Toolkit" },
+
   { href: "/contact", icon: Pen, label: "Contact" },
 ];
 
@@ -20,6 +20,7 @@ export default function FloatingNav() {
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
   const [isSchemaMode, setIsSchemaMode] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | number | null>(null);
 
   // Don't render on Sanity Studio pages
@@ -37,8 +38,15 @@ export default function FloatingNav() {
     };
 
     window.addEventListener("viewModeChange", handleViewModeChange);
+
+    const handleModalChange = (e: Event) => {
+      setModalOpen((e as CustomEvent<boolean>).detail);
+    };
+    window.addEventListener("modalOpenChange", handleModalChange);
+
     return () => {
       window.removeEventListener("viewModeChange", handleViewModeChange);
+      window.removeEventListener("modalOpenChange", handleModalChange);
     };
   }, []);
 
@@ -69,7 +77,7 @@ export default function FloatingNav() {
   }, []);
 
   // True visibility combines scroll state and schema mode state
-  const shouldShow = visible && !isSchemaMode;
+  const shouldShow = visible && !isSchemaMode && !modalOpen;
 
   return (
     <motion.div

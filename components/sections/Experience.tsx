@@ -5,14 +5,14 @@ import React from "react";
 const experiences = [
   {
     id: 1,
-    company: "PT. Awan Data Indonesia",
+    company: "UI/UX Designer at PT. Awan Data Indonesia",
     date: "2025 - Present",
     description:
       "Responsible for designing complex IaaS/PaaS dashboards and managing corporate visual assets. Beyond high-fidelity prototyping, I bridge the gap to development by occasionally stepping in to slice key interfaces into frontend code, ensuring pixel-perfect implementation when needed.",
   },
   {
     id: 2,
-    company: "PT. Kita Bantu Indonesia",
+    company: "Web Designer at PT. Kita Bantu Indonesia",
     date: "March 2025 - June 2025",
     description:
       "Accelerated product validation through strategic wireframing and rapid prototyping. Focused on high-impact features and seamless developer handoffs, ensuring designs were not just visually pleasing but technically feasible for immediate deployment.",
@@ -46,7 +46,7 @@ const Experience = () => {
                 className="bg-stone-50 p-8 md:p-8 rounded-2xl border border-stone-200"
               >
                 <div className="mb-2">
-                  <h3 className="text-2xl font-bold text-zinc-800 mb-1">
+                  <h3 className="text-2xl font-semibold text-zinc-800 mb-1">
                     {exp.company}
                   </h3>
                   <span className="text-sm font-medium text-stone-400 block uppercase tracking-wide">

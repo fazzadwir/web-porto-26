@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { ZoomProvider } from "@/context/ZoomContext";
 import ZoomableImage from "@/components/ui/ZoomableImage";
+import ExploreMoreWork from "@/components/ui/ExploreMoreWork";
 
 export const revalidate = 60;
 
@@ -63,12 +64,21 @@ export default async function ProjectPage({ params }: Props) {
     status
   }`;
 
-  const project = await client.fetch(query, { slug });
+  const [project, allProjects] = await Promise.all([
+    client.fetch(query, { slug }),
+    client.fetch(
+      `*[_type == "project"] | order(publishedAt desc) {
+        _id, title, slug, status, mainImage, categories
+      }`,
+    ),
+  ]);
 
   if (!project) {
     return (
       <div className="min-h-screen bg-[#F9F5F0] flex items-center justify-center">
-        <h1 className="text-4xl font-bold text-gray-800">Project not found</h1>
+        <h1 className="text-4xl font-semibold text-gray-800">
+          Project not found
+        </h1>
         <Link href="/" className="ml-4 text-blue-600 hover:underline">
           Go Home
         </Link>
@@ -97,7 +107,7 @@ export default async function ProjectPage({ params }: Props) {
               />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold mb-4">Project Restricted</h1>
+          <h1 className="text-3xl font-semibold mb-4">Project Restricted</h1>
           <p className="text-stone-500 mb-8 leading-relaxed">
             This project cannot be shown yet because it is under an NDA
             (Non-Disclosure Agreement) or is still in development.
@@ -123,7 +133,7 @@ export default async function ProjectPage({ params }: Props) {
         <section className="pt-32 pb-12 px-6 max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-6xl md:text-8xl font-bold mb-4 tracking-tighter leading-none">
+            <h1 className="text-6xl md:text-8xl font-semibold mb-4 tracking-tighter leading-none">
               {project.title}
             </h1>
             {project.shortDescription && (
@@ -215,7 +225,7 @@ export default async function ProjectPage({ params }: Props) {
 
           {/* Body Content */}
           <div className="max-w-4xl mx-auto mb-24">
-            <div className="prose prose-lg prose-stone max-w-none prose-headings:font-bold prose-headings:text-zinc-800 prose-p:text-stone-600 prose-li:text-stone-600 prose-ul:list-disc prose-ol:list-decimal prose-img:rounded-xl prose-img:shadow-sm prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline">
+            <div className="prose prose-lg prose-stone max-w-none prose-headings:font-semibold prose-headings:text-zinc-800 prose-p:text-stone-600 prose-li:text-stone-600 prose-ul:list-disc prose-ol:list-decimal prose-img:rounded-xl prose-img:shadow-sm prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline">
               {project.body ? (
                 <PortableText value={project.body} components={ptComponents} />
               ) : null}
@@ -282,6 +292,9 @@ export default async function ProjectPage({ params }: Props) {
             </div>
           )}
         </section>
+
+        {/* Explore More Work */}
+        <ExploreMoreWork projects={allProjects} currentSlug={slug} />
       </main>
     </ZoomProvider>
   );

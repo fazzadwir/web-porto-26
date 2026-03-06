@@ -7,7 +7,7 @@ import ThreeWaveBackground from "@/components/ui/ThreeWaveBackground";
 
 const Hero = () => {
   return (
-    <section className="relative w-full min-h-[100svh] flex flex-col overflow-hidden bg-[#2D4140] font-sans">
+    <section className="relative w-full min-h-[100svh] flex flex-col overflow-hidden bg-[#27272a] font-sans">
       {/* 
         -------------------------------------------
         Background: Three.js Particle Wave
@@ -23,7 +23,7 @@ const Hero = () => {
         />
 
         {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-[#161312]/40" />
+        <div className="absolute inset-0 bg-[#161312]/20" />
       </div>
 
       {/* 
@@ -70,15 +70,12 @@ const Hero = () => {
               }}
               className="max-w-3xl text-lg text-gray-100 md:text-xl"
             >
-              Hi, I'm Fazza Dwi Riandy. I'm a Product Designer who bridges the
-              gap between{" "}
-              <span className="font-semibold text-white">functional UI/UX</span>{" "}
-              and{" "}
-              <span className="font-semibold text-white">
-                compelling visual storytelling
-              </span>
-              . From complex cloud dashboards to brand assets, I build digital
-              experiences that work as good as they look.
+              Hi, I'm Fazza Dwi Riandy. I'm a{" "}
+              <span className="font-semibold">UI/UX Designer</span> who bridges
+              the gap between complex system logic and pixel-perfect
+              implementation. From scalable cloud dashboards to cohesive brand
+              assets, I design digital experiences that are as technically sound
+              as they are visually compelling.
             </motion.p>
 
             <motion.div

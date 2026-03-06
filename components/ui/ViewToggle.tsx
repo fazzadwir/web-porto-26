@@ -17,7 +17,18 @@ export default function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
   // --- Auto-hide logic to match FloatingNav ---
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | number | null>(null);
+
+  // Listen for modal open/close events from CanvasView
+  useEffect(() => {
+    const handleModalChange = (e: Event) => {
+      setModalOpen((e as CustomEvent<boolean>).detail);
+    };
+    window.addEventListener("modalOpenChange", handleModalChange);
+    return () =>
+      window.removeEventListener("modalOpenChange", handleModalChange);
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest < 50) {
@@ -38,12 +49,14 @@ export default function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
     };
   }, []);
 
+  const shouldShow = visible && !modalOpen;
+
   return (
     <motion.div
       initial={{ y: -100, opacity: 0 }}
       animate={{
-        y: visible ? 0 : -100,
-        opacity: visible ? 1 : 0,
+        y: shouldShow ? 0 : -100,
+        opacity: shouldShow ? 1 : 0,
       }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className={`fixed top-8 left-1/2 z-[9999] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${

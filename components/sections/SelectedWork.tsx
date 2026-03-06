@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { urlFor } from "@/lib/sanity";
 
 interface Project {
@@ -15,7 +15,12 @@ interface Project {
   status?: string;
 }
 
+const STEP = 4;
+
 const SelectedWork = ({ projects }: { projects: Project[] }) => {
+  const [visibleCount, setVisibleCount] = useState(STEP);
+  const visibleProjects = projects.slice(0, visibleCount);
+  const hasMore = visibleCount < projects.length;
   return (
     <section
       id="selected-work"
@@ -48,7 +53,7 @@ const SelectedWork = ({ projects }: { projects: Project[] }) => {
 
         {/* Project Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {projects.map((project) => {
+          {visibleProjects.map((project, index) => {
             const isPrivate = project.status === "private";
 
             const CardContent = (
@@ -57,14 +62,18 @@ const SelectedWork = ({ projects }: { projects: Project[] }) => {
                 <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
                   {project.mainImage && (
                     <Image
-                      src={urlFor(project.mainImage).url()}
+                      src={urlFor(project.mainImage)
+                        .width(1600)
+                        .quality(100)
+                        .url()}
                       alt={project.title}
                       fill
                       className={`object-cover ${
                         isPrivate ? "blur-xl scale-110" : ""
                       }`}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1400px) 50vw, 700px"
                       suppressHydrationWarning
+                      priority={index < 2}
                     />
                   )}
                 </div>
@@ -93,8 +102,8 @@ const SelectedWork = ({ projects }: { projects: Project[] }) => {
 
                 {/* Badge for Private Projects */}
                 {isPrivate && (
-                  <div className="absolute top-4 right-4 bg-zinc-800/80 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full uppercase tracking-wider font-bold border border-white/20 z-10">
-                    Private / NDA
+                  <div className="absolute top-4 right-4 bg-zinc-800/80 backdrop-blur-md text-white text-xs px-3 py-1 rounded-full uppercase tracking-wider font-semibold border border-white/20 z-10">
+                    Private
                   </div>
                 )}
               </>
@@ -112,6 +121,21 @@ const SelectedWork = ({ projects }: { projects: Project[] }) => {
             );
           })}
         </div>
+
+        {/* Show More button */}
+        {hasMore && (
+          <div className="mt-12 flex justify-center">
+            <button
+              onClick={() =>
+                setVisibleCount((c) => Math.min(c + STEP, projects.length))
+              }
+              className="group flex items-center gap-2 border border-white/20 hover:border-white/50 text-white/70 hover:text-white rounded-full px-8 py-3.5 text-lg font-medium transition-all duration-300 hover:bg-white/5"
+            >
+              Show More
+              <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

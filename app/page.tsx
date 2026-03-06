@@ -10,7 +10,15 @@ export default async function Home() {
     slug,
     status,
     mainImage,
-    categories
+    categories,
+    timeline,
+    company,
+    projectOverview,
+    closingStatement,
+    technologies,
+    showcaseImage1,
+    showcaseImagesTwoColumn,
+    showcaseImageLast
   }`;
 
   const projects = await client.fetch(query);
