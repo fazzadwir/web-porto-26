@@ -9,7 +9,7 @@ import Toolkit from "@/components/sections/Toolkit";
 import Experience from "@/components/sections/Experience";
 import Footer from "@/components/sections/Footer";
 import CanvasView from "@/components/ui/CanvasView";
-import ViewToggle from "@/components/ui/ViewToggle";
+import { ArrowLeft } from "lucide-react";
 
 type ViewMode = "web" | "schema";
 
@@ -73,7 +73,10 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
           >
             <Hero />
             <Toolkit />
-            <SelectedWork projects={projects} />
+            <SelectedWork
+              projects={projects}
+              onViewSchema={() => setViewMode("schema")}
+            />
             <Experience />
             <Footer />
           </motion.div>
@@ -90,11 +93,21 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
           >
             {/* Header strip inside schema view */}
             <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-6 py-4 pointer-events-none">
-              <div className="bg-white/80 backdrop-blur-sm border border-stone-200 shadow-sm rounded-full px-4 py-2">
+              <div className="bg-white/80 backdrop-blur-sm border border-stone-200 shadow-sm rounded-full px-4 py-2 pointer-events-auto">
                 <span className="text-xs text-stone-500 font-semibold uppercase tracking-widest">
                   Schema · Spatial Canvas
                 </span>
               </div>
+              <button
+                onClick={() => setViewMode("web")}
+                className="pointer-events-auto bg-white/80 backdrop-blur-sm border border-stone-200 shadow-sm rounded-full px-4 py-2 hover:bg-white transition-colors flex items-center gap-2"
+                aria-label="Back to Web View"
+              >
+                <ArrowLeft className="w-4 h-4 text-stone-700" />
+                <span className="text-xs text-stone-700 font-semibold uppercase tracking-widest hidden sm:inline-block">
+                  Back to Web
+                </span>
+              </button>
             </div>
 
             {/* Full canvas — no padding, fills 100vh */}
@@ -104,9 +117,6 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Always-visible toggle — outside AnimatePresence so it never unmounts */}
-      <ViewToggle viewMode={viewMode} onToggle={setViewMode} />
     </>
   );
 }

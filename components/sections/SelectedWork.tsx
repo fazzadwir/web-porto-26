@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ChevronDown } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Network } from "lucide-react";
 import { urlFor } from "@/lib/sanity";
 
 interface Project {
@@ -17,7 +17,13 @@ interface Project {
 
 const STEP = 4;
 
-const SelectedWork = ({ projects }: { projects: Project[] }) => {
+const SelectedWork = ({
+  projects,
+  onViewSchema,
+}: {
+  projects: Project[];
+  onViewSchema?: () => void;
+}) => {
   const [visibleCount, setVisibleCount] = useState(STEP);
   const visibleProjects = projects.slice(0, visibleCount);
   const hasMore = visibleCount < projects.length;
@@ -42,13 +48,28 @@ const SelectedWork = ({ projects }: { projects: Project[] }) => {
             </p>
           </div>
 
-          <Link
-            href="/work"
-            className="hidden md:flex items-center text-white hover:text-zinc-800 transition-colors group bg-zinc-800 hover:bg-white rounded-full px-8 py-4 gap-2"
-          >
-            <span className="text-lg font-medium">View all work</span>
-            <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 hover:text-zinc-800" />
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+            {onViewSchema && (
+              <button
+                onClick={onViewSchema}
+                className="flex w-full sm:w-auto items-center justify-center text-stone-200 hover:text-zinc-800 hover:bg-white transition-colors group bg-zinc-800 rounded-full px-8 py-4 gap-2 border border-stone-600 hover:border-transparent"
+              >
+                <Network className="w-5 h-5 transition-transform group-hover:scale-110" />
+                <span className="text-lg font-medium tracking-wide">
+                  Schema Space
+                </span>
+              </button>
+            )}
+            <Link
+              href="/work"
+              className="flex w-full sm:w-auto items-center justify-center text-white hover:text-zinc-800 transition-colors group bg-zinc-800 hover:bg-white rounded-full px-8 py-4 gap-2 border border-transparent md:border-transparent"
+            >
+              <span className="text-lg font-medium tracking-wide">
+                View all work
+              </span>
+              <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </Link>
+          </div>
         </div>
 
         {/* Project Grid */}
