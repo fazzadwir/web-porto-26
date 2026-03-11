@@ -20,13 +20,15 @@ const STEP = 4;
 const SelectedWork = ({
   projects,
   onViewSchema,
+  showAll = false,
 }: {
   projects: Project[];
   onViewSchema?: () => void;
+  showAll?: boolean;
 }) => {
   const [visibleCount, setVisibleCount] = useState(STEP);
-  const visibleProjects = projects.slice(0, visibleCount);
-  const hasMore = visibleCount < projects.length;
+  const visibleProjects = showAll ? projects : projects.slice(0, visibleCount);
+  const hasMore = !showAll && visibleCount < projects.length;
   return (
     <section
       id="selected-work"
@@ -60,15 +62,17 @@ const SelectedWork = ({
                 </span>
               </button>
             )}
-            <Link
-              href="/work"
-              className="flex w-full sm:w-auto items-center justify-center text-white hover:text-zinc-800 transition-colors group bg-zinc-800 hover:bg-white rounded-full px-8 py-4 gap-2 border border-transparent md:border-transparent"
-            >
-              <span className="text-lg font-medium tracking-wide">
-                View all work
-              </span>
-              <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-            </Link>
+            {!showAll && (
+              <Link
+                href="/work"
+                className="flex w-full sm:w-auto items-center justify-center text-white hover:text-zinc-800 transition-colors group bg-zinc-800 hover:bg-white rounded-full px-8 py-4 gap-2 border border-transparent md:border-transparent"
+              >
+                <span className="text-lg font-medium tracking-wide">
+                  View all work
+                </span>
+                <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </Link>
+            )}
           </div>
         </div>
 

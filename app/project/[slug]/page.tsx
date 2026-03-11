@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { ZoomProvider } from "@/context/ZoomContext";
 import ZoomableImage from "@/components/ui/ZoomableImage";
 import ExploreMoreWork from "@/components/ui/ExploreMoreWork";
+import ProjectThemeWrapper from "@/components/project/ProjectThemeWrapper";
 
 export const revalidate = 60;
 
@@ -126,176 +127,195 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <ZoomProvider>
-      <main className="min-h-screen bg-[#F9F5F0] text-zinc-800 font-sans selection:bg-stone-200 selection:text-zinc-800">
-        {/* Navigation is now handled globally via FloatingNav */}
+      <ProjectThemeWrapper>
+        <main className="text-zinc-800 dark:text-zinc-200 font-sans selection:bg-stone-200 dark:selection:bg-zinc-800 selection:text-zinc-800 dark:selection:text-zinc-200">
+          {/* Main Content */}
+          <section className="pt-32 pb-12 px-6 max-w-7xl mx-auto">
+            {/* Header */}
+            <div className="mb-8">
+              <h1 className="text-6xl md:text-8xl font-semibold mb-4 tracking-tighter leading-none">
+                {project.title}
+              </h1>
+              {project.shortDescription && (
+                <p className="text-xl md:text-2xl text-stone-500 dark:text-zinc-300 font-medium max-w-3xl">
+                  {project.shortDescription}
+                </p>
+              )}
+            </div>
 
-        {/* Main Content */}
-        <section className="pt-32 pb-12 px-6 max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-6xl md:text-8xl font-semibold mb-4 tracking-tighter leading-none">
-              {project.title}
-            </h1>
-            {project.shortDescription && (
-              <p className="text-xl md:text-2xl text-stone-500 font-medium max-w-3xl">
-                {project.shortDescription}
-              </p>
+            {/* Overview Box */}
+            {project.projectOverview && (
+              <div className="border border-stone-300 dark:border-white/10 p-8 rounded-xl my-12 bg-transparent dark:bg-white/5">
+                <p className="text-lg md:text-xl leading-relaxed text-stone-800 dark:text-zinc-200">
+                  {project.projectOverview}
+                </p>
+              </div>
             )}
-          </div>
 
-          {/* Overview Box */}
-          {project.projectOverview && (
-            <div className="border border-stone-300 p-8 rounded-xl my-12 bg-transparent">
-              <p className="text-lg md:text-xl leading-relaxed text-stone-800">
-                {project.projectOverview}
-              </p>
-            </div>
-          )}
-
-          {/* Metadata Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 py-8 mb-16 border-t border-b border-transparent md:border-stone-200">
-            {/* Role */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-stone-900">Role</h3>
-              <div className="flex flex-col gap-1">
-                {project.roles?.length > 0 ? (
-                  project.roles.map((role: string) => (
-                    <span
-                      key={role}
-                      className="text-stone-600 font-medium block"
-                    >
-                      {role}
+            {/* Metadata Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 py-8 mb-16 border-t border-b border-transparent md:border-stone-200 md:dark:border-white/10">
+              {/* Role */}
+              <div className="space-y-2">
+                <h3 className="text-sm font-semibold text-stone-900 dark:text-zinc-200">
+                  Role
+                </h3>
+                <div className="flex flex-col gap-1">
+                  {project.roles?.length > 0 ? (
+                    project.roles.map((role: string) => (
+                      <span
+                        key={role}
+                        className="text-stone-600 dark:text-zinc-300 font-medium block"
+                      >
+                        {role}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-stone-400 dark:text-zinc-500 italic">
+                      N/A
                     </span>
-                  ))
-                ) : (
-                  <span className="text-stone-400 italic">N/A</span>
-                )}
+                  )}
+                </div>
+              </div>
+
+              {/* Timeline */}
+              <div className="space-y-2">
+                <h3 className="text-sm font-semibold text-stone-900 dark:text-zinc-200">
+                  Timeline
+                </h3>
+                <p className="text-stone-600 dark:text-zinc-300 font-medium">
+                  {project.timeline || (
+                    <span className="text-stone-400 dark:text-zinc-500 italic">
+                      N/A
+                    </span>
+                  )}
+                </p>
+              </div>
+
+              {/* Company */}
+              <div className="space-y-2">
+                <h3 className="text-sm font-semibold text-stone-900 dark:text-zinc-200">
+                  Company
+                </h3>
+                <p className="text-stone-600 dark:text-zinc-300 font-medium">
+                  {project.company || (
+                    <span className="text-stone-400 dark:text-zinc-500 italic">
+                      N/A
+                    </span>
+                  )}
+                </p>
+              </div>
+
+              {/* Tools */}
+              <div className="space-y-2">
+                <h3 className="text-sm font-semibold text-stone-900 dark:text-zinc-200">
+                  Tools
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {project.technologies?.length > 0 ? (
+                    <p className="text-stone-600 dark:text-zinc-300 font-medium">
+                      {project.technologies.join(", ")}
+                    </p>
+                  ) : (
+                    <span className="text-stone-400 dark:text-zinc-500 italic">
+                      N/A
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* Timeline */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-stone-900">Timeline</h3>
-              <p className="text-stone-600 font-medium">
-                {project.timeline || (
-                  <span className="text-stone-400 italic">N/A</span>
-                )}
-              </p>
-            </div>
+            {/* Hero Image */}
+            {project.mainImage && (
+              <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden bg-stone-200 dark:bg-white/5 mb-24 cursor-zoom-in shadow-sm">
+                <ZoomableImage
+                  src={urlFor(project.mainImage).url()}
+                  alt={project.title}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="95vw"
+                  suppressHydrationWarning
+                />
+              </div>
+            )}
 
-            {/* Company */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-stone-900">Company</h3>
-              <p className="text-stone-600 font-medium">
-                {project.company || (
-                  <span className="text-stone-400 italic">N/A</span>
-                )}
-              </p>
-            </div>
-
-            {/* Tools */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold text-stone-900">Tools</h3>
-              <div className="flex flex-wrap gap-2">
-                {project.technologies?.length > 0 ? (
-                  <p className="text-stone-600 font-medium">
-                    {project.technologies.join(", ")}
-                  </p>
-                ) : (
-                  <span className="text-stone-400 italic">N/A</span>
-                )}
+            {/* Body Content */}
+            <div className="max-w-4xl mx-auto mb-24">
+              <div className="prose prose-lg prose-stone dark:prose-invert max-w-none prose-headings:font-semibold prose-headings:text-zinc-800 dark:prose-headings:text-zinc-200 prose-p:text-stone-600 dark:prose-p:text-zinc-300 prose-li:text-stone-600 dark:prose-li:text-zinc-300 prose-ul:list-disc prose-ol:list-decimal prose-img:rounded-xl prose-img:shadow-sm prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline">
+                {project.body ? (
+                  <PortableText
+                    value={project.body}
+                    components={ptComponents}
+                  />
+                ) : null}
               </div>
             </div>
-          </div>
 
-          {/* Hero Image */}
-          {project.mainImage && (
-            <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden bg-stone-200 mb-24 cursor-zoom-in">
-              <ZoomableImage
-                src={urlFor(project.mainImage).url()}
-                alt={project.title}
-                fill
-                className="object-cover"
-                priority
-                sizes="95vw"
-                suppressHydrationWarning
-              />
-            </div>
-          )}
+            {/* Showcase Image 1 (Full Width) */}
+            {project.showcaseImage1 && (
+              <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden bg-stone-200 dark:bg-white/5 mb-8 shadow-sm">
+                <ZoomableImage
+                  src={urlFor(project.showcaseImage1).url()}
+                  alt={project.showcaseImage1.alt || "Showcase 1"}
+                  fill
+                  className="object-cover"
+                  sizes="95vw"
+                  suppressHydrationWarning
+                />
+              </div>
+            )}
 
-          {/* Body Content */}
-          <div className="max-w-4xl mx-auto mb-24">
-            <div className="prose prose-lg prose-stone max-w-none prose-headings:font-semibold prose-headings:text-zinc-800 prose-p:text-stone-600 prose-li:text-stone-600 prose-ul:list-disc prose-ol:list-decimal prose-img:rounded-xl prose-img:shadow-sm prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline">
-              {project.body ? (
-                <PortableText value={project.body} components={ptComponents} />
-              ) : null}
-            </div>
-          </div>
+            {/* Showcase Images (Two Column) */}
+            {project.showcaseImagesTwoColumn?.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                {project.showcaseImagesTwoColumn
+                  .slice(0, 2)
+                  .map((img: any, idx: number) => (
+                    <div
+                      key={idx}
+                      className="relative w-full aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden bg-stone-200 dark:bg-white/5 shadow-sm"
+                    >
+                      <ZoomableImage
+                        src={urlFor(img).url()}
+                        alt={img.alt || `Showcase Grid ${idx + 1}`}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        suppressHydrationWarning
+                      />
+                    </div>
+                  ))}
+              </div>
+            )}
 
-          {/* Showcase Image 1 (Full Width) */}
-          {project.showcaseImage1 && (
-            <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden bg-stone-200 mb-8 shadow-sm">
-              <ZoomableImage
-                src={urlFor(project.showcaseImage1).url()}
-                alt={project.showcaseImage1.alt || "Showcase 1"}
-                fill
-                className="object-cover"
-                sizes="95vw"
-                suppressHydrationWarning
-              />
-            </div>
-          )}
+            {/* Showcase Image Last (Full Width) */}
+            {project.showcaseImageLast && (
+              <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden bg-stone-200 dark:bg-white/5 mb-24 shadow-sm">
+                <ZoomableImage
+                  src={urlFor(project.showcaseImageLast).url()}
+                  alt={project.showcaseImageLast.alt || "Showcase Last"}
+                  fill
+                  className="object-cover"
+                  sizes="95vw"
+                  suppressHydrationWarning
+                />
+              </div>
+            )}
 
-          {/* Showcase Images (Two Column) */}
-          {project.showcaseImagesTwoColumn?.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              {project.showcaseImagesTwoColumn
-                .slice(0, 2)
-                .map((img: any, idx: number) => (
-                  <div
-                    key={idx}
-                    className="relative w-full aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden bg-stone-200 shadow-sm"
-                  >
-                    <ZoomableImage
-                      src={urlFor(img).url()}
-                      alt={img.alt || `Showcase Grid ${idx + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      suppressHydrationWarning
-                    />
-                  </div>
-                ))}
-            </div>
-          )}
+            {/* Closing Statement */}
+            {project.closingStatement && (
+              <div className="text-center max-w-2xl mx-auto py-12 border-t border-stone-200 dark:border-white/10">
+                <p className="text-2xl md:text-3xl font-medium text-stone-800 dark:text-zinc-200 leading-snug">
+                  "{project.closingStatement}"
+                </p>
+              </div>
+            )}
+          </section>
 
-          {/* Showcase Image Last (Full Width) */}
-          {project.showcaseImageLast && (
-            <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden bg-stone-200 mb-24 shadow-sm">
-              <ZoomableImage
-                src={urlFor(project.showcaseImageLast).url()}
-                alt={project.showcaseImageLast.alt || "Showcase Last"}
-                fill
-                className="object-cover"
-                sizes="95vw"
-                suppressHydrationWarning
-              />
-            </div>
-          )}
-
-          {/* Closing Statement */}
-          {project.closingStatement && (
-            <div className="text-center max-w-2xl mx-auto py-12 border-t border-stone-200">
-              <p className="text-2xl md:text-3xl font-medium text-stone-800 leading-snug">
-                "{project.closingStatement}"
-              </p>
-            </div>
-          )}
-        </section>
-
-        {/* Explore More Work */}
-        <ExploreMoreWork projects={allProjects} currentSlug={slug} />
-      </main>
+          {/* Explore More Work */}
+          <ExploreMoreWork projects={allProjects} currentSlug={slug} />
+        </main>
+      </ProjectThemeWrapper>
     </ZoomProvider>
   );
 }

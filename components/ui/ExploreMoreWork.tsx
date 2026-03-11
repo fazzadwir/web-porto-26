@@ -51,10 +51,10 @@ export default function ExploreMoreWork({
   if (!projects.length) return null;
 
   return (
-    <section className="w-full py-20 border-t border-stone-200">
+    <section className="w-full py-20 border-t border-stone-200 dark:border-white/10">
       {/* Header */}
       <div className="px-6 max-w-7xl mx-auto mb-8">
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tighter text-zinc-800">
+        <h2 className="text-3xl md:text-4xl font-semibold tracking-tighter text-zinc-800 dark:text-zinc-200">
           Explore More Work
         </h2>
       </div>
@@ -87,7 +87,7 @@ export default function ExploreMoreWork({
               href={`/project/${project.slug.current}`}
               draggable={false}
               onClick={(e) => isDragging && e.preventDefault()}
-              className="group relative flex-shrink-0 w-72 md:w-80 rounded-2xl overflow-hidden bg-stone-100 border border-stone-200 transition-all duration-300 hover:shadow-xl hover:border-stone-300 hover:-translate-y-1"
+              className="group relative flex-shrink-0 w-72 md:w-80 rounded-2xl overflow-hidden bg-stone-100 dark:bg-[#1e1e1e] border border-stone-200 dark:border-white/10 transition-all duration-300 hover:shadow-xl hover:border-stone-300 dark:hover:border-white/20 hover:-translate-y-1"
               style={{ scrollSnapAlign: "start" }}
             >
               {/* Thumbnail */}
@@ -104,7 +104,7 @@ export default function ExploreMoreWork({
                     draggable={false}
                   />
                 ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-stone-200 to-stone-100" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-stone-200 to-stone-100 dark:from-[#2a2a2a] dark:to-[#1e1e1e]" />
                 )}
 
                 {/* Gradient overlay */}
@@ -119,8 +119,8 @@ export default function ExploreMoreWork({
 
                 {/* NDA badge */}
                 {isPrivate && (
-                  <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 backdrop-blur-sm border border-stone-200 rounded-full px-2.5 py-1">
-                    <Lock className="w-3 h-3 text-stone-500" />
+                  <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 dark:bg-[#1e1e1e]/90 backdrop-blur-sm border border-stone-200 dark:border-white/10 rounded-full px-2.5 py-1">
+                    <Lock className="w-3 h-3 text-stone-500 dark:text-zinc-400" />
                     <span className="text-[10px] font-semibold text-stone-500 uppercase tracking-wider">
                       NDA
                     </span>
@@ -128,11 +128,12 @@ export default function ExploreMoreWork({
                 )}
               </div>
 
-              {/* Info */}
-              <div className="p-4">
+              <div className="p-4 bg-white dark:bg-[#1e1e1e]">
                 <h3
                   className={`text-sm font-semibold truncate mb-1 ${
-                    isCurrent ? "text-stone-400" : "text-zinc-800"
+                    isCurrent
+                      ? "text-stone-400 dark:text-zinc-500"
+                      : "text-zinc-800 dark:text-zinc-200"
                   }`}
                 >
                   {project.title}
@@ -146,7 +147,7 @@ export default function ExploreMoreWork({
 
               {/* Current indicator bar */}
               {isCurrent && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-zinc-800" />
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-zinc-800 dark:bg-zinc-200" />
               )}
             </Link>
           );

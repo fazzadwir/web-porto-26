@@ -583,10 +583,10 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
         {/* Left — Photo */}
         <div className="relative w-full h-56 sm:h-72 md:w-[44%] md:h-auto flex-shrink-0 bg-stone-100">
           <Image
-            src="/profile-pic.webp"
+            src="/profile-pic.jpeg"
             alt="Fazza Dwi Riandy"
             fill
-            className="object-cover object-top"
+            className="object-cover"
             sizes="400px"
             priority
           />
@@ -741,10 +741,10 @@ function ProfileNode({ onClick }: { onClick: () => void }) {
         title="View profile"
       >
         <Image
-          src="/profile-pic.webp"
+          src="/profile-pic.jpeg"
           alt="Fazza Dwi Riandy"
           fill
-          className="object-cover object-top"
+          className="object-cover"
           sizes="144px"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
@@ -883,7 +883,7 @@ export default function CanvasView({
         />
 
         {/* Hint */}
-        <div className="absolute top-4 right-6 z-20 pointer-events-none">
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 pointer-events-none hidden sm:block">
           <p className="text-[11px] text-stone-400 bg-white/80 backdrop-blur-sm border border-stone-200 shadow-sm rounded-full px-4 py-1.5 tracking-widest uppercase whitespace-nowrap font-medium">
             Drag to explore · Scroll to zoom
           </p>

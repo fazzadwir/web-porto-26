@@ -20,7 +20,7 @@ export default async function WorkPage() {
   return (
     <main className="min-h-screen bg-zinc-800">
       <div className="pt-32">
-        <SelectedWork projects={projects} />
+        <SelectedWork projects={projects} showAll={true} />
       </div>
       <Footer />
     </main>

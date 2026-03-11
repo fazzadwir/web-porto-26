@@ -23,11 +23,6 @@ export default function FloatingNav() {
   const [modalOpen, setModalOpen] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | number | null>(null);
 
-  // Don't render on Sanity Studio pages
-  if (pathname.startsWith("/studio")) {
-    return null;
-  }
-
   const isProjectDetail = pathname.startsWith("/project/");
 
   // Listen for viewMode changes from PortfolioWrapper
@@ -78,6 +73,11 @@ export default function FloatingNav() {
 
   // True visibility combines scroll state and schema mode state
   const shouldShow = visible && !isSchemaMode && !modalOpen;
+
+  // Don't render on Sanity Studio pages or project detail pages
+  if (pathname.startsWith("/studio") || isProjectDetail) {
+    return null;
+  }
 
   return (
     <motion.div

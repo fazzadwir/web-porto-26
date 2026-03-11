@@ -92,20 +92,20 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
             className="fixed inset-0 w-screen h-screen overflow-hidden bg-stone-50 z-[100]"
           >
             {/* Header strip inside schema view */}
-            <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-6 py-4 pointer-events-none">
-              <div className="bg-white/80 backdrop-blur-sm border border-stone-200 shadow-sm rounded-full px-4 py-2 pointer-events-auto">
-                <span className="text-xs text-stone-500 font-semibold uppercase tracking-widest">
-                  Schema · Spatial Canvas
+            <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 py-4 pointer-events-none">
+              <div className="bg-white/90 backdrop-blur-sm border border-stone-200 shadow-sm rounded-full px-4 py-2 pointer-events-auto">
+                <span className="text-xs text-stone-600 font-semibold uppercase tracking-widest">
+                  Schema Space
                 </span>
               </div>
               <button
                 onClick={() => setViewMode("web")}
-                className="pointer-events-auto bg-white/80 backdrop-blur-sm border border-stone-200 shadow-sm rounded-full px-4 py-2 hover:bg-white transition-colors flex items-center gap-2"
-                aria-label="Back to Web View"
+                className="pointer-events-auto bg-stone-900 border border-stone-800 shadow-sm rounded-full px-5 py-2.5 hover:bg-stone-800 transition-colors flex items-center gap-2"
+                aria-label="Back to Home"
               >
-                <ArrowLeft className="w-4 h-4 text-stone-700" />
-                <span className="text-xs text-stone-700 font-semibold uppercase tracking-widest hidden sm:inline-block">
-                  Back to Web
+                <ArrowLeft className="w-4 h-4 text-white" />
+                <span className="text-xs text-white font-semibold uppercase tracking-widest hidden sm:inline-block">
+                  Back to Home
                 </span>
               </button>
             </div>

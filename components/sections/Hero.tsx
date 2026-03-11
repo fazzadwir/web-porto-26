@@ -90,6 +90,12 @@ const Hero = () => {
             >
               <a
                 href="#selected-work"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector("#selected-work")?.scrollIntoView({
+                    behavior: "smooth",
+                  });
+                }}
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-zinc-800 transition-all duration-300 hover:bg-zinc-800 hover:text-white w-full sm:w-auto"
               >
                 My Project

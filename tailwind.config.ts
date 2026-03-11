@@ -8,8 +8,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        black: '#161312',
-        white: '#F9F5F0',
+        black: "#161312",
+        white: "#F9F5F0",
         background: "var(--background)",
         foreground: "var(--foreground)",
         // Add more custom colors here for easy theming
@@ -22,8 +22,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [require("@tailwindcss/typography")],
 };
 export default config;
