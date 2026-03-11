@@ -22,7 +22,10 @@ const ZoomableImage = ({
   const handleZoom = () => {
     // Use the explicit zoomImageSrc if provided, otherwise the main src (which might be an object)
     const imageToZoom =
-      zoomImageSrc || (typeof src === "string" ? src : (src as any).src || "");
+      zoomImageSrc ||
+      (typeof src === "string"
+        ? src
+        : (src as import("next/image").StaticImageData).src || "");
     if (imageToZoom) {
       openZoom(imageToZoom, alt || "Project Image");
     }

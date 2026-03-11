@@ -11,22 +11,6 @@ import {
 // Custom SVG icons for tools not in Simple Icons
 // ─────────────────────────────────────────────
 
-// Affinity Designer — unofficial SVG path
-function SiAffinityDesigner({
-  color = "currentColor",
-  size = 24,
-}: {
-  color?: string;
-  size?: number;
-}) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <path d="M12 2L2 19.5h20L12 2zm0 3.5l7.5 14h-15L12 5.5z" fill={color} />
-      <path d="M12 9l4 7.5H8L12 9z" fill={color} opacity="0.6" />
-    </svg>
-  );
-}
-
 // Whimsical — stylized "W" icon
 function SiWhimsical({
   color = "currentColor",

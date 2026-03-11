@@ -34,11 +34,13 @@ export default function ThreeWaveBackground({
   const amplitudeRef = useRef(waveAmplitude);
   const opacityRef = useRef(opacity);
 
-  // Keep refs in sync with props on every render (no useEffect needed)
-  colorRef.current = dotColor;
-  sizeRef.current = dotSize;
-  amplitudeRef.current = waveAmplitude;
-  opacityRef.current = opacity;
+  // Sync refs safely within useEffect
+  useEffect(() => {
+    colorRef.current = dotColor;
+    sizeRef.current = dotSize;
+    amplitudeRef.current = waveAmplitude;
+    opacityRef.current = opacity;
+  }, [dotColor, dotSize, waveAmplitude, opacity]);
 
   // ── One-time scene setup ─────────────────────────────────
   useEffect(() => {
