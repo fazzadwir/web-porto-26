@@ -1,4 +1,6 @@
 import { client, urlFor } from "@/lib/sanity";
+import { isSanityConfigured } from "@/lib/env";
+import { MOCK_PROJECTS } from "@/lib/mock-projects";
 import { PortableText } from "@portabletext/react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -18,7 +20,7 @@ type Props = {
 const ptComponents = {
   types: {
     image: ({ value }: any) => {
-      if (!value?.asset?._ref) {
+      if (!value?.asset?._ref && !value?.asset?.url) {
         return null;
       }
       return (
@@ -65,14 +67,31 @@ export default async function ProjectPage({ params }: Props) {
     status
   }`;
 
-  const [project, allProjects] = await Promise.all([
-    client.fetch(query, { slug }),
-    client.fetch(
-      `*[_type == "project"] | order(publishedAt desc) {
-        _id, title, slug, status, mainImage, categories
-      }`,
-    ),
-  ]);
+  let project: any = null;
+  let allProjects: any[] = [];
+
+  if (isSanityConfigured) {
+    try {
+      const [fetchedProject, fetchedAll] = await Promise.all([
+        client.fetch(query, { slug }),
+        client.fetch(
+          `*[_type == "project"] | order(publishedAt desc) {
+            _id, title, slug, status, mainImage, categories
+          }`,
+        ),
+      ]);
+      project = fetchedProject;
+      allProjects = fetchedAll || [];
+    } catch (err) {
+      console.warn("Could not fetch project from Sanity, using mock data:", err);
+    }
+  }
+
+  if (!project) {
+    project = MOCK_PROJECTS.find((p) => p.slug.current === slug) || null;
+    allProjects = MOCK_PROJECTS;
+  }
+
 
   if (!project) {
     return (

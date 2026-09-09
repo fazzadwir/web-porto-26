@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fazzadwr — Portfolio Website (2026)
 
-## Getting Started
+Portofolio modern yang dibangun dengan **Next.js 16**, **React 19**, **Tailwind CSS v4**, dan terintegrasi langsung dengan **Sanity CMS**. Dilengkapi dengan Three.js particle wave background, interactive schema space view, dan tema dark/light.
 
-First, run the development server:
+Live Website: [fazzadwr.my.id](https://fazzadwr.my.id)
 
+---
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router & Turbopack)
+- **Library**: React 19, TypeScript
+- **Styling**: Tailwind CSS v4, Lucide Icons, Styled Components
+- **Headless CMS**: Sanity CMS v4 (next-sanity)
+- **Animations & 3D**: Framer Motion, Three.js, React Zoom Pan Pinch
+
+---
+
+## Quick Start / Panduan Menjalankan
+
+Ikuti langkah-langkah berikut secara berurutan setiap kali Anda melakukan clone atau setup baru:
+
+### 1. Clone Repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/fazzadwir/web-porto-26.git
+cd web-porto-26
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependensi
+Pastikan dependensi telah terpasang sebelum menjalankan server:
+```bash
+npm install
+# atau jika menggunakan Bun:
+bun install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> **Catatan jika mengalami error koneksi (`ECONNRESET`):**
+> Gunakan perintah dengan flag retry:
+> ```bash
+> npm install --fetch-retries=5
+> ```
+> Atau gunakan `bun install` yang memiliki pengunduhan paralel lebih cepat.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Konfigurasi Environment Variables
+Salin template `.env.example` menjadi `.env.local`:
+```bash
+cp .env.example .env.local
+```
 
-## Learn More
+Isi dari `.env.local`:
+```env
+# Sanity CMS Configuration
+NEXT_PUBLIC_SANITY_PROJECT_ID="o1s2ofhu"
+NEXT_PUBLIC_SANITY_DATASET="production"
+NEXT_PUBLIC_SANITY_API_VERSION="2024-01-01"
+```
+*Variabel default sudah diarahkan langsung ke Sanity Production (`o1s2ofhu`).*
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Jalankan Development Server
+```bash
+npm run dev
+# atau:
+bun run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Buka [http://localhost:3000](http://localhost:3000) pada browser Anda.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Sanity Studio (CMS)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Anda dapat mengakses panel CMS Sanity secara lokal melalui:
+- URL: [http://localhost:3000/studio](http://localhost:3000/studio)
+- Di sini Anda dapat menambahkan, mengedit, atau mengubah visibilitas (public/private) dari projek portofolio.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Troubleshooting / Masalah Umum
+
+| Pesan Error | Penyebab | Solusi |
+|---|---|---|
+| `next: command not found` | Folder `node_modules` belum ada / dependensi belum di-install. | Jalankan `npm install` atau `bun install`. |
+| `Dataset not found for project ID "project-id-placeholder"` | Environment variable Sanity belum di-set atau masih memakai dummy placeholder. | Jalankan `cp .env.example .env.local` dan pastikan `NEXT_PUBLIC_SANITY_PROJECT_ID="o1s2ofhu"`. |
+| `ECONNRESET / network aborted` | Gangguan koneksi internet saat mengunduh package npm. | Gunakan `bun install` atau jalankan `npm cache clean --force` lalu coba kembali. |
+
+---
+
+## NPM Scripts
+
+- `npm run dev`: Menjalankan development server dengan Turbopack.
+- `npm run build`: Melakukan build aplikasi untuk production.
+- `npm run start`: Menjalankan production server setelah build.
+- `npm run lint`: Menjalankan ESLint untuk pengecekan kode.
