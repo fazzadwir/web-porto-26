@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import KineticHeading from "@/components/ui/KineticHeading";
 
 const experiences = [
   {
@@ -27,10 +28,10 @@ const Experience = () => {
           {/* Left Column: Sticky Header */}
           <div className="lg:col-span-5 relative">
             <div className="lg:sticky lg:top-32 h-fit">
-              <h2 className="flex flex-col font-black uppercase leading-[0.85] tracking-tighter text-5xl md:text-[90px] mb-2">
+              <KineticHeading className="flex flex-col font-black uppercase leading-[0.85] tracking-tighter text-5xl md:text-[90px] mb-2">
                 <span className="text-zinc-800">WORK</span>
                 <span className="text-stone-400">EXPERIENCE</span>
-              </h2>
+              </KineticHeading>
               <p className="text-stone-500 text-lg max-w-sm mt-3">
                 Bridging the gap between creative vision and technical
                 feasibility.

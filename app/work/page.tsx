@@ -1,10 +1,16 @@
-import SelectedWork from "@/components/sections/SelectedWork";
-import Footer from "@/components/sections/Footer";
+import WorkClient from "./WorkClient";
 import { client } from "@/lib/sanity";
 import { isSanityConfigured } from "@/lib/env";
 import { MOCK_PROJECTS } from "@/lib/mock-projects";
+import type { Metadata } from "next";
 
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: "Work",
+  description:
+    "Explore my work across Interface Design, Visual Design, and Motion Design — crafted with precision and purpose.",
+};
 
 export default async function WorkPage() {
   const query = `*[_type == "project"] | order(publishedAt desc) {
@@ -13,7 +19,9 @@ export default async function WorkPage() {
     slug,
     status,
     mainImage,
-    categories
+    categories,
+    subcategory,
+    section
   }`;
 
   let projects = MOCK_PROJECTS;
@@ -29,13 +37,5 @@ export default async function WorkPage() {
     }
   }
 
-  return (
-    <main className="min-h-screen bg-zinc-800">
-      <div className="pt-32">
-        <SelectedWork projects={projects as any} showAll={true} />
-      </div>
-      <Footer />
-    </main>
-  );
+  return <WorkClient projects={projects as any} />;
 }
-

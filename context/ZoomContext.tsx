@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { kineticsGlide, kineticsOvershoot } from "@/lib/kinetics-motion";
 
 export function ZoomProvider({ children }: { children: React.ReactNode }) {
   const [zoomedImageSrc, setZoomedImageSrc] = useState<string | null>(null);
@@ -41,7 +42,7 @@ export function ZoomProvider({ children }: { children: React.ReactNode }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={kineticsGlide}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm cursor-zoom-out"
             onClick={closeZoom}
           >
@@ -50,7 +51,7 @@ export function ZoomProvider({ children }: { children: React.ReactNode }) {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              transition={kineticsOvershoot}
               className="relative w-full h-full max-w-[95vw] max-h-[95vh] p-4 flex items-center justify-center pointer-events-none"
             >
               <div className="relative w-full h-full pointer-events-auto">

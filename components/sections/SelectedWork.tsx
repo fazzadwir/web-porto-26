@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ChevronDown, Network } from "lucide-react";
 import { urlFor } from "@/lib/sanity";
+import KineticHeading from "@/components/ui/KineticHeading";
 
 interface Project {
   _id: string;
@@ -39,10 +40,10 @@ const SelectedWork = ({
         <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 gap-6">
           <div>
             <div className="h-fit">
-              <h2 className="flex flex-col font-black uppercase leading-[0.85] tracking-tighter text-5xl md:text-[90px] mb-8">
+              <KineticHeading className="flex flex-col font-black uppercase leading-[0.85] tracking-tighter text-5xl md:text-[90px] mb-8">
                 <span className="text-white">MY</span>
                 <span className="text-stone-200">PROJECT</span>
-              </h2>
+              </KineticHeading>
             </div>
             <p className="text-zinc-300 text-lg md:text-xl max-w-lg">
               A curated selection of projects that showcase my expertise in
@@ -84,7 +85,7 @@ const SelectedWork = ({
             const CardContent = (
               <>
                 {/* Background Image with Hover Scale */}
-                <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
+                <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
                   {project.mainImage && (
                     <Image
                       src={urlFor(project.mainImage)
@@ -107,7 +108,7 @@ const SelectedWork = ({
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-100 transition-all duration-500 group-hover:from-black/90" />
 
                 {/* Content */}
-                <div className="absolute bottom-0 left-0 p-8 w-full opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
+                <div className="absolute bottom-0 left-0 p-8 w-full opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="text-white text-2xl font-semibold mb-2">
@@ -139,7 +140,7 @@ const SelectedWork = ({
                 href={`/project/${project.slug.current}`}
                 key={project._id}
                 prefetch={false}
-                className="group relative aspect-square w-full overflow-hidden rounded-2xl bg-zinc-900 cursor-pointer block"
+                className="kinetics-lift group relative aspect-square w-full overflow-hidden rounded-2xl bg-zinc-900 cursor-pointer block"
               >
                 {CardContent}
               </Link>

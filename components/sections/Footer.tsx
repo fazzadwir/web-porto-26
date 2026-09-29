@@ -1,5 +1,6 @@
-import { Linkedin, Dribbble, Github, Instagram } from "lucide-react";
+import { Linkedin, Dribbble, Github } from "lucide-react";
 import Link from "next/link";
+import KineticHeading from "@/components/ui/KineticHeading";
 
 const Footer = () => {
   return (
@@ -8,10 +9,10 @@ const Footer = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10 text-center">
-        <h2 className="font-sans font-extrabold text-white text-4xl md:text-6xl lg:text-[90px] leading-tight tracking-tight mb-12">
+        <KineticHeading className="font-sans font-extrabold text-white text-4xl md:text-6xl lg:text-[90px] leading-tight tracking-tight mb-12">
           Let&apos;s build something <br className="hidden md:block" />
           scalable together.
-        </h2>
+        </KineticHeading>
 
         <div className="flex items-center justify-center gap-8 md:gap-10">
           <SocialLink

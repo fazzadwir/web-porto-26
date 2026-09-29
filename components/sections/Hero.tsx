@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Download } from "lucide-react";
 import ThreeWaveBackground from "@/components/ui/ThreeWaveBackground";
+import { kineticsOvershoot } from "@/lib/kinetics-motion";
 
 const Hero = () => {
   return (
@@ -40,7 +41,7 @@ const Hero = () => {
               <motion.span
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                transition={kineticsOvershoot}
                 className="text-white z-10"
               >
                 DESIGNING
@@ -49,9 +50,8 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.8,
+                  ...kineticsOvershoot,
                   delay: 0.1,
-                  ease: [0.22, 1, 0.36, 1],
                 }}
                 className="text-white"
               >
@@ -64,13 +64,12 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.8,
+                ...kineticsOvershoot,
                 delay: 0.3,
-                ease: [0.22, 1, 0.36, 1],
               }}
               className="max-w-3xl text-lg text-gray-100 md:text-xl"
             >
-              Hi, I'm Fazza Dwi Riandy. I'm a{" "}
+              Hi, I&apos;m Fazza Dwi Riandy. I&apos;m a{" "}
               <span className="font-semibold">UI/UX Designer</span> who bridges
               the gap between complex system logic and pixel-perfect
               implementation. From scalable cloud dashboards to cohesive brand
@@ -82,9 +81,8 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.8,
-                delay: 0.4, // Slight delay after description
-                ease: [0.22, 1, 0.36, 1],
+                ...kineticsOvershoot,
+                delay: 0.4,
               }}
               className="mt-8 flex flex-col items-start sm:flex-row sm:items-center gap-4 sm:gap-8"
             >

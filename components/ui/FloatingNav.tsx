@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Home, Folder, Briefcase, Wrench, Pen, ArrowLeft } from "lucide-react";
+import { Home, Folder, Briefcase, Pen, ArrowLeft } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { kineticsSpring } from "@/lib/kinetics-motion";
 
 const navItems = [
   { href: "/", icon: Home, label: "Home" },
@@ -74,8 +75,8 @@ export default function FloatingNav() {
   // True visibility combines scroll state and schema mode state
   const shouldShow = visible && !isSchemaMode && !modalOpen;
 
-  // Don't render on Sanity Studio pages or project detail pages
-  if (pathname.startsWith("/studio") || isProjectDetail) {
+  // Don't render on Sanity Studio pages, project detail pages, or the work page (WorkNav handles that)
+  if (pathname.startsWith("/studio") || isProjectDetail || pathname.startsWith("/work")) {
     return null;
   }
 
@@ -86,7 +87,7 @@ export default function FloatingNav() {
         y: shouldShow ? 0 : -100,
         opacity: shouldShow ? 1 : 0,
       }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
+      transition={kineticsSpring}
       className="fixed top-8 left-1/2 -translate-x-1/2 z-50"
     >
       <nav className="flex items-center gap-1 md:gap-2 px-1.5 md:px-2 py-1.5 md:py-2 bg-zinc-800/80 backdrop-blur-md border border-white/10 rounded-full shadow-lg">

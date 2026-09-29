@@ -4,12 +4,13 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import Hero from "@/components/sections/Hero";
-import SelectedWork from "@/components/sections/SelectedWork";
+import ProjectCategories from "@/components/sections/ProjectCategories";
 import Toolkit from "@/components/sections/Toolkit";
 import Experience from "@/components/sections/Experience";
 import Footer from "@/components/sections/Footer";
 import CanvasView from "@/components/ui/CanvasView";
 import { ArrowLeft } from "lucide-react";
+import { kineticsGlide } from "@/lib/kinetics-motion";
 
 type ViewMode = "web" | "schema";
 
@@ -17,7 +18,7 @@ interface Project {
   _id: string;
   title: string;
   slug: { current: string };
-  mainImage: any;
+  mainImage: unknown;
   categories: string[];
   status?: string;
 }
@@ -69,14 +70,11 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={kineticsGlide}
           >
             <Hero />
             <Toolkit />
-            <SelectedWork
-              projects={projects}
-              onViewSchema={() => setViewMode("schema")}
-            />
+            <ProjectCategories />
             <Experience />
             <Footer />
           </motion.div>
@@ -88,7 +86,7 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            transition={kineticsGlide}
             className="fixed inset-0 w-screen h-screen overflow-hidden bg-stone-50 z-[100]"
           >
             {/* Header strip inside schema view */}
