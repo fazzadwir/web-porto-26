@@ -39,7 +39,8 @@ interface Project {
   title: string;
   slug: { current: string };
   mainImage: any;
-  categories: string[];
+  category?: string;
+  categories?: string[];
   status?: string;
   timeline?: string;
   company?: string;
@@ -409,9 +410,9 @@ function ProjectModal({
               <h2 className="text-2xl font-black text-stone-900 tracking-tight leading-tight">
                 {project.title}
               </h2>
-              {project.categories?.[0] && (
+              {(project.category || project.categories?.[0]) && (
                 <p className="text-sm text-stone-400 mt-1">
-                  {project.categories.join(" · ")}
+                  {project.category || project.categories?.join(" · ")}
                 </p>
               )}
               {project.projectOverview && (
@@ -804,9 +805,9 @@ function ProjectNode({
         <h3 className="text-white text-base font-semibold leading-tight tracking-tight">
           {project.title}
         </h3>
-        {project.categories?.[0] && (
+        {(project.category || project.categories?.[0]) && (
           <span className="text-[11px] text-white/60 uppercase tracking-widest">
-            {project.categories[0]}
+            {project.category || project.categories?.[0]}
           </span>
         )}
         <div

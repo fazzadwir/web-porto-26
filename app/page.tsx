@@ -12,6 +12,7 @@ export default async function Home() {
     slug,
     status,
     mainImage,
+    category,
     categories,
     timeline,
     company,

@@ -7,13 +7,15 @@ import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { kineticsOvershoot, kineticsSpring } from "@/lib/kinetics-motion";
 import { urlFor } from "@/lib/sanity";
+import { getProjectSection } from "@/lib/project-category";
 
 interface Project {
   _id: string;
   title: string;
   slug: { current: string };
   mainImage: any;
-  categories: string[];
+  category?: string;
+  categories?: string[];
   subcategory?: string;
   status?: string;
   section?: string;
@@ -46,17 +48,10 @@ function getImageUrl(mainImage: any): string | null {
 export default function InterfaceSection({ projects }: InterfaceSectionProps) {
   const [activeFilter, setActiveFilter] = useState("All");
 
-  // Filter only interface projects
+  // Filter only UI/UX Designer projects
   const interfaceProjects = useMemo(
     () =>
-      projects.filter(
-        (p) =>
-          !p.section ||
-          p.section === "interface" ||
-          p.categories?.some((c: string) =>
-            ["UI/UX", "Interface", "Web Application", "Mobile App", "Dashboard", "Web Design", "Design System", "Fintech"].includes(c)
-          )
-      ),
+      projects.filter((p) => getProjectSection(p) === "interface"),
     [projects]
   );
 

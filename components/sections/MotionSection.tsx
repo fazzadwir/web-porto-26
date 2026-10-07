@@ -7,13 +7,15 @@ import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { kineticsOvershoot, kineticsSpring } from "@/lib/kinetics-motion";
 import { urlFor } from "@/lib/sanity";
+import { getProjectSection } from "@/lib/project-category";
 
 interface Project {
   _id: string;
   title: string;
   slug: { current: string };
   mainImage: any;
-  categories: string[];
+  category?: string;
+  categories?: string[];
   subcategory?: string;
   status?: string;
   section?: string;
@@ -40,13 +42,7 @@ export default function MotionSection({ projects }: MotionSectionProps) {
 
   const motionProjects = useMemo(
     () =>
-      projects.filter(
-        (p) =>
-          p.section === "motion" ||
-          p.categories?.some((c: string) =>
-            ["Motion Design", "Motion", "Animation", "After Effects"].includes(c)
-          )
-      ),
+      projects.filter((p) => getProjectSection(p) === "motion"),
     [projects]
   );
 

@@ -12,13 +12,25 @@ export const metadata: Metadata = {
     "Explore my work across Interface Design, Visual Design, and Motion Design — crafted with precision and purpose.",
 };
 
-export default async function WorkPage() {
+interface WorkPageProps {
+  searchParams: Promise<{ section?: string }>;
+}
+
+export default async function WorkPage({ searchParams }: WorkPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const sectionParam = resolvedSearchParams?.section?.toLowerCase();
+  const initialSection =
+    sectionParam === "visual" || sectionParam === "motion"
+      ? sectionParam
+      : "interface";
+
   const query = `*[_type == "project"] | order(publishedAt desc) {
     _id,
     title,
     slug,
     status,
     mainImage,
+    category,
     categories,
     subcategory,
     section
@@ -37,5 +49,10 @@ export default async function WorkPage() {
     }
   }
 
-  return <WorkClient projects={projects as any} />;
+  return (
+    <WorkClient
+      projects={projects as any}
+      initialSection={initialSection}
+    />
+  );
 }

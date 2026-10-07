@@ -59,6 +59,8 @@ export default async function ProjectPage({ params }: Props) {
     company,
     technologies,
     mainImage,
+    category,
+    categories,
     body,
     showcaseImage1,
     showcaseImagesTwoColumn,
@@ -76,7 +78,7 @@ export default async function ProjectPage({ params }: Props) {
         client.fetch(query, { slug }),
         client.fetch(
           `*[_type == "project"] | order(publishedAt desc) {
-            _id, title, slug, status, mainImage, categories
+            _id, title, slug, status, mainImage, category, categories
           }`,
         ),
       ]);

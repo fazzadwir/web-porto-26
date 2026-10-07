@@ -14,7 +14,8 @@ interface Project {
   title: string;
   slug: { current: string };
   mainImage: any;
-  categories: string[];
+  categories?: string[];
+  category?: string;
   subcategory?: string;
   status?: string;
   section?: string;
@@ -22,17 +23,30 @@ interface Project {
 
 interface WorkClientProps {
   projects: Project[];
+  initialSection?: WorkSection;
 }
 
-export default function WorkClient({ projects }: WorkClientProps) {
-  const [activeSection, setActiveSection] = useState<WorkSection>("interface");
+export default function WorkClient({
+  projects,
+  initialSection = "interface",
+}: WorkClientProps) {
+  const [activeSection, setActiveSection] = useState<WorkSection>(initialSection);
+
+  const handleSectionChange = (section: WorkSection) => {
+    setActiveSection(section);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("section", section);
+      window.history.replaceState({}, "", url.toString());
+    }
+  };
 
   return (
     <main className="min-h-screen">
       {/* Custom work-page floating nav */}
       <WorkNav
         activeSection={activeSection}
-        onSectionChange={setActiveSection}
+        onSectionChange={handleSectionChange}
       />
 
       {/* Section content */}

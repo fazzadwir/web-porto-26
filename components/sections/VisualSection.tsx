@@ -7,13 +7,15 @@ import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { kineticsOvershoot, kineticsSpring } from "@/lib/kinetics-motion";
 import { urlFor } from "@/lib/sanity";
+import { getProjectSection } from "@/lib/project-category";
 
 interface Project {
   _id: string;
   title: string;
   slug: { current: string };
   mainImage: any;
-  categories: string[];
+  category?: string;
+  categories?: string[];
   subcategory?: string;
   status?: string;
   section?: string;
@@ -49,20 +51,7 @@ export default function VisualSection({ projects }: VisualSectionProps) {
   // Filter only visual projects
   const visualProjects = useMemo(
     () =>
-      projects.filter(
-        (p) =>
-          p.section === "visual" ||
-          p.categories?.some((c: string) =>
-            [
-              "Visual Design",
-              "Graphic Design",
-              "Brand Identity",
-              "Social Media",
-              "Illustration",
-              "Print",
-            ].includes(c)
-          )
-      ),
+      projects.filter((p) => getProjectSection(p) === "visual"),
     [projects]
   );
 

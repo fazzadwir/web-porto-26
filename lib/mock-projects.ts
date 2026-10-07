@@ -11,6 +11,7 @@ export interface MockProject {
   timeline?: string;
   company?: string;
   roles?: string[];
+  category?: "UI/UX Designer" | "Visual Design" | "Motion Designer" | string;
   categories: string[];
   technologies?: string[];
   mainImage: {
@@ -47,6 +48,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "cloud-infrastructure-dashboard" },
     status: "public",
     section: "interface",
+    category: "UI/UX Designer",
     subcategory: "SaaS",
     shortDescription: "End-to-end UX/UI revamp for complex IaaS & PaaS monitoring workflows.",
     projectOverview:
@@ -119,6 +121,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "kita-bantu-platform" },
     status: "public",
     section: "interface",
+    category: "UI/UX Designer",
     subcategory: "Landing Page",
     shortDescription: "Modern web experience accelerating social impact and community aid transparency.",
     projectOverview:
@@ -181,6 +184,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "fintech-mobile-experience" },
     status: "public",
     section: "interface",
+    category: "UI/UX Designer",
     subcategory: "FinTech",
     shortDescription: "Seamless wealth management and automated investment portfolio tracking.",
     projectOverview:
@@ -243,6 +247,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "omni-design-system" },
     status: "private",
     section: "interface",
+    category: "UI/UX Designer",
     subcategory: "SaaS",
     shortDescription: "Enterprise component library and token architecture for multi-brand scaling.",
     projectOverview:
@@ -268,6 +273,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "hari-buruh-campaign" },
     status: "public",
     section: "visual",
+    category: "Visual Design",
     subcategory: "Social Media Post",
     shortDescription: "Labour Day digital campaign series for a cloud brand.",
     projectOverview:
@@ -291,6 +297,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "frog-brand-identity" },
     status: "public",
     section: "visual",
+    category: "Visual Design",
     subcategory: "Brand Identity",
     shortDescription: "Full brand identity system for a creative tech startup.",
     projectOverview:
@@ -314,6 +321,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "kesaktian-pancasila-poster" },
     status: "public",
     section: "visual",
+    category: "Visual Design",
     subcategory: "Social Media Post",
     shortDescription: "National commemoration poster series for Pancasila Day.",
     projectOverview:
@@ -337,6 +345,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "hari-bumi-editorial" },
     status: "public",
     section: "visual",
+    category: "Visual Design",
     subcategory: "Social Media Post",
     shortDescription: "Earth Day campaign with editorial 3D illustration style.",
     projectOverview:
@@ -360,6 +369,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "copypartner-brand-system" },
     status: "public",
     section: "visual",
+    category: "Visual Design",
     subcategory: "Brand Identity",
     shortDescription: "Comprehensive brand system for an AI copywriting tool.",
     projectOverview:
@@ -383,6 +393,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "gravity-apps-icon-set" },
     status: "public",
     section: "visual",
+    category: "Visual Design",
     subcategory: "Brand Identity",
     shortDescription: "Icon set and visual system for a productivity suite.",
     projectOverview:
@@ -407,6 +418,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "maxcloud-motion-social-post" },
     status: "public",
     section: "motion",
+    category: "Motion Designer",
     subcategory: "Social Media Post",
     shortDescription: "Animated social media post series for Maxcloud brand campaigns.",
     projectOverview:
@@ -430,6 +442,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "logo-reveal-frog-creative" },
     status: "public",
     section: "motion",
+    category: "Motion Designer",
     subcategory: "Social Media Post",
     shortDescription: "Spring-physics logo reveal animation for brand launch.",
     projectOverview:
@@ -453,6 +466,7 @@ export const MOCK_PROJECTS: MockProject[] = [
     slug: { current: "ui-microinteraction-showcase" },
     status: "public",
     section: "motion",
+    category: "Motion Designer",
     subcategory: "Social Media Post",
     shortDescription: "Curated reel of UI micro-animations and interaction states.",
     projectOverview:

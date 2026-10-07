@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import Hero from "@/components/sections/Hero";
 import ProjectCategories from "@/components/sections/ProjectCategories";
-import Toolkit from "@/components/sections/Toolkit";
 import Experience from "@/components/sections/Experience";
 import Footer from "@/components/sections/Footer";
 import CanvasView from "@/components/ui/CanvasView";
@@ -19,7 +18,8 @@ interface Project {
   title: string;
   slug: { current: string };
   mainImage: unknown;
-  categories: string[];
+  category?: string;
+  categories?: string[];
   status?: string;
 }
 
@@ -73,7 +73,6 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
             transition={kineticsGlide}
           >
             <Hero />
-            <Toolkit />
             <ProjectCategories />
             <Experience />
             <Footer />

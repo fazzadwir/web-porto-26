@@ -12,7 +12,8 @@ interface Project {
   title: string;
   slug: { current: string };
   mainImage: any;
-  categories: string[];
+  category?: string;
+  categories?: string[];
   status?: string;
 }
 
@@ -115,7 +116,7 @@ const SelectedWork = ({
                         {project.title}
                       </h3>
                       <p className="text-gray-300 text-base">
-                        {project.categories?.[0]}
+                        {project.category || project.categories?.[0]}
                       </p>
                     </div>
                     {!isPrivate && (
