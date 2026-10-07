@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useZoom } from "../../context/ZoomContext";
+import { kineticsGlide, kineticsOvershoot } from "@/lib/kinetics-motion";
 
 import { X } from "lucide-react";
 
@@ -18,7 +19,7 @@ const ImageLightbox = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={kineticsGlide}
         className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 backdrop-blur-sm cursor-zoom-out"
         onClick={closeZoom}
       >
@@ -33,7 +34,7 @@ const ImageLightbox = () => {
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          transition={kineticsOvershoot}
           className="relative w-full h-full max-w-[90vw] max-h-[90vh] flex items-center justify-center pointer-events-none" // pointer-events-none on container, auto on image prevents closing when clicking image (optional, but requested behavior is click anywhere to close)
           onClick={(e) => e.stopPropagation()} // Stop propagation if you want only backdrop click to close. User requested "Clicking anywhere on the overlay should close it", implying image click too? Standard lightbox behavior usually allows clicking image to close or just outside. I'll stick to overlay click closes everything for simplicity as per "Clicking anywhere on the overlay should close it."
         >

@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { PROJECT_CATEGORIES } from "../../lib/project-category";
 
 export const project = defineType({
   name: "project",
@@ -50,10 +51,14 @@ export const project = defineType({
       type: "datetime",
     }),
     defineField({
-      name: "categories",
-      title: "Categories",
-      type: "array",
-      of: [{ type: "string" }],
+      name: "category",
+      title: "Category",
+      type: "string",
+      options: {
+        list: [...PROJECT_CATEGORIES],
+        layout: "dropdown",
+      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "timeline",

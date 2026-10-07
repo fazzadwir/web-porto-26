@@ -12,5 +12,5 @@ export const isSanityConfigured =
   (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'o1s2ofhu') !== 'project-id-placeholder'
 
 
-export const useCdn = false
+export const useCdn = true
 

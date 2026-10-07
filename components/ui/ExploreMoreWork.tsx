@@ -5,13 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "@/lib/sanity";
 import { Lock } from "lucide-react";
+import KineticHeading from "@/components/ui/KineticHeading";
 
 interface Project {
   _id: string;
   title: string;
   slug: { current: string };
   mainImage: any;
-  categories: string[];
+  category?: string;
+  categories?: string[];
   status?: string;
 }
 
@@ -54,9 +56,9 @@ export default function ExploreMoreWork({
     <section className="w-full py-20 border-t border-stone-200 dark:border-white/10">
       {/* Header */}
       <div className="px-6 max-w-7xl mx-auto mb-8">
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tighter text-zinc-800 dark:text-zinc-200">
+        <KineticHeading className="text-3xl md:text-4xl font-semibold tracking-tighter text-zinc-800 dark:text-zinc-200">
           Explore More Work
-        </h2>
+        </KineticHeading>
       </div>
 
       {/* Horizontal scroll track — left padding matches max-w-7xl container edge */}
@@ -87,7 +89,7 @@ export default function ExploreMoreWork({
               href={`/project/${project.slug.current}`}
               draggable={false}
               onClick={(e) => isDragging && e.preventDefault()}
-              className="group relative flex-shrink-0 w-72 md:w-80 rounded-2xl overflow-hidden bg-stone-100 dark:bg-[#1e1e1e] border border-stone-200 dark:border-white/10 transition-all duration-300 hover:shadow-xl hover:border-stone-300 dark:hover:border-white/20 hover:-translate-y-1"
+              className="kinetics-lift group relative flex-shrink-0 w-72 md:w-80 rounded-2xl overflow-hidden bg-stone-100 dark:bg-[#1e1e1e] border border-stone-200 dark:border-white/10 hover:border-stone-300 dark:hover:border-white/20"
               style={{ scrollSnapAlign: "start" }}
             >
               {/* Thumbnail */}
@@ -138,9 +140,9 @@ export default function ExploreMoreWork({
                 >
                   {project.title}
                 </h3>
-                {project.categories?.[0] && (
+                {(project.category || project.categories?.[0]) && (
                   <p className="text-xs text-stone-400 uppercase tracking-widest truncate">
-                    {project.categories[0]}
+                    {project.category || project.categories?.[0]}
                   </p>
                 )}
               </div>

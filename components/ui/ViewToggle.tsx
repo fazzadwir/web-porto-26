@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Globe, Network } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { kineticsOvershoot, kineticsSpring } from "@/lib/kinetics-motion";
 
 type ViewMode = "web" | "schema";
 
@@ -58,8 +59,8 @@ export default function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
         y: shouldShow ? 0 : -100,
         opacity: shouldShow ? 1 : 0,
       }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      className={`fixed top-8 left-1/2 z-[9999] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      transition={kineticsSpring}
+      className={`fixed top-8 left-1/2 z-[9999] transition-all duration-500 ${
         isSchema
           ? "-translate-x-1/2" // centered in schema view
           : "-translate-x-1/2 ml-[125px] md:ml-[175px]" // responsive offset in web view
@@ -68,7 +69,6 @@ export default function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
       <div className="flex items-center px-1.5 md:px-2 py-1.5 md:py-2 bg-zinc-800/80 backdrop-blur-md border border-white/10 rounded-full shadow-lg">
         <motion.button
           onClick={() => onToggle(isSchema ? "web" : "schema")}
-          whileTap={{ scale: 0.92 }}
           title={isSchema ? "Switch to Web View" : "Switch to Schema View"}
           aria-label={isSchema ? "Switch to Web View" : "Switch to Schema View"}
           className="flex items-center justify-center p-2 md:p-3 rounded-full text-stone-400 hover:text-white hover:bg-white/10 transition-all duration-300 hover:scale-110"
@@ -77,7 +77,7 @@ export default function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
             key={viewMode}
             initial={{ rotate: -20, opacity: 0 }}
             animate={{ rotate: 0, opacity: 1 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
+            transition={kineticsOvershoot}
             className="relative z-10"
           >
             {isSchema ? (

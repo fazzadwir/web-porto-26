@@ -9,6 +9,11 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { urlFor } from "@/lib/sanity";
 import { tools } from "@/lib/tools-data";
 import {
+  kineticsGlide,
+  kineticsOvershoot,
+  kineticsSpring,
+} from "@/lib/kinetics-motion";
+import {
   ZoomIn,
   ZoomOut,
   RotateCcw,
@@ -34,7 +39,8 @@ interface Project {
   title: string;
   slug: { current: string };
   mainImage: any;
-  categories: string[];
+  category?: string;
+  categories?: string[];
   status?: string;
   timeline?: string;
   company?: string;
@@ -160,9 +166,8 @@ function ConnectorLines({ projects }: { projects: Project[] }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{
+              ...kineticsGlide,
               delay: 0.25 + i * 0.04,
-              duration: 0.5,
-              ease: "easeOut",
             }}
           />
         );
@@ -264,7 +269,7 @@ function ProjectModal({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
+      transition={kineticsGlide}
     >
       {/* Backdrop */}
       <div
@@ -282,12 +287,7 @@ function ProjectModal({
         initial={{ opacity: 0, scale: 0.92, y: 24 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.92, y: 24 }}
-        transition={{
-          duration: 0.3,
-          type: "spring",
-          stiffness: 280,
-          damping: 26,
-        }}
+        transition={kineticsOvershoot}
       >
         {/* ── Left: Image carousel — full width on mobile, 52% on md+ ── */}
         <div className="relative w-full h-56 sm:h-72 md:w-[52%] md:h-auto flex-shrink-0 bg-zinc-900 overflow-hidden">
@@ -300,7 +300,7 @@ function ProjectModal({
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.25 }}
+                  transition={kineticsSpring}
                 >
                   {/* ── Layer 1: Static Dark Glassmorphism Background ──
                       Uses a grayscale blurred version of the image under a frosted dark overlay */}
@@ -410,9 +410,9 @@ function ProjectModal({
               <h2 className="text-2xl font-black text-stone-900 tracking-tight leading-tight">
                 {project.title}
               </h2>
-              {project.categories?.[0] && (
+              {(project.category || project.categories?.[0]) && (
                 <p className="text-sm text-stone-400 mt-1">
-                  {project.categories.join(" · ")}
+                  {project.category || project.categories?.join(" · ")}
                 </p>
               )}
               {project.projectOverview && (
@@ -561,7 +561,7 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
+      transition={kineticsGlide}
     >
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
@@ -573,12 +573,7 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
         initial={{ opacity: 0, scale: 0.92, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.92, y: 20 }}
-        transition={{
-          duration: 0.3,
-          type: "spring",
-          stiffness: 280,
-          damping: 26,
-        }}
+        transition={kineticsOvershoot}
       >
         {/* Left — Photo */}
         <div className="relative w-full h-56 sm:h-72 md:w-[44%] md:h-auto flex-shrink-0 bg-stone-100">
@@ -682,7 +677,7 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
-                    transition={{ duration: 0.18 }}
+                    transition={kineticsOvershoot}
                   >
                     {socials.map(({ label, href, Icon }) => (
                       <a
@@ -810,9 +805,9 @@ function ProjectNode({
         <h3 className="text-white text-base font-semibold leading-tight tracking-tight">
           {project.title}
         </h3>
-        {project.categories?.[0] && (
+        {(project.category || project.categories?.[0]) && (
           <span className="text-[11px] text-white/60 uppercase tracking-widest">
-            {project.categories[0]}
+            {project.category || project.categories?.[0]}
           </span>
         )}
         <div
@@ -972,11 +967,8 @@ export default function CanvasView({
                     initial={{ opacity: 0, scale: 0.4 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{
+                      ...kineticsOvershoot,
                       delay: 0.05,
-                      duration: 0.5,
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 20,
                     }}
                   >
                     <ProfileNode
@@ -1001,11 +993,8 @@ export default function CanvasView({
                         initial={{ opacity: 0, scale: 0.3 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{
+                          ...kineticsSpring,
                           delay: 0.3 + i * 0.06,
-                          duration: 0.55,
-                          type: "spring",
-                          stiffness: 220,
-                          damping: 22,
                         }}
                       >
                         <ProjectNode
