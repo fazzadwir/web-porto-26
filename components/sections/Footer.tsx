@@ -1,7 +1,13 @@
+"use client";
+
 import { Linkedin, Dribbble, Github } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import KineticHeading from "@/components/ui/KineticHeading";
 import Reveal from "@/components/ui/Reveal";
+import { kineticsPress } from "@/lib/kinetics-motion";
+
+const MotionLink = motion.create(Link);
 
 const Footer = () => {
   return (
@@ -47,17 +53,19 @@ const SocialLink = ({
   label: string;
 }) => {
   return (
-    <Link
+    <MotionLink
+      {...kineticsPress}
+      whileHover={{ scale: 1.15, y: -4 }}
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-stone-400 hover:text-white transition-all duration-300 hover:scale-110"
+      className="text-stone-400 hover:text-white transition-colors duration-300"
       aria-label={label}
     >
       <div className="w-8 h-8 md:w-10 md:h-10 [&>svg]:w-full [&>svg]:h-full">
         {icon}
       </div>
-    </Link>
+    </MotionLink>
   );
 };
 

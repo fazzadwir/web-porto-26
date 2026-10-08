@@ -93,7 +93,7 @@ const Experience = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-16">
         {/* Header */}
         <div className="mb-12 md:mb-16">
-          <KineticHeading className="flex flex-col font-black uppercase leading-[0.85] tracking-tighter text-5xl md:text-[90px] mb-2">
+          <KineticHeading className="flex flex-col font-black uppercase leading-[0.85] tracking-tighter text-[52px] mb-2">
             <span className="text-zinc-800">WORK</span>
             <span className="text-stone-400">EXPERIENCE</span>
           </KineticHeading>

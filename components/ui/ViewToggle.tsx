@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Globe, Network } from "lucide-react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { kineticsOvershoot, kineticsSpring } from "@/lib/kinetics-motion";
+import { kineticsOvershoot, kineticsPress, kineticsSpring } from "@/lib/kinetics-motion";
 
 type ViewMode = "web" | "schema";
 
@@ -68,10 +68,12 @@ export default function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
     >
       <div className="flex items-center px-1.5 md:px-2 py-1.5 md:py-2 bg-zinc-800/80 backdrop-blur-md border border-white/10 rounded-full shadow-lg">
         <motion.button
+          {...kineticsPress}
+          whileHover={{ scale: 1.1 }}
           onClick={() => onToggle(isSchema ? "web" : "schema")}
           title={isSchema ? "Switch to Web View" : "Switch to Schema View"}
           aria-label={isSchema ? "Switch to Web View" : "Switch to Schema View"}
-          className="flex items-center justify-center p-2 md:p-3 rounded-full text-stone-400 hover:text-white hover:bg-white/10 transition-all duration-300 hover:scale-110"
+          className="flex items-center justify-center p-2 md:p-3 rounded-full text-stone-400 hover:text-white hover:bg-white/10 transition-colors duration-300"
         >
           <motion.div
             key={viewMode}

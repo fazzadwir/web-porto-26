@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { kineticsOvershoot, kineticsSpring } from "@/lib/kinetics-motion";
+import { kineticsOvershoot, kineticsPress, kineticsSpring } from "@/lib/kinetics-motion";
 import { urlFor } from "@/lib/sanity";
-import { getProjectSection } from "@/lib/project-category";
+import CoverCollage, { type CollageItem } from "@/components/ui/CoverCollage";
+import { getProjectSection, getSubcategoryFilters } from "@/lib/project-category";
+import WorkProjectCard from "@/components/ui/WorkProjectCard";
 
 interface Project {
   _id: string;
@@ -21,14 +20,18 @@ interface Project {
   section?: string;
 }
 
-const FILTER_CATEGORIES = [
-  "All",
-  "Social Media Post",
-  "Brand Identity",
-  "FinTech",
-  "EdTech",
-  "HealthTech",
-  "AgriTech",
+const VB = "/projects/visual-design-bg";
+const VD = "/new_work_category/visual_design";
+
+// Positions measured from the 2880×770 cover export (left/top/width in %).
+// Stickers reuse the homepage category assets.
+const COVER_ITEMS: CollageItem[] = [
+  { src: `${VB}/kesaktian-pancasila.png`, w: 663, h: 768, className: "-left-[1.84%] top-[31.7%] w-[23.1%]", from: "bottom" },
+  { src: `${VD}/VD-logo-frog.webp`, w: 970, h: 590, className: "left-[7.95%] -top-[26.1%] w-[31.76%]", from: "top" },
+  { src: `${VD}/VP-logo-onmeeting.webp`, w: 926, h: 926, className: "left-[21.07%] top-[41.75%] w-[26%]", from: "bottom" },
+  { src: `${VB}/hari-bumi.png`, w: 712, h: 808, className: "left-[46.7%] top-[17%] w-[25.2%]", from: "bottom" },
+  { src: `${VD}/VD-logo-cp.webp`, w: 958, h: 858, className: "left-[64.89%] -top-[27.1%] w-[26.68%]", from: "top" },
+  { src: `${VD}/VD-logo-cloudra.webp`, w: 774, h: 808, className: "left-[80.63%] top-[38%] w-[21.68%]", from: "bottom" },
 ];
 
 interface VisualSectionProps {
@@ -55,33 +58,18 @@ export default function VisualSection({ projects }: VisualSectionProps) {
     [projects]
   );
 
+  // Chips come from the projects' Sanity `subcategory` values, so new ones appear automatically.
+  const filters = useMemo(() => getSubcategoryFilters(visualProjects), [visualProjects]);
+
   const filtered = useMemo(() => {
     if (activeFilter === "All") return visualProjects;
-    return visualProjects.filter(
-      (p) =>
-        p.subcategory === activeFilter ||
-        p.categories?.some((c: string) =>
-          c.toLowerCase().includes(activeFilter.toLowerCase())
-        )
-    );
+    return visualProjects.filter((p) => p.subcategory === activeFilter);
   }, [visualProjects, activeFilter]);
 
   return (
     <div className="min-h-screen bg-[#FAF9F6]">
       {/* ─────────────────── Hero Cover ─────────────────── */}
-      <div
-        className="relative w-full overflow-hidden"
-        style={{ height: "clamp(320px, 42vw, 520px)" }}
-      >
-        <Image
-          src="/Visual Design - Cover.png"
-          alt="Visual Design Projects Cover"
-          fill
-          className="object-cover object-top"
-          priority
-          sizes="100vw"
-        />
-      </div>
+      <CoverCollage bg="#2CE590" items={COVER_ITEMS} label="Visual design work: posters and logo stickers" />
 
       {/* ─────────────────── Title + Filters ─────────────────── */}
       <div className="px-5 sm:px-8 lg:px-16 pt-10 pb-8 max-w-[1220px] mx-auto">
@@ -109,20 +97,30 @@ export default function VisualSection({ projects }: VisualSectionProps) {
           transition={{ ...kineticsSpring, delay: 0.12 }}
           className="flex flex-wrap gap-2 mt-6"
         >
-          {FILTER_CATEGORIES.map((cat) => {
+          {filters.map((cat) => {
             const isActive = activeFilter === cat;
             return (
-              <button
+              <motion.button
                 key={cat}
+                {...kineticsPress}
                 onClick={() => setActiveFilter(cat)}
+                aria-pressed={isActive}
                 className={`relative rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200 border ${
                   isActive
-                    ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
+                    ? "text-white border-[#1A1A1A]"
                     : "bg-transparent text-[#4A4A4A] border-[#C8C8C8] hover:border-[#888] hover:text-[#1A1A1A]"
                 }`}
               >
-                {cat}
-              </button>
+                {/* Dark pill slides to the selected filter */}
+                {isActive && (
+                  <motion.span
+                    layoutId="visual-filter-indicator"
+                    className="absolute inset-0 rounded-full bg-[#1A1A1A]"
+                    transition={kineticsSpring}
+                  />
+                )}
+                <span className="relative">{cat}</span>
+              </motion.button>
             );
           })}
         </motion.div>
@@ -194,7 +192,6 @@ function VisualGrid({ projects }: { projects: Project[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
       {projects.map((project, index) => {
-        const isFeatured = index === 0;
         const isPrivate = project.status === "private";
         const imageUrl = getImageUrl(project.mainImage);
         const bg = bgColors[index % bgColors.length];
@@ -206,97 +203,16 @@ function VisualGrid({ projects }: { projects: Project[] }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...kineticsOvershoot, delay: index * 0.06 }}
           >
-            <VisualCard
-              project={project}
-              isFeatured={isFeatured}
-              isPrivate={isPrivate}
+            <WorkProjectCard
+              title={project.title}
+              slug={project.slug.current}
               imageUrl={imageUrl}
               bg={bg}
+              isPrivate={isPrivate}
             />
           </motion.div>
         );
       })}
     </div>
-  );
-}
-
-// ─────────────────── Single Card ───────────────────
-function VisualCard({
-  project,
-  isFeatured,
-  isPrivate,
-  imageUrl,
-  bg,
-}: {
-  project: Project;
-  isFeatured: boolean;
-  isPrivate: boolean;
-  imageUrl: string | null;
-  bg: string;
-}) {
-  const inner = (
-    <div
-      className="group relative rounded-2xl overflow-hidden cursor-pointer"
-      style={{
-        backgroundColor: bg,
-        aspectRatio: "4/4.2",
-        boxShadow:
-          "0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
-      }}
-    >
-      {/* Private badge */}
-      {isPrivate && (
-        <div className="absolute top-3 right-3 z-20 bg-black/60 backdrop-blur-sm text-white text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-widest font-semibold border border-white/20">
-          Private
-        </div>
-      )}
-
-      {/* Arrow — visible on hover */}
-      {!isPrivate && (
-        <div className="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm">
-            <ArrowUpRight className="w-4 h-4 text-[#1A1A1A]" />
-          </div>
-        </div>
-      )}
-
-      {/* Image */}
-      <div
-        className={`absolute inset-0 flex items-center justify-center transition-transform duration-700 group-hover:scale-[1.03] ${
-          isPrivate ? "blur-xl scale-110" : ""
-        }`}
-      >
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="w-24 h-24 rounded-2xl bg-white/40" />
-          </div>
-        )}
-      </div>
-
-      {/* Featured: title label at bottom-left */}
-      {isFeatured && (
-        <div className="absolute bottom-0 left-0 right-0 p-5 z-10 bg-gradient-to-t from-black/50 via-black/20 to-transparent">
-          <p className="text-white text-sm font-semibold leading-snug drop-shadow">
-            {project.title}
-          </p>
-        </div>
-      )}
-    </div>
-  );
-
-  if (isPrivate) return inner;
-
-  return (
-    <Link href={`/project/${project.slug.current}`} prefetch={false}>
-      {inner}
-    </Link>
   );
 }

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Smartphone, Square, Diamond } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { kineticsSpring } from "@/lib/kinetics-motion";
+import { kineticsGlide, kineticsPress, kineticsSpring } from "@/lib/kinetics-motion";
 import { clsx } from "clsx";
 
 export type WorkSection = "interface" | "visual" | "motion";
@@ -58,7 +58,10 @@ export default function WorkNav({
         {sections.map(({ id, icon: Icon, label }) => {
           const isActive = activeSection === id;
           return (
-            <button
+            <motion.button
+              // Press only: a hover scale would fight the sliding pill
+              whileTap={kineticsPress.whileTap}
+              data-motion
               key={id}
               onClick={() => onSectionChange?.(id)}
               aria-label={`${label} section`}
@@ -99,14 +102,14 @@ export default function WorkNav({
                     initial={{ opacity: 0, width: 0 }}
                     animate={{ opacity: 1, width: "auto" }}
                     exit={{ opacity: 0, width: 0 }}
-                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    transition={kineticsGlide}
                     className="relative z-10 text-sm font-semibold tracking-tight overflow-hidden whitespace-nowrap"
                   >
                     {label}
                   </motion.span>
                 )}
               </AnimatePresence>
-            </button>
+            </motion.button>
           );
         })}
       </nav>

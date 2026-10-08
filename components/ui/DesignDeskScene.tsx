@@ -269,8 +269,9 @@ export default function DesignDeskScene() {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // ── Renderer / scene / camera ───────────────────────────
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+    // ponytail: DPR capped at 1.5 — ~44% fewer pixels than 2x on retina; raise if the scene looks soft
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setClearColor(0x000000, 0);
     // Neutral tone mapping keeps the palette saturated (ACES washes it out)
     renderer.toneMapping = THREE.NeutralToneMapping;

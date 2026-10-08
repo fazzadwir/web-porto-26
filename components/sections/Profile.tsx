@@ -97,11 +97,11 @@ export default function Profile() {
               </motion.div>
             ))}
             <MotionImage
-              src="/profile_section/profile-silliette.svg"
+              src="/profile_section/profile-silliette.webp"
               alt="Silhouette portrait of Fazza Dwi Riandy"
               width={656}
               height={623}
-              unoptimized
+              sizes="(min-width: 1024px) 35vw, 80vw"
               variants={silhouetteVariants}
               className="absolute bottom-0 right-0 h-auto w-[91%] origin-bottom"
             />

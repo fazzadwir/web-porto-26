@@ -10,7 +10,7 @@ import Experience from "@/components/sections/Experience";
 import Footer from "@/components/sections/Footer";
 import CanvasView from "@/components/ui/CanvasView";
 import { ArrowLeft } from "lucide-react";
-import { kineticsGlide } from "@/lib/kinetics-motion";
+import { kineticsGlide, kineticsPress } from "@/lib/kinetics-motion";
 
 type ViewMode = "web" | "schema";
 
@@ -97,7 +97,8 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
                   Schema Space
                 </span>
               </div>
-              <button
+              <motion.button
+                {...kineticsPress}
                 onClick={() => setViewMode("web")}
                 className="pointer-events-auto bg-stone-900 border border-stone-800 shadow-sm rounded-full px-5 py-2.5 hover:bg-stone-800 transition-colors flex items-center gap-2"
                 aria-label="Back to Home"
@@ -106,7 +107,7 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
                 <span className="text-xs text-white font-semibold uppercase tracking-widest hidden sm:inline-block">
                   Back to Home
                 </span>
-              </button>
+              </motion.button>
             </div>
 
             {/* Full canvas — no padding, fills 100vh */}

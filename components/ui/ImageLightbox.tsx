@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useZoom } from "../../context/ZoomContext";
-import { kineticsGlide, kineticsOvershoot } from "@/lib/kinetics-motion";
+import { kineticsGlide, kineticsOvershoot, kineticsPress } from "@/lib/kinetics-motion";
 
 import { X } from "lucide-react";
 
@@ -23,12 +23,15 @@ const ImageLightbox = () => {
         className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 backdrop-blur-sm cursor-zoom-out"
         onClick={closeZoom}
       >
-        <button
+        <motion.button
+          {...kineticsPress}
+          whileHover={{ scale: 1.1, rotate: 90 }}
           onClick={closeZoom}
+          aria-label="Close image"
           className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-20"
         >
           <X className="w-8 h-8 text-white" />
-        </button>
+        </motion.button>
 
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}

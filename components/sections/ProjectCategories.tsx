@@ -51,10 +51,10 @@ const categories: {
     bg: "#2ce590",
     ink: "#064f3e",
     assets: [
-      { src: `${VD}/VD-logo-cp.svg`, w: 479, h: 429, className: "-left-[29.8%] top-[22%] w-[74.8%]", hover: { rotate: -6, scale: 1.05 } },
-      { src: `${VD}/VD-logo-frog.svg`, w: 485, h: 295, className: "left-[35.2%] top-[27.4%] w-[75.8%]", hover: { rotate: 4, y: -8 } },
-      { src: `${VD}/VD-logo-cloudra.svg`, w: 387, h: 404, className: "-left-[4.1%] top-[65.3%] w-[60.5%]", hover: { y: -12, rotate: -4 } },
-      { src: `${VD}/VP-logo-onmeeting.svg`, w: 463, h: 463, className: "left-[50%] top-[58.8%] w-[72.3%]", hover: { y: -10, rotate: 6 } },
+      { src: `${VD}/VD-logo-cp.webp`, w: 479, h: 429, className: "-left-[29.8%] top-[22%] w-[74.8%]", hover: { rotate: -6, scale: 1.05 } },
+      { src: `${VD}/VD-logo-frog.webp`, w: 485, h: 295, className: "left-[35.2%] top-[27.4%] w-[75.8%]", hover: { rotate: 4, y: -8 } },
+      { src: `${VD}/VD-logo-cloudra.webp`, w: 387, h: 404, className: "-left-[4.1%] top-[65.3%] w-[60.5%]", hover: { y: -12, rotate: -4 } },
+      { src: `${VD}/VP-logo-onmeeting.webp`, w: 463, h: 463, className: "left-[50%] top-[58.8%] w-[72.3%]", hover: { y: -10, rotate: 6 } },
     ],
   },
   {
@@ -64,9 +64,9 @@ const categories: {
     bg: "#dcf154",
     ink: "#526400",
     assets: [
-      { src: `${MD}/MD-shape-orange.svg`, w: 504, h: 504, className: "-left-[33.6%] top-[25.9%] w-[78.75%]", hover: { x: 10, rotate: -4 } },
-      { src: `${MD}/MD-shape-pink.svg`, w: 729, h: 740, className: "left-[31.7%] -top-[2.2%] w-[113.9%]", hover: { y: -14, rotate: 3 } },
-      { src: `${MD}/MD-shape-green.svg`, w: 686, h: 686, className: "left-[9.7%] top-[42.6%] w-[107.2%]", hover: { x: -12 } },
+      { src: `${MD}/MD-shape-orange.webp`, w: 504, h: 504, className: "-left-[33.6%] top-[25.9%] w-[78.75%]", hover: { x: 10, rotate: -4 } },
+      { src: `${MD}/MD-shape-pink.webp`, w: 729, h: 740, className: "left-[31.7%] -top-[2.2%] w-[113.9%]", hover: { y: -14, rotate: 3 } },
+      { src: `${MD}/MD-shape-green.webp`, w: 686, h: 686, className: "left-[9.7%] top-[42.6%] w-[107.2%]", hover: { x: -12 } },
     ],
   },
 ];
@@ -122,7 +122,8 @@ export default function ProjectCategories() {
                       aria-hidden
                       width={a.w}
                       height={a.h}
-                      unoptimized
+                      // Card is 1/3 of the viewport on desktop, full width on mobile; art can bleed past it
+                      sizes="(min-width: 768px) 40vw, 110vw"
                       variants={{ hover: { ...a.hover, transition: kineticsSpring } }}
                       className="h-auto w-full"
                     />
