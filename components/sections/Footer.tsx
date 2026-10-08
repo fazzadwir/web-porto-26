@@ -1,6 +1,7 @@
 import { Linkedin, Dribbble, Github } from "lucide-react";
 import Link from "next/link";
 import KineticHeading from "@/components/ui/KineticHeading";
+import Reveal from "@/components/ui/Reveal";
 
 const Footer = () => {
   return (
@@ -14,7 +15,7 @@ const Footer = () => {
           scalable together.
         </KineticHeading>
 
-        <div className="flex items-center justify-center gap-8 md:gap-10">
+        <Reveal delay={0.15} className="flex items-center justify-center gap-8 md:gap-10">
           <SocialLink
             href="https://www.linkedin.com/in/fazza-dwi-riandy/"
             icon={<Linkedin />}
@@ -30,7 +31,7 @@ const Footer = () => {
             icon={<Github />}
             label="GitHub"
           />
-        </div>
+        </Reveal>
       </div>
     </footer>
   );

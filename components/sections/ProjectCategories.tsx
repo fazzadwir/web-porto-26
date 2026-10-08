@@ -1,97 +1,148 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import KineticHeading from "@/components/ui/KineticHeading";
+import { motion, MotionConfig, type Variants } from "framer-motion";
+import { kineticsOvershoot, kineticsSpring } from "@/lib/kinetics-motion";
 
-const categories = [
+const MotionImage = motion.create(Image);
+
+type Asset = {
+  src: string;
+  w: number;
+  h: number;
+  /** Figma position at 1:1, as % of the 640×680 card (left/width ÷ 640, top ÷ 680).
+   *  Assets are whole shapes; whatever bleeds past the card is clipped by overflow-hidden. */
+  className: string;
+  hover: Record<string, number>;
+};
+
+const VD = "/new_work_category/visual_design";
+const MD = "/new_work_category/motion_design";
+
+const categories: {
+  title: [string, string];
+  description: string;
+  href: string;
+  bg: string;
+  ink: string;
+  assets: Asset[];
+}[] = [
   {
-    title: ["INTERFACE", "DESIGN"],
+    title: ["Interface", "Design"],
+    description: "Dashboards, apps and design systems built around how people actually work.",
     href: "/work?section=interface",
-    image: "/projects/interface-design.png",
-    imageAlt: "Dashboard and mobile interface design preview",
-    background: "bg-[#666bea]",
-    titleColor: "text-[#f7f5f2]",
-    mobileAspect: "aspect-[595/542]",
-    artworkClass:
-      "left-[3%] top-[35%] h-[110%] w-[108%] sm:left-auto sm:bottom-auto sm:right-[1%] sm:-top-[2%] sm:h-[190%] sm:w-[58%] lg:w-[54%]",
+    bg: "#666bea",
+    ink: "#f7f5f2",
+    assets: [
+      {
+        src: "/projects/interface-design.png",
+        w: 1059,
+        h: 979,
+        className: "left-[1.6%] top-[45.4%] w-[107%]",
+        hover: { y: -12 },
+      },
+    ],
   },
   {
-    title: ["VISUAL", "DESIGN"],
+    title: ["Visual", "Design"],
+    description: "Logos, brand identities and social media posts.",
     href: "/work?section=visual",
-    image: "/projects/visual-design.png",
-    imageAlt: "Collection of colorful visual design marks",
-    background: "bg-[#28dfa1]",
-    titleColor: "text-[#064f3e]",
-    mobileAspect: "aspect-[595/447]",
-    artworkClass:
-      "left-[8.6%] top-[30%] h-[97.5%] w-[99.8%] sm:left-auto sm:top-auto sm:-bottom-[25%] sm:-right-[5%] sm:h-[142%] sm:w-[58%] lg:w-[54%]",
+    bg: "#2ce590",
+    ink: "#064f3e",
+    assets: [
+      { src: `${VD}/VD-logo-cp.svg`, w: 479, h: 429, className: "-left-[29.8%] top-[22%] w-[74.8%]", hover: { rotate: -6, scale: 1.05 } },
+      { src: `${VD}/VD-logo-frog.svg`, w: 485, h: 295, className: "left-[35.2%] top-[27.4%] w-[75.8%]", hover: { rotate: 4, y: -8 } },
+      { src: `${VD}/VD-logo-cloudra.svg`, w: 387, h: 404, className: "-left-[4.1%] top-[65.3%] w-[60.5%]", hover: { y: -12, rotate: -4 } },
+      { src: `${VD}/VP-logo-onmeeting.svg`, w: 463, h: 463, className: "left-[50%] top-[58.8%] w-[72.3%]", hover: { y: -10, rotate: 6 } },
+    ],
   },
   {
-    title: ["MOTION", "DESIGN"],
+    title: ["Motion", "Design"],
+    description: "Motion graphics and microinteractions that make interfaces feel alive.",
     href: "/work?section=motion",
-    image: "/projects/motion-design.png",
-    imageAlt: "Colorful three-dimensional motion design forms",
-    background: "bg-[#dafa4d]",
-    titleColor: "text-[#526400]",
-    mobileAspect: "aspect-[6/5]",
-    artworkClass:
-      "-left-[3%] top-[13%] h-[106%] w-[106%] sm:left-auto sm:bottom-auto sm:-right-[21%] sm:-top-[59%] sm:h-[230%] sm:w-[78%]",
+    bg: "#dcf154",
+    ink: "#526400",
+    assets: [
+      { src: `${MD}/MD-shape-orange.svg`, w: 504, h: 504, className: "-left-[33.6%] top-[25.9%] w-[78.75%]", hover: { x: 10, rotate: -4 } },
+      { src: `${MD}/MD-shape-pink.svg`, w: 729, h: 740, className: "left-[31.7%] -top-[2.2%] w-[113.9%]", hover: { y: -14, rotate: 3 } },
+      { src: `${MD}/MD-shape-green.svg`, w: 686, h: 686, className: "left-[9.7%] top-[42.6%] w-[107.2%]", hover: { x: -12 } },
+    ],
   },
 ];
 
+// Card fades up on scroll; its artwork pops in right after.
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { ...kineticsOvershoot, delay: i * 0.1, delayChildren: i * 0.1 + 0.2, staggerChildren: 0.08 },
+  }),
+};
+
+// Reveal sits on a wrapper and hover on the image inside, so the reveal timing
+// never delays the hover-out.
+const assetReveal: Variants = {
+  hidden: { opacity: 0, scale: 0.85 },
+  show: { opacity: 1, scale: 1, transition: kineticsOvershoot },
+};
+
 export default function ProjectCategories() {
   return (
-    <section
-      id="selected-work"
-      className="bg-[#FAF9F6] px-5 py-24 sm:px-8 sm:py-32 lg:px-16 lg:py-40"
-    >
-      <div className="mx-auto w-full max-w-[1220px]">
-        <header className="mb-12 max-w-xl sm:mb-16">
-          <KineticHeading className="flex flex-col font-black uppercase leading-[0.82] tracking-[-0.065em] text-[56px] sm:text-[72px] lg:text-[82px]">
-            <span className="text-[#252529]">MY</span>
-            <span className="text-[#c9c5c3]">PROJECT</span>
-          </KineticHeading>
-          <p className="mt-7 max-w-[520px] text-base leading-relaxed text-[#4a4a4e] sm:text-lg">
-            A curated selection of projects that showcase my expertise in
-            design and development.
-          </p>
-        </header>
-
-        <div className="flex flex-col gap-5 sm:gap-6">
-          {categories.map((category) => (
+    <section id="selected-work" className="bg-[#FAF9F6]">
+      <MotionConfig reducedMotion="user">
+        <div className="grid w-full grid-cols-1 md:grid-cols-3">
+          {categories.map((category, i) => (
             <Link
-              key={category.title[0]}
+              key={category.href}
               href={category.href}
               aria-label={`Explore ${category.title.join(" ").toLowerCase()} projects`}
-              style={{
-                boxShadow:
-                  "0 33px 9px 0 rgba(0, 0, 0, 0), 0 21px 8px 0 rgba(0, 0, 0, 0.03), 0 12px 7px 0 rgba(0, 0, 0, 0.10), 0 5px 5px 0 rgba(0, 0, 0, 0.18), 0 1px 3px 0 rgba(0, 0, 0, 0.21)",
-              }}
-              className={`kinetics-lift group relative isolate block overflow-hidden rounded-[18px] border border-white/85 sm:aspect-auto sm:h-[330px] ${category.mobileAspect} ${category.background}`}
+              className="block"
             >
-              <div className="absolute left-0 top-0 z-10 flex pl-[9%] pt-[8.8%] sm:inset-y-0 sm:left-[7%] sm:items-center sm:p-0">
-                <h3
-                  className={`flex flex-col font-black uppercase leading-[0.82] tracking-[-0.055em] text-[10.2vw] sm:text-[52px] lg:text-[58px] ${category.titleColor}`}
-                >
-                  <span>{category.title[0]}</span>
-                  <span>{category.title[1]}</span>
-                </h3>
-              </div>
-
-              <div
-                className={`pointer-events-none absolute transition-transform duration-700 group-hover:scale-[1.025] ${category.artworkClass}`}
+              <motion.div
+                custom={i}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="show"
+                whileHover="hover"
+                viewport={{ once: true, amount: 0.3 }}
+                style={{ backgroundColor: category.bg, color: category.ink }}
+                className="relative isolate aspect-[640/680] overflow-hidden [container-type:inline-size]"
               >
-                <Image
-                  src={category.image}
-                  alt={category.imageAlt}
-                  fill
-                  className="object-contain object-center"
-                  sizes="(max-width: 640px) 110vw, 720px"
-                />
-              </div>
+                {category.assets.map((a) => (
+                  <motion.div
+                    key={a.src}
+                    variants={assetReveal}
+                    className={`pointer-events-none absolute ${a.className}`}
+                  >
+                    <MotionImage
+                      src={a.src}
+                      alt=""
+                      aria-hidden
+                      width={a.w}
+                      height={a.h}
+                      unoptimized
+                      variants={{ hover: { ...a.hover, transition: kineticsSpring } }}
+                      className="h-auto w-full"
+                    />
+                  </motion.div>
+                ))}
+
+                <div className="relative z-10 px-[6.4%] pt-[6.5%]">
+                  <h3 className="flex flex-col font-black uppercase leading-[0.82] tracking-[-0.055em] text-[11.25cqw]">
+                    <span>{category.title[0]}</span>
+                    <span>{category.title[1]}</span>
+                  </h3>
+                  <p className="mt-[3cqw] max-w-[92%] text-[3cqw] leading-snug opacity-90">
+                    {category.description}
+                  </p>
+                </div>
+              </motion.div>
             </Link>
           ))}
         </div>
-      </div>
+      </MotionConfig>
     </section>
   );
 }

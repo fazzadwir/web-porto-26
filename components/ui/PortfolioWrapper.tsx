@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import Hero from "@/components/sections/Hero";
+import Profile from "@/components/sections/Profile";
 import ProjectCategories from "@/components/sections/ProjectCategories";
 import Experience from "@/components/sections/Experience";
 import Footer from "@/components/sections/Footer";
@@ -73,6 +74,7 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
             transition={kineticsGlide}
           >
             <Hero />
+            <Profile />
             <ProjectCategories />
             <Experience />
             <Footer />
