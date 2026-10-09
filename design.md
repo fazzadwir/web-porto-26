@@ -10,8 +10,9 @@ Website menggunakan pendekatan editorial portfolio dengan karakter:
 - Permukaan netral yang dipadukan dengan kartu proyek berwarna ekspresif.
 - Layout lapang dengan fokus pada satu pesan atau objek utama per section.
 - Artwork berukuran besar dan sengaja terpotong oleh batas kartu.
+- Section homepage full-bleed: blok warna flat selebar layar, tanpa jarak dan tanpa sudut membulat.
 - Motion berbasis spring physics agar terasa tactile, playful, dan menyerupai Material Design 3 Expressive.
-- Sudut membulat, floating navigation, dan shadow berlapis untuk membangun kedalaman.
+- Floating navigation berbentuk pill dengan indikator aktif yang meluncur.
 
 ## 2. Technology
 
@@ -30,7 +31,8 @@ Kinetics adalah library recipe CSS/React, bukan dependency runtime npm. Framer M
 
 | Token/usage | Value | Keterangan |
 | --- | --- | --- |
-| Project section background | `#FAF9F6` | Warm off-white untuk section My Project |
+| Project section background | `#FAF9F6` | Warm off-white untuk section Work |
+| Profile section | `#FCD000` | Blok kuning "Hello, World" |
 | Primary dark surface | `#27272A` | Hero dan permukaan gelap utama |
 | Secondary dark surface | `#161312` | Overlay atau neutral black |
 | Default light background | `#FFFFFF` | Halaman dan komponen terang |
@@ -51,8 +53,16 @@ Kinetics adalah library recipe CSS/React, bukan dependency runtime npm. Framer M
 | Category | Background | Heading |
 | --- | --- | --- |
 | Interface Design | `#666BEA` | `#F7F5F2` |
-| Visual Design | `#28DFA1` | `#064F3E` |
-| Motion Design | `#DAFA4D` | `#526400` |
+| Visual Design | `#2CE590` | `#064F3E` |
+| Motion Design | `#DCF154` | `#526400` |
+
+### Profile section
+
+| Usage | Value |
+| --- | --- |
+| Background | `#FCD000` |
+| Heading | `#5C4A00` |
+| Body | `#6B5600` |
 
 ## 4. Typography
 
@@ -64,8 +74,8 @@ Font family utama adalah Plus Jakarta Sans dengan fallback `sans-serif`.
 - Style: uppercase.
 - Line height: `0.82–0.85`.
 - Letter spacing: `-0.055em` sampai `-0.065em`.
-- Mobile size: `48–56px` untuk heading section.
-- Desktop size: `82–104px` untuk heading utama.
+- Heading section (mis. Work Experience, Hello World): `52px`, sama di mobile dan desktop.
+- Heading utama hero: `60px` mobile hingga `104px` desktop.
 - Heading kategori kartu: `42px` mobile, `52–58px` desktop.
 
 ### Body copy
@@ -89,39 +99,52 @@ Font family utama adalah Plus Jakarta Sans dengan fallback `sans-serif`.
   - Desktop: sekitar `160px`.
 - Jarak antarkartu proyek: `20px` mobile dan `24px` desktop.
 
-## 6. Project Category Cards
+## 6. Homepage Sections
 
-Kartu kategori pada homepage adalah visual entry point menuju halaman `/work`.
+Urutan homepage: Hero → Profile → Work Categories → Work Experience → Footer.
 
-### Base card
+### Hero
 
-- Mobile height: `250px`.
-- Desktop height: `330px`.
-- Border radius: `18px`.
-- Border: putih dengan opacity sekitar `85%`.
-- Artwork menggunakan PNG transparan dan `object-contain`.
-- Seluruh artwork dipotong dengan `overflow: hidden`.
-- Judul ditempatkan sekitar `7%` dari sisi kiri dan rata tengah secara vertikal.
+- Background: scene Three.js ruang kerja desainer bergaya stylized (`DesignDeskScene`), full-bleed, golden-hour lighting.
+- Konten: display heading dan dua tombol (My Project, Download CV). Tidak ada paragraf intro.
+- Overlay gradasi gelap di kiri bawah (lebih gelap di mobile) untuk keterbacaan.
+- Renderer dibatasi pixel ratio `1.5` dan berhenti render saat hero di luar viewport.
 
-### Card shadow
+### Profile ("Hello, World")
 
-```css
-box-shadow:
-  0 33px 9px 0 rgba(0, 0, 0, 0),
-  0 21px 8px 0 rgba(0, 0, 0, 0.03),
-  0 12px 7px 0 rgba(0, 0, 0, 0.10),
-  0 5px 5px 0 rgba(0, 0, 0, 0.18),
-  0 1px 3px 0 rgba(0, 0, 0, 0.21);
-```
+- Blok kuning full-bleed, rasio `3:1` di desktop (`640px` pada lebar `1920px`), bertumpuk di mobile.
+- Ilustrasi: siluet + tiga shape (putih, biru, hijau) di kanan, setinggi section; shape yang keluar batas dipotong oleh section.
+- Asset di `public/profile_section/` (siluet `.webp`, shape `.svg`).
 
-### Artwork composition
+### Work Categories
 
-- Interface Design: dashboard dimulai sekitar separuh kanan kartu, dekat sisi atas, dan terpotong di bawah.
-- Visual Design: logo tersebar di area kanan, dengan sebagian elemen keluar dari sisi kanan/bawah.
-- Motion Design: bentuk pink terpotong di atas, bentuk oranye keluar dari sisi kanan, dan bentuk hijau terpotong di bawah.
-- Pada mobile, artwork diperkecil dan digeser ke kanan agar judul tetap terbaca.
+Kartu kategori adalah entry point menuju `/work`.
 
-Asset berada di `public/projects/`.
+- Tiga kartu full-bleed dalam satu baris (`md:grid-cols-3`), satu kolom di mobile.
+- Rasio kartu `640/680` (sesuai frame Figma), tanpa border radius, tanpa jarak.
+- Judul dan deskripsi memakai unit `cqw` sehingga skalanya mengikuti lebar kartu.
+- Artwork diposisikan 1:1 sesuai frame Figma (persen dari `640×680`); bagian yang keluar kartu dipotong `overflow: hidden`.
+- Asset raster disimpan sebagai `.webp` di `public/new_work_category/` dan dilayani lewat `next/image` (jangan memakai SVG yang membungkus PNG besar).
+
+### Work page covers
+
+- Cover tiap halaman `/work` dibangun dengan kode (`CoverCollage`), bukan satu PNG: background warna kategori + mockup terpisah yang diposisikan dalam persen dari frame `2880×770`.
+- Tinggi cover `max(320px, 26.74vw)`; frame selalu memenuhi lebar dan di layar sempit dipotong dari tengah.
+- Motion: tiap mockup masuk bergantian (Kinetics Overshoot, dari atas/bawah), lalu melayang pelan tanpa henti (loop sinus, pengecualian seperti marquee).
+- Asset Interface di `public/projects/interface-design-bg/`; Visual memakai poster di `public/projects/visual-design-bg/` + stiker logo dari `public/new_work_category/visual_design/`. Motion memakai `public/projects/motion_design_bg/shape-purple.png` + bentuk 3D dari `public/new_work_category/motion_design/` (hijau `-34°`, pink `-18°`; rotasi lewat class `rotate`, bukan transform).
+- Cara mengukur posisi: ambil bounding box bagian solid aset (alpha > 230), cocokkan dengan tepi objek di export cover, lalu hitung `left/top/width` dalam persen frame.
+
+### Work page project cards & filters
+
+- Filter chip dibangun dari nilai `subcategory` di Sanity (`getSubcategoryFilters`): "All" + setiap nilai unik, urut abjad. Chip baru muncul otomatis setelah halaman revalidate (±60 detik).
+- Kartu project memakai `WorkProjectCard` (dipakai bersama Interface/Visual/Motion).
+- Hover/focus: overlay gradasi hitam bawah→atas (`40%` → `15%`), nama project besar (`22–30px`, bold) muncul di kiri bawah, tombol share (salin link project) di kanan atas. Di layar sentuh ketiganya selalu tampil.
+- Link kartu adalah lapisan `absolute inset-0` terpisah agar tombol share tidak berada di dalam `<a>`.
+
+### Work Experience
+
+- Dua kartu berwarna (hijau `#2EE683`, merah `#FF6B6B`) dengan panel detail putih.
+- Grafis SVG di sudut kanan atas panel warna, sebagian tertutup panel putih.
 
 ## 7. Motion System
 
@@ -140,13 +163,22 @@ Konfigurasi React berada di `lib/kinetics-motion.ts`. Kurva CSS global berada di
 
 ### Interaction recipes
 
-- Interactive cards memakai recipe Hover Lift: bergerak `-10px` dengan spring dan shadow yang membesar.
-- Button dan link mengecil ke `scale: 0.96` saat ditekan.
-- Ikon dapat bergeser atau membesar saat hover, tetapi selalu memakai spring token global.
+- **Press (`kineticsPress`)**: semua button, CTA, icon button, dan link navigasi memakai preset ini dari `lib/kinetics-motion.ts` — hover `scale: 1.05`, tap `scale: 0.94`, Kinetics Spring. Spread ke elemen `motion.*` (`<motion.a {...kineticsPress} />`, atau `motion.create(Link)`). Boleh override `whileHover` (mis. ikon `1.1`, ikon sosial `1.15` + naik `4px`).
+- **Sliding indicator**: state aktif pada pill navigation dan filter chip ditandai elemen dengan `layoutId` yang meluncur antar item memakai Kinetics Spring (FloatingNav, WorkNav, filter chip Interface/Visual/Motion).
+- **Hover Lift**: kartu project memakai class `.kinetics-lift` — bergerak `-10px` dengan shadow yang membesar.
+- **Artwork hover**: artwork kartu (Work Categories, Profile, Experience) bergeser/berputar sedikit saat kartu di-hover. Reveal diletakkan di wrapper dan hover di elemen dalam, agar delay reveal tidak memperlambat hover-out.
+- **Scroll reveal**: section dan kartu muncul saat masuk viewport (`whileInView`, sekali per kunjungan), dengan stagger antar kartu dan elemen di dalamnya. Paragraf dan elemen pendukung memakai komponen `Reveal`.
+- **Toggle icon**: pergantian ikon (mis. tema terang/gelap, web/schema) berputar masuk dengan Kinetics Overshoot.
 - Modal masuk dengan kombinasi opacity, scale, dan vertical translation.
 - Pergantian gambar menggunakan spring horizontal.
-- Marquee toolkit tetap linear karena merupakan animasi kontinu, bukan micro-interaction.
-- Three.js particle wave tetap berjalan secara real-time sebagai visual background.
+- Scene Three.js hero berjalan real-time; dijeda saat di luar viewport.
+
+### CSS vs Framer Motion
+
+- CSS global memberi transisi spring pada `a`/`button` untuk warna, `scale`, dan `translate` (utility Tailwind 4), serta press `scale: 0.96` untuk elemen tanpa preset.
+- `transform` sengaja tidak ditransisikan oleh CSS karena dikendalikan Framer Motion setiap frame; transisi CSS di atasnya membuat spring tersendat.
+- Elemen yang memakai `kineticsPress` memiliki atribut `data-motion` sehingga press CSS tidak diterapkan dua kali.
+- Pada elemen `motion.*`, gunakan `transition-colors`, bukan `transition-all`.
 
 ### Heading entrance
 
@@ -162,15 +194,17 @@ Semua heading level-2 utama menggunakan komponen `KineticHeading`:
 
 - Floating pill berada di tengah atas viewport.
 - Surface menggunakan zinc gelap transparan dengan backdrop blur.
-- Active item menggunakan lingkaran putih dan ikon gelap.
+- Active item menggunakan lingkaran putih (`layoutId="floating-nav-indicator"`) yang meluncur ke item baru saat berpindah halaman; ikon aktif berwarna gelap.
+- Setiap item memakai `kineticsPress` (hover `scale: 1.1`).
 - Navigation disembunyikan saat scroll aktif dan kembali setelah scroll berhenti.
 - Gerakan masuk/keluar memakai Kinetics Spring.
+- Halaman `/work` memakai `WorkNav` dengan pola indikator yang sama.
 
 ## 9. Responsive Behavior
 
 - Gunakan mobile-first styling.
 - Heading dan tombol boleh menumpuk vertikal pada viewport kecil.
-- Kartu kategori tetap satu kolom pada semua breakpoint.
+- Kartu Work Categories satu kolom di mobile dan tiga kolom mulai `md`.
 - Artwork tidak boleh mengurangi keterbacaan judul.
 - Modal berubah dari layout vertikal di mobile menjadi dua kolom di desktop.
 - Validasi minimal pada viewport sekitar `390 × 844` dan desktop `1280 × 720`.
@@ -189,14 +223,20 @@ Semua heading level-2 utama menggunakan komponen `KineticHeading`:
 - `tailwind.config.ts`: font dan base theme extension.
 - `lib/kinetics-motion.ts`: shared React motion configuration.
 - `components/ui/KineticHeading.tsx`: entrance animation heading level-2.
-- `components/sections/ProjectCategories.tsx`: desain kartu kategori homepage.
+- `components/ui/Reveal.tsx`: scroll reveal untuk paragraf dan elemen pendukung.
+- `components/ui/DesignDeskScene.tsx`: scene Three.js hero.
+- `components/sections/Profile.tsx`: section "Hello, World".
+- `components/sections/ProjectCategories.tsx`: kartu Work Categories homepage.
+- `components/sections/Experience.tsx`: kartu Work Experience.
+- `components/ui/CoverCollage.tsx`: cover code-based halaman `/work`.
+- `components/ui/WorkProjectCard.tsx`: kartu project halaman `/work`.
 - `components/ui/FloatingNav.tsx`: floating navigation behavior.
 - `components/ui/CanvasView.tsx`: schema canvas, modal, dan spring-driven nodes.
 
 ## 12. Design Maintenance Rules
 
 1. Gunakan token warna dan motion yang sudah terdokumentasi sebelum membuat nilai baru.
-2. Jangan menambahkan easing lokal yang bertentangan dengan Kinetics.
+2. Jangan menambahkan easing lokal yang bertentangan dengan Kinetics. Elemen interaktif baru wajib memakai `kineticsPress` atau recipe di atas.
 3. Pertahankan hirarki display heading yang besar dan body copy yang ringkas.
 4. Pastikan artwork kartu tetap menjadi elemen dominan tanpa menutup judul.
 5. Uji perubahan visual pada desktop dan mobile.

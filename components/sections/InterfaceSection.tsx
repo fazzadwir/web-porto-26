@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { kineticsOvershoot, kineticsSpring } from "@/lib/kinetics-motion";
+import { kineticsOvershoot, kineticsPress, kineticsSpring } from "@/lib/kinetics-motion";
 import { urlFor } from "@/lib/sanity";
-import { getProjectSection } from "@/lib/project-category";
+import CoverCollage, { type CollageItem } from "@/components/ui/CoverCollage";
+import { getProjectSection, getSubcategoryFilters } from "@/lib/project-category";
+import WorkProjectCard from "@/components/ui/WorkProjectCard";
 
 interface Project {
   _id: string;
@@ -21,14 +20,16 @@ interface Project {
   section?: string;
 }
 
-const FILTER_CATEGORIES = [
-  "All",
-  "Landing Page",
-  "SaaS",
-  "FinTech",
-  "EdTech",
-  "HealthTech",
-  "AgriTech",
+const IB = "/projects/interface-design-bg";
+
+// Positions measured from the 2880×770 cover export (left/top/width in %).
+const COVER_ITEMS: CollageItem[] = [
+  { src: `${IB}/mockup-1.png`, w: 975, h: 1646, className: "-left-[1.3%] top-[18.5%] w-[33.9%]", from: "bottom" },
+  { src: `${IB}/mockup-2.png`, w: 705, h: 1305, className: "left-[17.45%] -top-[57.9%] w-[24.2%]", from: "top" },
+  { src: `${IB}/mockup-mid-top.png`, w: 1058, h: 979, className: "left-[34.9%] -top-[49.2%] w-[36.7%]", from: "top" },
+  { src: `${IB}/mockup-mid-bottom.png`, w: 1030, h: 937, className: "left-[35.05%] top-[29.7%] w-[35.7%]", from: "bottom" },
+  { src: `${IB}/mockup-5.png`, w: 975, h: 1646, className: "left-[62.7%] -top-[62%] w-[33.6%]", from: "top" },
+  { src: `${IB}/mockup-6.png`, w: 705, h: 1305, className: "left-[81.3%] top-[20.4%] w-[24.3%]", from: "bottom" },
 ];
 
 interface InterfaceSectionProps {
@@ -55,30 +56,18 @@ export default function InterfaceSection({ projects }: InterfaceSectionProps) {
     [projects]
   );
 
+  // Chips come from the projects' Sanity `subcategory` values, so new ones appear automatically.
+  const filters = useMemo(() => getSubcategoryFilters(interfaceProjects), [interfaceProjects]);
+
   const filtered = useMemo(() => {
     if (activeFilter === "All") return interfaceProjects;
-    return interfaceProjects.filter(
-      (p) =>
-        p.subcategory === activeFilter ||
-        p.categories?.some((c: string) =>
-          c.toLowerCase().includes(activeFilter.toLowerCase())
-        )
-    );
+    return interfaceProjects.filter((p) => p.subcategory === activeFilter);
   }, [interfaceProjects, activeFilter]);
 
   return (
     <div className="min-h-screen bg-[#FAF9F6]">
       {/* ─────────────────── Hero Cover ─────────────────── */}
-      <div className="relative w-full overflow-hidden" style={{ height: "clamp(320px, 42vw, 520px)" }}>
-        <Image
-          src="/Interface Design - Cover.png"
-          alt="Interface Design Projects Cover"
-          fill
-          className="object-cover object-top"
-          priority
-          sizes="100vw"
-        />
-      </div>
+      <CoverCollage bg="#666BEA" items={COVER_ITEMS} label="Interface design mockups: mobile apps and dashboards" />
 
       {/* ─────────────────── Title + Filters ─────────────────── */}
       <div className="px-5 sm:px-8 lg:px-16 pt-10 pb-8 max-w-[1220px] mx-auto">
@@ -106,20 +95,30 @@ export default function InterfaceSection({ projects }: InterfaceSectionProps) {
           transition={{ ...kineticsSpring, delay: 0.12 }}
           className="flex flex-wrap gap-2 mt-6"
         >
-          {FILTER_CATEGORIES.map((cat) => {
+          {filters.map((cat) => {
             const isActive = activeFilter === cat;
             return (
-              <button
+              <motion.button
                 key={cat}
+                {...kineticsPress}
                 onClick={() => setActiveFilter(cat)}
+                aria-pressed={isActive}
                 className={`relative rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200 border ${
                   isActive
-                    ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
+                    ? "text-white border-[#1A1A1A]"
                     : "bg-transparent text-[#4A4A4A] border-[#C8C8C8] hover:border-[#888] hover:text-[#1A1A1A]"
                 }`}
               >
-                {cat}
-              </button>
+                {/* Dark pill slides to the selected filter */}
+                {isActive && (
+                  <motion.span
+                    layoutId="interface-filter-indicator"
+                    className="absolute inset-0 rounded-full bg-[#1A1A1A]"
+                    transition={kineticsSpring}
+                  />
+                )}
+                <span className="relative">{cat}</span>
+              </motion.button>
             );
           })}
         </motion.div>
@@ -144,7 +143,6 @@ function MasonryGrid({ projects }: { projects: Project[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
       {projects.map((project, index) => {
-        const isFeatured = index === 0;
         const isPrivate = project.status === "private";
         const imageUrl = getImageUrl(project.mainImage);
 
@@ -168,102 +166,17 @@ function MasonryGrid({ projects }: { projects: Project[] }) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...kineticsOvershoot, delay: index * 0.06 }}
-            className={isFeatured ? "sm:col-span-1 lg:col-span-1" : ""}
           >
-            <ProjectCard
-              project={project}
-              isFeatured={isFeatured}
-              isPrivate={isPrivate}
+            <WorkProjectCard
+              title={project.title}
+              slug={project.slug.current}
               imageUrl={imageUrl}
               bg={bg}
+              isPrivate={isPrivate}
             />
           </motion.div>
         );
       })}
     </div>
-  );
-}
-
-// ─────────────────── Single Card ───────────────────
-function ProjectCard({
-  project,
-  isFeatured,
-  isPrivate,
-  imageUrl,
-  bg,
-}: {
-  project: Project;
-  isFeatured: boolean;
-  isPrivate: boolean;
-  imageUrl: string | null;
-  bg: string;
-}) {
-  const inner = (
-    <div
-      className="group relative rounded-2xl overflow-hidden cursor-pointer"
-      style={{
-        backgroundColor: bg,
-        aspectRatio: isFeatured ? "4/4.2" : "4/4.2",
-        boxShadow:
-          "0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
-      }}
-    >
-      {/* Private badge */}
-      {isPrivate && (
-        <div className="absolute top-3 right-3 z-20 bg-black/60 backdrop-blur-sm text-white text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-widest font-semibold border border-white/20">
-          Private
-        </div>
-      )}
-
-      {/* Arrow — top right on hover */}
-      {!isPrivate && (
-        <div className="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm">
-            <ArrowUpRight className="w-4 h-4 text-[#1A1A1A]" />
-          </div>
-        </div>
-      )}
-
-      {/* Image */}
-      <div
-        className={`absolute inset-0 flex items-center justify-center transition-transform duration-700 group-hover:scale-[1.03] ${
-          isPrivate ? "blur-xl scale-110" : ""
-        }`}
-      >
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        ) : (
-          /* Placeholder if no image */
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="w-24 h-24 rounded-2xl bg-white/40" />
-          </div>
-        )}
-      </div>
-
-      {/* Featured: title label at bottom-left */}
-      {isFeatured && (
-        <div className="absolute bottom-0 left-0 right-0 p-5 z-10 bg-gradient-to-t from-black/50 via-black/20 to-transparent">
-          <p className="text-white text-sm font-semibold leading-snug drop-shadow">
-            {project.title}
-          </p>
-        </div>
-      )}
-    </div>
-  );
-
-  if (isPrivate) {
-    return inner;
-  }
-
-  return (
-    <Link href={`/project/${project.slug.current}`} prefetch={false}>
-      {inner}
-    </Link>
   );
 }

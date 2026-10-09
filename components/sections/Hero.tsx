@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Download } from "lucide-react";
 import DesignDeskScene from "@/components/ui/DesignDeskScene";
-import { kineticsOvershoot } from "@/lib/kinetics-motion";
+import { kineticsOvershoot, kineticsPress } from "@/lib/kinetics-motion";
 
 const Hero = () => {
   return (
@@ -28,7 +28,7 @@ const Hero = () => {
       */}
       <div className="relative z-10 flex flex-col justify-end w-full min-h-[100svh] px-6 pb-12 pt-32 md:pb-20 md:px-16 lg:px-24">
         <div className="mx-auto grid w-full max-w-[1400px] grid-cols-1 gap-8 lg:grid-cols-12">
-          {/* Left Column: Title & Description */}
+          {/* Left Column: Title & Buttons */}
           <div className="lg:col-span-9">
             {/* Headline */}
             <div className="mb-8 flex flex-col items-start font-black uppercase leading-[0.85] tracking-tighter text-6xl md:text-8xl lg:text-[104px]">
@@ -53,34 +53,18 @@ const Hero = () => {
               </motion.span>
             </div>
 
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                ...kineticsOvershoot,
-                delay: 0.3,
-              }}
-              className="max-w-3xl text-lg text-gray-100 md:text-xl"
-            >
-              Hi, I&apos;m Fazza Dwi Riandy. I&apos;m a{" "}
-              <span className="font-semibold">UI/UX Designer</span> who bridges
-              the gap between complex system logic and pixel-perfect
-              implementation. From scalable cloud dashboards to cohesive brand
-              assets, I design digital experiences that are as technically sound
-              as they are visually compelling.
-            </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 ...kineticsOvershoot,
-                delay: 0.4,
+                delay: 0.25,
               }}
-              className="mt-8 flex flex-col items-start sm:flex-row sm:items-center gap-4 sm:gap-8"
+              className="flex flex-col items-start sm:flex-row sm:items-center gap-4 sm:gap-8"
             >
-              <a
+              <motion.a
+                {...kineticsPress}
                 href="#selected-work"
                 onClick={(e) => {
                   e.preventDefault();
@@ -88,21 +72,22 @@ const Hero = () => {
                     behavior: "smooth",
                   });
                 }}
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-zinc-800 transition-all duration-300 hover:bg-zinc-800 hover:text-white w-full sm:w-auto"
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-zinc-800 transition-colors duration-300 hover:bg-zinc-800 hover:text-white w-full sm:w-auto"
               >
                 My Project
-                <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 hover:text-zinc-800" />
-              </a>
-              <a
+                <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </motion.a>
+              <motion.a
+                {...kineticsPress}
                 href="/UIUX_FazzaDwi.pdf"
                 download
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:bg-zinc-800 hover:text-white w-full sm:w-auto"
+                className="group inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-lg font-semibold text-white transition-colors duration-300 hover:bg-zinc-800 hover:text-white w-full sm:w-auto"
               >
-                <Download className="h-4 w-4" />
+                <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
                 Download CV
-              </a>
+              </motion.a>
             </motion.div>
           </div>
         </div>

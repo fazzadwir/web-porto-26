@@ -3,6 +3,10 @@
 import { useEffect, useState, ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft, Moon, Sun } from "lucide-react";
+import { motion } from "framer-motion";
+import { kineticsOvershoot, kineticsPress } from "@/lib/kinetics-motion";
+
+const MotionLink = motion.create(Link);
 
 export default function ProjectThemeWrapper({
   children,
@@ -78,31 +82,37 @@ export default function ProjectThemeWrapper({
           }`}
         >
           <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <Link
+            <MotionLink
+              {...kineticsPress}
               href="/"
-              className="flex items-center gap-2 group py-2 rounded-full transition-all duration-300 text-stone-600 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-white"
+              className="flex items-center gap-2 group py-2 rounded-full transition-colors duration-300 text-stone-600 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-white"
             >
               <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
               <span className="text-sm font-medium tracking-wide">
                 Back to Home
               </span>
-            </Link>
+            </MotionLink>
 
-            <button
+            <motion.button
+              {...kineticsPress}
               onClick={() => setIsDark(!isDark)}
               className="p-3 rounded-full transition-colors bg-white/50 hover:bg-white border border-stone-200 text-stone-600 dark:bg-[#2a2a2a] dark:hover:bg-[#333333] dark:border-white/10 dark:text-zinc-300 shadow-sm flex-shrink-0"
               aria-label="Toggle Dark Mode"
             >
               {mounted ? (
-                isDark ? (
-                  <Sun className="w-5 h-5" />
-                ) : (
-                  <Moon className="w-5 h-5" />
-                )
+                <motion.span
+                  key={isDark ? "sun" : "moon"}
+                  initial={{ rotate: -90, scale: 0.6, opacity: 0 }}
+                  animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                  transition={kineticsOvershoot}
+                  className="block"
+                >
+                  {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </motion.span>
               ) : (
                 <div className="w-5 h-5" /> // placeholder during SSR
               )}
-            </button>
+            </motion.button>
           </div>
         </header>
 

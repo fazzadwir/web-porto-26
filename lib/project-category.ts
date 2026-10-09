@@ -16,3 +16,9 @@ export function getProjectSection(p: { category?: string; categories?: string[] 
   }
   return null;
 }
+
+/** Filter chips for a /work section: "All" plus every distinct Sanity `subcategory`, alphabetical. */
+export function getSubcategoryFilters(projects: { subcategory?: string }[]): string[] {
+  const subs = new Set(projects.map((p) => p.subcategory?.trim()).filter((s): s is string => !!s));
+  return ["All", ...[...subs].sort((a, b) => a.localeCompare(b))];
+}

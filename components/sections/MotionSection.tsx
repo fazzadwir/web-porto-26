@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { kineticsOvershoot, kineticsSpring } from "@/lib/kinetics-motion";
+import { kineticsOvershoot, kineticsPress, kineticsSpring } from "@/lib/kinetics-motion";
 import { urlFor } from "@/lib/sanity";
-import { getProjectSection } from "@/lib/project-category";
+import CoverCollage, { type CollageItem } from "@/components/ui/CoverCollage";
+import { getProjectSection, getSubcategoryFilters } from "@/lib/project-category";
+import WorkProjectCard from "@/components/ui/WorkProjectCard";
 
 interface Project {
   _id: string;
@@ -21,7 +20,16 @@ interface Project {
   section?: string;
 }
 
-const FILTER_CATEGORIES = ["All", "Social Media Post"];
+const MD = "/new_work_category/motion_design";
+
+// Positions measured from the 2880×770 cover export (left/top/width in %).
+// Green, pink and orange reuse the homepage category assets; green and pink are rotated in the cover.
+const COVER_ITEMS: CollageItem[] = [
+  { src: `${MD}/MD-shape-green.webp`, w: 1372, h: 1372, className: "-left-[14.3%] -top-[30.1%] w-[50.1%] -rotate-[34deg]", from: "bottom" },
+  { src: `${MD}/MD-shape-pink.webp`, w: 1458, h: 1480, className: "left-[27.05%] -top-[47.3%] w-[42%] -rotate-[18deg]", from: "top" },
+  { src: "/projects/motion_design_bg/shape-purple.png", w: 1797, h: 1797, className: "left-[28.6%] top-[1.7%] w-[60.3%]", from: "bottom" },
+  { src: `${MD}/MD-shape-orange.webp`, w: 1008, h: 1008, className: "left-[72.3%] -top-[22.6%] w-[40.8%]", from: "top" },
+];
 
 interface MotionSectionProps {
   projects: Project[];
@@ -46,33 +54,18 @@ export default function MotionSection({ projects }: MotionSectionProps) {
     [projects]
   );
 
+  // Chips come from the projects' Sanity `subcategory` values, so new ones appear automatically.
+  const filters = useMemo(() => getSubcategoryFilters(motionProjects), [motionProjects]);
+
   const filtered = useMemo(() => {
     if (activeFilter === "All") return motionProjects;
-    return motionProjects.filter(
-      (p) =>
-        p.subcategory === activeFilter ||
-        p.categories?.some((c: string) =>
-          c.toLowerCase().includes(activeFilter.toLowerCase())
-        )
-    );
+    return motionProjects.filter((p) => p.subcategory === activeFilter);
   }, [motionProjects, activeFilter]);
 
   return (
     <div className="min-h-screen bg-[#FAF9F6]">
       {/* ─────────────────── Hero Cover ─────────────────── */}
-      <div
-        className="relative w-full overflow-hidden"
-        style={{ height: "clamp(320px, 42vw, 520px)" }}
-      >
-        <Image
-          src="/Motion Design - Cover.png"
-          alt="Motion Design Projects Cover"
-          fill
-          className="object-cover object-top"
-          priority
-          sizes="100vw"
-        />
-      </div>
+      <CoverCollage bg="#DCF154" items={COVER_ITEMS} label="Motion design: floating 3D shapes" />
 
       {/* ─────────────────── Title + Filters ─────────────────── */}
       <div className="px-5 sm:px-8 lg:px-16 pt-10 pb-8 max-w-[1220px] mx-auto">
@@ -99,20 +92,30 @@ export default function MotionSection({ projects }: MotionSectionProps) {
           transition={{ ...kineticsSpring, delay: 0.12 }}
           className="flex flex-wrap gap-2 mt-6"
         >
-          {FILTER_CATEGORIES.map((cat) => {
+          {filters.map((cat) => {
             const isActive = activeFilter === cat;
             return (
-              <button
+              <motion.button
                 key={cat}
+                {...kineticsPress}
                 onClick={() => setActiveFilter(cat)}
+                aria-pressed={isActive}
                 className={`relative rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200 border ${
                   isActive
-                    ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
+                    ? "text-white border-[#1A1A1A]"
                     : "bg-transparent text-[#4A4A4A] border-[#C8C8C8] hover:border-[#888] hover:text-[#1A1A1A]"
                 }`}
               >
-                {cat}
-              </button>
+                {/* Dark pill slides to the selected filter */}
+                {isActive && (
+                  <motion.span
+                    layoutId="motion-filter-indicator"
+                    className="absolute inset-0 rounded-full bg-[#1A1A1A]"
+                    transition={kineticsSpring}
+                  />
+                )}
+                <span className="relative">{cat}</span>
+              </motion.button>
             );
           })}
         </motion.div>
@@ -183,7 +186,6 @@ function MotionGrid({ projects }: { projects: Project[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
       {projects.map((project, index) => {
-        const isFeatured = index === 0;
         const isPrivate = project.status === "private";
         const imageUrl = getImageUrl(project.mainImage);
         const bg = bgColors[index % bgColors.length];
@@ -195,96 +197,16 @@ function MotionGrid({ projects }: { projects: Project[] }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...kineticsOvershoot, delay: index * 0.06 }}
           >
-            <MotionCard
-              project={project}
-              isFeatured={isFeatured}
-              isPrivate={isPrivate}
+            <WorkProjectCard
+              title={project.title}
+              slug={project.slug.current}
               imageUrl={imageUrl}
               bg={bg}
+              isPrivate={isPrivate}
             />
           </motion.div>
         );
       })}
     </div>
-  );
-}
-
-// ─────────────────── Single Card ───────────────────
-function MotionCard({
-  project,
-  isFeatured,
-  isPrivate,
-  imageUrl,
-  bg,
-}: {
-  project: Project;
-  isFeatured: boolean;
-  isPrivate: boolean;
-  imageUrl: string | null;
-  bg: string;
-}) {
-  const inner = (
-    <div
-      className="group relative rounded-2xl overflow-hidden cursor-pointer"
-      style={{
-        backgroundColor: bg,
-        aspectRatio: "4/4.2",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
-      }}
-    >
-      {/* Private badge */}
-      {isPrivate && (
-        <div className="absolute top-3 right-3 z-20 bg-black/60 backdrop-blur-sm text-white text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-widest font-semibold border border-white/20">
-          Private
-        </div>
-      )}
-
-      {/* Arrow on hover */}
-      {!isPrivate && (
-        <div className="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-sm">
-            <ArrowUpRight className="w-4 h-4 text-[#1A1A1A]" />
-          </div>
-        </div>
-      )}
-
-      {/* Image */}
-      <div
-        className={`absolute inset-0 flex items-center justify-center transition-transform duration-700 group-hover:scale-[1.03] ${
-          isPrivate ? "blur-xl scale-110" : ""
-        }`}
-      >
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="w-24 h-24 rounded-2xl bg-white/40" />
-          </div>
-        )}
-      </div>
-
-      {/* Featured label */}
-      {isFeatured && (
-        <div className="absolute bottom-0 left-0 right-0 p-5 z-10 bg-gradient-to-t from-black/50 via-black/20 to-transparent">
-          <p className="text-white text-sm font-semibold leading-snug drop-shadow">
-            {project.title}
-          </p>
-        </div>
-      )}
-    </div>
-  );
-
-  if (isPrivate) return inner;
-
-  return (
-    <Link href={`/project/${project.slug.current}`} prefetch={false}>
-      {inner}
-    </Link>
   );
 }

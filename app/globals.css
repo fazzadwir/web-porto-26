@@ -90,14 +90,18 @@ body {
     transition-timing-function: var(--kinetics-glide) !important;
   }
 
+  /* `transform` is left out on purpose: Framer Motion drives it every frame and a CSS
+     transition on top makes spring motion lag. Tailwind's scale/translate utilities use
+     the individual `scale`/`translate` properties, so they still animate. */
   :where(a, button) {
     transition-property: color, background-color, border-color, opacity,
-      box-shadow, transform, scale;
+      box-shadow, scale, translate;
     transition-duration: 400ms;
     transition-timing-function: var(--kinetics-spring);
   }
 
-  :where(a, button):active {
+  /* Elements using the `kineticsPress` preset handle their own press. */
+  :where(a, button):not([data-motion]):active {
     scale: 0.96;
   }
 

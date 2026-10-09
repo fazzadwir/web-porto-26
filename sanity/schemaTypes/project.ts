@@ -61,6 +61,13 @@ export const project = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "subcategory",
+      title: "Subcategory",
+      type: "string",
+      description:
+        "e.g. SaaS, Landing Page, Social Media Post. Every distinct value becomes a filter chip on its /work page, so reuse the exact same spelling.",
+    }),
+    defineField({
       name: "timeline",
       title: "Timeline",
       type: "string",
