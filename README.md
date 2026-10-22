@@ -2,7 +2,7 @@
 
 Portofolio modern yang dibangun dengan **Next.js 16**, **React 19**, **Tailwind CSS v4**, dan terintegrasi langsung dengan **Sanity CMS**. Dilengkapi dengan Three.js particle wave background, interactive schema space view, dan tema dark/light.
 
-Live Website: [fazzadwr.my.id](https://fazzadwr.my.id)
+Live Website: [fazzadwr.site](https://fazzadwr.site)
 
 ---
 
@@ -70,7 +70,7 @@ Buka [http://localhost:3000](http://localhost:3000) pada browser Anda.
 ## Sanity Studio (CMS)
 
 Anda dapat mengakses panel CMS Sanity secara lokal melalui:
-- URL: [http://localhost:3000/studio](http://localhost:3000/studio)
+- URL: [https://fazzadwr.sanity.studio](https://fazzadwr.sanity.studio) (deploy changes with `npx sanity deploy`; run locally with `npx sanity dev`)
 - Di sini Anda dapat menambahkan, mengedit, atau mengubah visibilitas (public/private) dari projek portofolio.
 
 ---

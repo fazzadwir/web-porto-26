@@ -1,7 +1,8 @@
 'use client'
 
 /**
- * This configuration is used to for the Sanity Studio that’s mounted on the `/app/studio/[[...tool]]/page.tsx` route
+ * Sanity Studio config. The Studio is hosted by Sanity at https://fazzadwr.sanity.studio
+ * (deploy with `npx sanity deploy`); it is not part of the Next.js app.
  */
 
 import {visionTool} from '@sanity/vision'
@@ -14,7 +15,6 @@ import {schema} from './sanity/schemaTypes'
 import {structure} from './sanity/structure'
 
 export default defineConfig({
-  basePath: '/studio',
   projectId,
   dataset,
   // Add and edit the content schema in the './sanity/schemaTypes' folder

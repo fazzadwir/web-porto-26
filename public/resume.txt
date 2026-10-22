@@ -1,6 +1,6 @@
 ================================================================
   RESUME ANALISIS CODEBASE — PORTFOLIO SITE
-  Fazza Dwi Riandy | fazzadwr.my.id
+  Fazza Dwi Riandy | fazzadwr.site
   Dibuat: 2026-03-04
 ================================================================
 
@@ -10,7 +10,7 @@
 
 Nama Project  : Portfolio Personal Site
 Pemilik       : Fazza Dwi Riandy (UI/UX Designer & Product Designer)
-Domain Live   : https://fazzadwr.my.id
+Domain Live   : https://fazzadwr.site
 Framework     : Next.js 16 (App Router) + React 19 + TypeScript
 Styling       : Tailwind CSS v4
 Animasi       : Framer Motion v12
@@ -199,7 +199,7 @@ Document type: "project" — field yang didefinisikan:
 
   - Metadata lengkap di app/layout.tsx:
       • Title default + template ("%s | Fazzadwr")
-      • Description, metadataBase (https://fazzadwr.my.id)
+      • Description, metadataBase (https://fazzadwr.site)
       • Google Search Console verification
       • Open Graph: title, description, URL, siteName, thumbnail (1200x630)
       • Twitter Card: summary_large_image dengan thumbnail

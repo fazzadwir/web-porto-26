@@ -96,4 +96,4 @@ If the slug already exists as a draft and the user wants to overwrite it, add `-
 npx sanity documents query --api-version v2024-01-01 '*[_id == "drafts.project-<slug>"]{title, category, subcategory, status}'
 ```
 
-Tell the user: open `/studio` → Project → the new draft → add the main image (and showcase images) → **Publish**. After publishing it appears on `/work` within ~60 seconds (page revalidation).
+Tell the user: open https://fazzadwr.sanity.studio → Project → the new draft → add the main image (and showcase images) → **Publish**. After publishing it appears on `/work` within ~60 seconds (page revalidation).

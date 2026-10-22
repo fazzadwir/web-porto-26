@@ -10,7 +10,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://fazzadwr.my.id"),
+  metadataBase: new URL("https://fazzadwr.site"),
   title: {
     default: "Fazzadwr | UI/UX Designer Portfolio",
     template: "%s | Fazzadwr",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     title: "Fazzadwr | UI/UX Designer Portfolio",
     description:
       "Explore my portfolio where I bridge complex design systems with pixel-perfect React and Next.js development.",
-    url: "https://fazzadwr.my.id",
+    url: "https://fazzadwr.site",
     siteName: "Fazzadwr",
     images: [
       {

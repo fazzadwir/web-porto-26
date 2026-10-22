@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://fazzadwr.my.id/sitemap.xml",
+    sitemap: "https://fazzadwr.site/sitemap.xml",
   };
 }
