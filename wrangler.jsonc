@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Must match the Worker name in the Cloudflare dashboard.
+  "name": "web-portfolio",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-19",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      // OpenNext calls back into this same Worker; the service name is the Worker's own name.
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "web-portfolio"
+    }
+  ],
+  "images": {
+    // Cloudflare Images, used by next/image optimization
+    "binding": "IMAGES"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
