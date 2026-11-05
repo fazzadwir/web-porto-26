@@ -28,7 +28,7 @@ export default async function Home() {
 
   if (isSanityConfigured) {
     try {
-      const data = await client.fetch(query);
+      const data = await client.fetch(query, {}, { next: { revalidate } });
       if (Array.isArray(data) && data.length > 0) {
         projects = data;
       }

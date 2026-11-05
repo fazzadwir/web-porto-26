@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Download } from "lucide-react";
-import DesignDeskScene from "@/components/ui/DesignDeskScene";
+import HeroDeskScene from "@/components/ui/HeroDeskScene";
 import { kineticsOvershoot, kineticsPress } from "@/lib/kinetics-motion";
 
 const Hero = () => {
@@ -15,7 +15,19 @@ const Hero = () => {
         -------------------------------------------
       */}
       <div className="absolute inset-0 overflow-hidden">
-        <DesignDeskScene />
+        {/* Static render of the 3D scene: instant first paint, and the fallback when WebGL is software-only */}
+        <picture>
+          <source media="(max-aspect-ratio: 1/1)" srcSet="/hero/hero-desk-mobile.webp" />
+          <img
+            src="/hero/hero-desk-desktop.webp"
+            alt=""
+            aria-hidden
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </picture>
+        <HeroDeskScene />
 
         {/* Fade keeps the text readable: darker overall on mobile (text covers most of the screen), bottom-left on desktop */}
         <div className="absolute inset-0 bg-linear-to-t from-[#161312]/90 via-[#161312]/60 to-[#161312]/30 md:bg-linear-to-tr md:from-[#161312]/80 md:via-[#161312]/30 md:to-transparent" />
@@ -32,25 +44,8 @@ const Hero = () => {
           <div className="lg:col-span-9">
             {/* Headline */}
             <div className="mb-8 flex flex-col items-start font-black uppercase leading-[0.85] tracking-tighter text-6xl md:text-8xl lg:text-[104px]">
-              <motion.span
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={kineticsOvershoot}
-                className="text-white z-10"
-              >
-                DESIGNING
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  ...kineticsOvershoot,
-                  delay: 0.1,
-                }}
-                className="text-white"
-              >
-                SYSTEMS
-              </motion.span>
+              <span className="animate-hero-rise text-white z-10">DESIGNING</span>
+              <span className="animate-hero-rise text-white [animation-delay:100ms]">SYSTEMS</span>
             </div>
 
 

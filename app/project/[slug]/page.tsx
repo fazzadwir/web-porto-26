@@ -75,11 +75,13 @@ export default async function ProjectPage({ params }: Props) {
   if (isSanityConfigured) {
     try {
       const [fetchedProject, fetchedAll] = await Promise.all([
-        client.fetch(query, { slug }),
+        client.fetch(query, { slug }, { next: { revalidate } }),
         client.fetch(
           `*[_type == "project"] | order(publishedAt desc) {
             _id, title, slug, status, mainImage, category, categories
           }`,
+          {},
+          { next: { revalidate } },
         ),
       ]);
       project = fetchedProject;

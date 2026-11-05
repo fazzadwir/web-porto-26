@@ -54,7 +54,8 @@ export default function CoverCollage({ bg, items, label }: CoverCollageProps) {
                   alt=""
                   width={item.w}
                   height={item.h}
-                  priority={i < 3}
+                  // Every item sits in the above-the-fold cover, so none should lazy-load (one was the LCP)
+                  priority
                   sizes="(min-width: 1200px) 37vw, 450px"
                   className="h-auto w-full"
                 />

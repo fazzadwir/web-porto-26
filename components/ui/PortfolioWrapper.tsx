@@ -8,7 +8,11 @@ import Profile from "@/components/sections/Profile";
 import ProjectCategories from "@/components/sections/ProjectCategories";
 import Experience from "@/components/sections/Experience";
 import Footer from "@/components/sections/Footer";
-import CanvasView from "@/components/ui/CanvasView";
+import dynamic from "next/dynamic";
+
+// The spatial canvas (react-zoom-pan-pinch + all project cards) is only shown after the
+// user opens Schema view, so keep it out of the home page's initial bundle.
+const CanvasView = dynamic(() => import("@/components/ui/CanvasView"), { ssr: false });
 import { ArrowLeft } from "lucide-react";
 import { kineticsGlide, kineticsPress } from "@/lib/kinetics-motion";
 
@@ -62,7 +66,8 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
 
   return (
     <>
-      <AnimatePresence mode="wait">
+      {/* initial={false}: no fade on first paint, so the page is visible before hydration */}
+      <AnimatePresence mode="wait" initial={false}>
         {viewMode === "web" ? (
           /* ── Standard scrolling site ── */
           <motion.div

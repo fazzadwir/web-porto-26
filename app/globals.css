@@ -80,6 +80,22 @@ body {
   animation-play-state: paused;
 }
 
+/* Hero headline entrance. Pure CSS so the LCP text paints with the HTML instead of
+   waiting for React to hydrate (a Framer `initial={{ opacity: 0 }}` hides it until then). */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-hero-rise {
+  animation: hero-rise 700ms var(--kinetics-spring) both;
+}
+
 /* Kinetics: one expressive motion language for every UI transition. */
 @media (prefers-reduced-motion: no-preference) {
   :where(.transition-all, .transition-transform) {
