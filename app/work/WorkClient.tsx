@@ -49,8 +49,9 @@ export default function WorkClient({
         onSectionChange={handleSectionChange}
       />
 
-      {/* Section content */}
-      <AnimatePresence mode="wait">
+      {/* Section content. initial={false}: the first section shows without a fade, so it is
+          visible before hydration; switching sections still animates. */}
+      <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={activeSection}
           initial={{ opacity: 0, y: 12 }}

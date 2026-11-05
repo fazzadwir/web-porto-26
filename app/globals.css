@@ -96,6 +96,21 @@ body {
   animation: hero-rise 700ms var(--kinetics-spring) both;
 }
 
+/* Page-cover mockups slide in from above/below (direction via --cover-from). */
+@keyframes cover-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--cover-from, 80px));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-cover-in {
+  animation: cover-in 700ms var(--kinetics-spring) both;
+}
+
 /* Kinetics: one expressive motion language for every UI transition. */
 @media (prefers-reduced-motion: no-preference) {
   :where(.transition-all, .transition-transform) {

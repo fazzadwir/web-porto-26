@@ -1,8 +1,8 @@
 "use client";
 
+import type React from "react";
 import Image from "next/image";
 import { motion, MotionConfig } from "framer-motion";
-import { kineticsOvershoot } from "@/lib/kinetics-motion";
 
 export type CollageItem = {
   src: string;
@@ -36,12 +36,15 @@ export default function CoverCollage({ bg, items, label }: CoverCollageProps) {
       >
         <div className="absolute inset-y-0 left-1/2 aspect-[2880/770] h-full min-w-full -translate-x-1/2">
           {items.map((item, i) => (
-            <motion.div
+            // Entrance is CSS (see .animate-cover-in) so the mockups — the LCP on /work — paint
+            // with the HTML instead of staying at opacity 0 until React hydrates.
+            <div
               key={item.src + i}
-              initial={{ opacity: 0, y: item.from === "top" ? -80 : 80 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ ...kineticsOvershoot, delay: 0.1 + i * 0.08 }}
-              className={`pointer-events-none absolute ${item.className}`}
+              style={{
+                "--cover-from": item.from === "top" ? "-80px" : "80px",
+                animationDelay: `${100 + i * 80}ms`,
+              } as React.CSSProperties}
+              className={`animate-cover-in pointer-events-none absolute ${item.className}`}
             >
               {/* Gentle idle float, phase-shifted per item. Continuous loop, so it uses a
                   sine ease like the toolkit marquee rather than a Kinetics spring. */}
@@ -60,7 +63,7 @@ export default function CoverCollage({ bg, items, label }: CoverCollageProps) {
                   className="h-auto w-full"
                 />
               </motion.div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
