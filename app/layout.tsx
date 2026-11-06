@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "Fazzadwr",
     images: [
       {
-        url: "/thumbnail.png",
+        url: "/thumbnail.jpg",
         width: 1200,
         height: 630,
         alt: "Fazzadwr Portfolio Thumbnail",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: "Fazzadwr | UI/UX Designer Portfolio",
     description:
       "Explore my portfolio where I bridge complex design systems with pixel-perfect React and Next.js development.",
-    images: ["/thumbnail.png"],
+    images: ["/thumbnail.jpg"],
   },
 };
 

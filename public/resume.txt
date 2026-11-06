@@ -60,7 +60,7 @@ portfolio-site/
 │   └── env.ts                  → Sanity env vars
 │
 ├── context/                    → React Context (ZoomContext)
-├── public/                     → Aset statis (video, PDF CV, logo, thumbnail)
+├── public/                     → Aset statis (poster hero, PDF CV, gambar project, thumbnail)
 └── types/                      → TypeScript type definitions
 
 
@@ -80,9 +80,13 @@ berdasarkan publishedAt (terbaru dulu). Terdiri dari 5 section berurutan:
 ----------------------------------------------------------------
 
 ── 4.1 Hero (components/sections/Hero.tsx) ──────────────────────
-  - Full-screen section (100vh) dengan background video (hero-vids.mp4)
-  - Overlay gelap (bg-zinc-800/40) untuk keterbacaan teks
-  - Headline animasi staggered: "DESIGNING SYSTEMS" (Framer Motion)
+  - Full-screen section (100svh) dengan background scene 3D three.js (meja desainer)
+      • Poster statis (public/hero/*.webp) tampil instan; three.js baru diunduh
+        setelah halaman load + idle (components/ui/HeroDeskScene.tsx), lalu
+        scene (components/ui/DesignDeskScene.tsx) fade-in di atas poster
+      • Di WebGL software-only (tanpa GPU) scene dilewati, poster tetap tampil
+  - Overlay gradien gelap untuk keterbacaan teks
+  - Headline animasi staggered: "DESIGNING SYSTEMS" (CSS .animate-hero-rise)
   - Deskripsi diri: Product Designer yang bridge UI/UX dan visual storytelling
   - Dua CTA button:
       • "My Project" → scroll ke #selected-work
@@ -205,7 +209,7 @@ Document type: "project" — field yang didefinisikan:
       • Twitter Card: summary_large_image dengan thumbnail
   - Sitemap: app/sitemap.ts → auto-generate /sitemap.xml
   - Robots: app/robots.ts → konfigurasi crawling
-  - Thumbnail: /public/thumbnail.png (1.9MB, 1200x630px)
+  - Thumbnail: /public/thumbnail.jpg (~120KB, 1200x630px)
 
 
 ----------------------------------------------------------------
@@ -232,10 +236,10 @@ Document type: "project" — field yang didefinisikan:
 10. ASET STATIS (public/)
 ----------------------------------------------------------------
 
-  hero-vids.mp4       → Video background Hero section (6.1MB)
+  hero/               → Poster statis scene 3D Hero (desktop & mobile, WebP)
   UIUX_FazzaDwi.pdf   → CV/Resume yang bisa didownload
-  thumbnail.png       → OG image untuk social media preview (1.9MB)
-  app-logo/           → Folder ikon tool (Figma, Framer, VSCode, dll.)
+  thumbnail.jpg       → OG image untuk social media preview (~120KB, 1200x630)
+  projects/, new_work_category/, profile_section/ → Gambar section & cover
 
 
 ----------------------------------------------------------------
