@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, MotionConfig, type Variants } from "framer-motion";
+import { m, MotionConfig, type Variants } from "framer-motion";
 import { kineticsOvershoot, kineticsSpring } from "@/lib/kinetics-motion";
 
-const MotionImage = motion.create(Image);
+const MotionImage = m.create(Image);
 
 type Asset = {
   src: string;
@@ -100,7 +100,7 @@ export default function ProjectCategories() {
               aria-label={`Explore ${category.title.join(" ").toLowerCase()} projects`}
               className="block"
             >
-              <motion.div
+              <m.div
                 custom={i}
                 variants={cardVariants}
                 initial="hidden"
@@ -111,7 +111,7 @@ export default function ProjectCategories() {
                 className="relative isolate aspect-[640/680] overflow-hidden [container-type:inline-size]"
               >
                 {category.assets.map((a) => (
-                  <motion.div
+                  <m.div
                     key={a.src}
                     variants={assetReveal}
                     className={`pointer-events-none absolute ${a.className}`}
@@ -127,7 +127,7 @@ export default function ProjectCategories() {
                       variants={{ hover: { ...a.hover, transition: kineticsSpring } }}
                       className="h-auto w-full"
                     />
-                  </motion.div>
+                  </m.div>
                 ))}
 
                 <div className="relative z-10 px-[6.4%] pt-[6.5%]">
@@ -139,7 +139,7 @@ export default function ProjectCategories() {
                     {category.description}
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
             </Link>
           ))}
         </div>

@@ -2,7 +2,7 @@
 
 import type React from "react";
 import Image from "next/image";
-import { motion, MotionConfig } from "framer-motion";
+import { m, MotionConfig } from "framer-motion";
 
 export type CollageItem = {
   src: string;
@@ -48,7 +48,7 @@ export default function CoverCollage({ bg, items, label }: CoverCollageProps) {
             >
               {/* Gentle idle float, phase-shifted per item. Continuous loop, so it uses a
                   sine ease like the toolkit marquee rather than a Kinetics spring. */}
-              <motion.div
+              <m.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 6 + (i % 3), repeat: Infinity, ease: "easeInOut", delay: i * 0.6 }}
               >
@@ -62,7 +62,7 @@ export default function CoverCollage({ bg, items, label }: CoverCollageProps) {
                   sizes="(min-width: 1200px) 37vw, 450px"
                   className="h-auto w-full"
                 />
-              </motion.div>
+              </m.div>
             </div>
           ))}
         </div>

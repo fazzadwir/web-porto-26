@@ -6,7 +6,7 @@ import InterfaceSection from "@/components/sections/InterfaceSection";
 import VisualSection from "@/components/sections/VisualSection";
 import MotionSection from "@/components/sections/MotionSection";
 import Footer from "@/components/sections/Footer";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { kineticsSpring } from "@/lib/kinetics-motion";
 
 interface Project {
@@ -52,7 +52,7 @@ export default function WorkClient({
       {/* Section content. initial={false}: the first section shows without a fade, so it is
           visible before hydration; switching sections still animates. */}
       <AnimatePresence mode="wait" initial={false}>
-        <motion.div
+        <m.div
           key={activeSection}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -70,7 +70,7 @@ export default function WorkClient({
           {activeSection === "motion" && (
             <MotionSection projects={projects} />
           )}
-        </motion.div>
+        </m.div>
       </AnimatePresence>
 
       <Footer />

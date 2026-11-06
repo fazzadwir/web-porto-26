@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 import Hero from "@/components/sections/Hero";
 import Profile from "@/components/sections/Profile";
@@ -70,7 +70,7 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
       <AnimatePresence mode="wait" initial={false}>
         {viewMode === "web" ? (
           /* ── Standard scrolling site ── */
-          <motion.div
+          <m.div
             key="web"
             variants={fadeVariants}
             initial="initial"
@@ -83,10 +83,10 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
             <ProjectCategories />
             <Experience />
             <Footer />
-          </motion.div>
+          </m.div>
         ) : (
           /* ── Full-screen Spatial Canvas ── */
-          <motion.div
+          <m.div
             key="schema"
             variants={fadeVariants}
             initial="initial"
@@ -102,7 +102,7 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
                   Schema Space
                 </span>
               </div>
-              <motion.button
+              <m.button
                 {...kineticsPress}
                 onClick={() => setViewMode("web")}
                 className="pointer-events-auto bg-stone-900 border border-stone-800 shadow-sm rounded-full px-5 py-2.5 hover:bg-stone-800 transition-colors flex items-center gap-2"
@@ -112,14 +112,14 @@ export default function PortfolioWrapper({ projects }: PortfolioWrapperProps) {
                 <span className="text-xs text-white font-semibold uppercase tracking-widest hidden sm:inline-block">
                   Back to Home
                 </span>
-              </motion.button>
+              </m.button>
             </div>
 
             {/* Full canvas — no padding, fills 100vh */}
             <div className="w-full h-full">
               <CanvasView projects={projects} fullscreen />
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

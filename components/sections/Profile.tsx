@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { motion, MotionConfig, type Variants } from "framer-motion";
+import { m, MotionConfig, type Variants } from "framer-motion";
 import KineticHeading from "@/components/ui/KineticHeading";
 import Reveal from "@/components/ui/Reveal";
 import { kineticsOvershoot, kineticsSpring } from "@/lib/kinetics-motion";
 
-const MotionImage = motion.create(Image);
+const MotionImage = m.create(Image);
 
 // Silhouette rises in first; the shapes behind it pop in afterwards.
 const silhouetteVariants: Variants = {
@@ -71,7 +71,7 @@ export default function Profile() {
 
         {/* Art: shapes first in DOM so they sit behind the silhouette */}
         <MotionConfig reducedMotion="user">
-          <motion.div
+          <m.div
             initial="hidden"
             whileInView="show"
             whileHover="hover"
@@ -79,7 +79,7 @@ export default function Profile() {
             className="relative ml-auto mt-6 aspect-[742/660] w-[85%] max-w-[520px] lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:h-full lg:w-auto lg:max-w-none"
           >
             {shapes.map((s) => (
-              <motion.div
+              <m.div
                 key={s.src}
                 variants={shapeReveal(s.delay)}
                 className={`pointer-events-none absolute ${s.className}`}
@@ -94,7 +94,7 @@ export default function Profile() {
                   variants={{ hover: { ...s.hover, transition: kineticsSpring } }}
                   className="h-auto w-full"
                 />
-              </motion.div>
+              </m.div>
             ))}
             <MotionImage
               src="/profile_section/profile-silliette.webp"
@@ -105,7 +105,7 @@ export default function Profile() {
               variants={silhouetteVariants}
               className="absolute bottom-0 right-0 h-auto w-[91%] origin-bottom"
             />
-          </motion.div>
+          </m.div>
         </MotionConfig>
       </div>
     </section>

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useZoom } from "../../context/ZoomContext";
 import { kineticsGlide, kineticsOvershoot, kineticsPress } from "@/lib/kinetics-motion";
 
@@ -15,7 +15,7 @@ const ImageLightbox = () => {
 
   return (
     <AnimatePresence>
-      <motion.div
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -23,7 +23,7 @@ const ImageLightbox = () => {
         className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 backdrop-blur-sm cursor-zoom-out"
         onClick={closeZoom}
       >
-        <motion.button
+        <m.button
           {...kineticsPress}
           whileHover={{ scale: 1.1, rotate: 90 }}
           onClick={closeZoom}
@@ -31,9 +31,9 @@ const ImageLightbox = () => {
           className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-20"
         >
           <X className="w-8 h-8 text-white" />
-        </motion.button>
+        </m.button>
 
-        <motion.div
+        <m.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
@@ -52,8 +52,8 @@ const ImageLightbox = () => {
               priority
             />
           </div>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </AnimatePresence>
   );
 };

@@ -2,12 +2,12 @@
 
 import { Linkedin, Dribbble, Github } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import KineticHeading from "@/components/ui/KineticHeading";
 import Reveal from "@/components/ui/Reveal";
 import { kineticsPress } from "@/lib/kinetics-motion";
 
-const MotionLink = motion.create(Link);
+const MotionLink = m.create(Link);
 
 const Footer = () => {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { kineticsOvershoot } from "@/lib/kinetics-motion";
 
 interface KineticHeadingProps {
@@ -15,7 +15,7 @@ export default function KineticHeading({
   delay = 0,
 }: KineticHeadingProps) {
   return (
-    <motion.h2
+    <m.h2
       initial={{ opacity: 0, y: 40, scale: 0.96 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.45 }}
@@ -23,6 +23,6 @@ export default function KineticHeading({
       className={className}
     >
       {children}
-    </motion.h2>
+    </m.h2>
   );
 }

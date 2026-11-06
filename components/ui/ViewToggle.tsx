@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Globe, Network } from "lucide-react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { m, useScroll, useMotionValueEvent } from "framer-motion";
 import { kineticsOvershoot, kineticsPress, kineticsSpring } from "@/lib/kinetics-motion";
 
 type ViewMode = "web" | "schema";
@@ -53,7 +53,7 @@ export default function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
   const shouldShow = visible && !modalOpen;
 
   return (
-    <motion.div
+    <m.div
       initial={{ y: -100, opacity: 0 }}
       animate={{
         y: shouldShow ? 0 : -100,
@@ -67,7 +67,7 @@ export default function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
       }`}
     >
       <div className="flex items-center px-1.5 md:px-2 py-1.5 md:py-2 bg-zinc-800/80 backdrop-blur-md border border-white/10 rounded-full shadow-lg">
-        <motion.button
+        <m.button
           {...kineticsPress}
           whileHover={{ scale: 1.1 }}
           onClick={() => onToggle(isSchema ? "web" : "schema")}
@@ -75,7 +75,7 @@ export default function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
           aria-label={isSchema ? "Switch to Web View" : "Switch to Schema View"}
           className="flex items-center justify-center p-2 md:p-3 rounded-full text-stone-400 hover:text-white hover:bg-white/10 transition-colors duration-300"
         >
-          <motion.div
+          <m.div
             key={viewMode}
             initial={{ rotate: -20, opacity: 0 }}
             animate={{ rotate: 0, opacity: 1 }}
@@ -87,9 +87,9 @@ export default function ViewToggle({ viewMode, onToggle }: ViewToggleProps) {
             ) : (
               <Network className="w-4 h-4 md:w-5 md:h-5" />
             )}
-          </motion.div>
-        </motion.button>
+          </m.div>
+        </m.button>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

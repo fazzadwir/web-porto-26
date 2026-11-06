@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { kineticsGlide, kineticsOvershoot } from "@/lib/kinetics-motion";
 
@@ -38,7 +38,7 @@ export function ZoomProvider({ children }: { children: React.ReactNode }) {
       {children}
       <AnimatePresence>
         {zoomedImageSrc && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -47,7 +47,7 @@ export function ZoomProvider({ children }: { children: React.ReactNode }) {
             onClick={closeZoom}
           >
             {/* Image Container with Animation */}
-            <motion.div
+            <m.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -64,7 +64,7 @@ export function ZoomProvider({ children }: { children: React.ReactNode }) {
                   priority
                 />
               </div>
-            </motion.div>
+            </m.div>
 
             <button
               onClick={closeZoom}
@@ -73,7 +73,7 @@ export function ZoomProvider({ children }: { children: React.ReactNode }) {
             >
               <X className="w-6 h-6 text-white" />
             </button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </ZoomContext.Provider>

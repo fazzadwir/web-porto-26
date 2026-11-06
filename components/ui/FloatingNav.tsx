@@ -5,10 +5,10 @@ import { Home, Folder, Briefcase, Pen, ArrowLeft } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 import { useState, useRef, useEffect } from "react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { m, useScroll, useMotionValueEvent } from "framer-motion";
 import { kineticsPress, kineticsSpring } from "@/lib/kinetics-motion";
 
-const MotionLink = motion.create(Link);
+const MotionLink = m.create(Link);
 
 const navItems = [
   { href: "/", icon: Home, label: "Home" },
@@ -83,7 +83,7 @@ export default function FloatingNav() {
   }
 
   return (
-    <motion.div
+    <m.div
       initial={{ y: -100, opacity: 0 }}
       animate={{
         y: shouldShow ? 0 : -100,
@@ -125,7 +125,7 @@ export default function FloatingNav() {
               >
                 {/* White pill slides between items on route change */}
                 {isActive && (
-                  <motion.span
+                  <m.span
                     layoutId="floating-nav-indicator"
                     className="absolute inset-0 rounded-full bg-white"
                     transition={kineticsSpring}
@@ -137,6 +137,6 @@ export default function FloatingNav() {
           })
         )}
       </nav>
-    </motion.div>
+    </m.div>
   );
 }

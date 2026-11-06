@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowUpRight, Download } from "lucide-react";
 import HeroDeskScene from "@/components/ui/HeroDeskScene";
 import { kineticsOvershoot, kineticsPress } from "@/lib/kinetics-motion";
@@ -49,7 +49,7 @@ const Hero = () => {
             </div>
 
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -58,7 +58,7 @@ const Hero = () => {
               }}
               className="flex flex-col items-start sm:flex-row sm:items-center gap-4 sm:gap-8"
             >
-              <motion.a
+              <m.a
                 {...kineticsPress}
                 href="#selected-work"
                 onClick={(e) => {
@@ -71,8 +71,8 @@ const Hero = () => {
               >
                 My Project
                 <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </motion.a>
-              <motion.a
+              </m.a>
+              <m.a
                 {...kineticsPress}
                 href="/UIUX_FazzaDwi.pdf"
                 download
@@ -82,8 +82,8 @@ const Hero = () => {
               >
                 <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
                 Download CV
-              </motion.a>
-            </motion.div>
+              </m.a>
+            </m.div>
           </div>
         </div>
       </div>

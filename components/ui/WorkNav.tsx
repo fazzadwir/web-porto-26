@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Smartphone, Square, Diamond } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { kineticsGlide, kineticsPress, kineticsSpring } from "@/lib/kinetics-motion";
 import { clsx } from "clsx";
 
@@ -31,14 +31,14 @@ export default function WorkNav({
   const router = useRouter();
 
   return (
-    <motion.div
+    <m.div
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={kineticsSpring}
       className="fixed top-8 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3"
     >
       {/* Back Button */}
-      <motion.button
+      <m.button
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.94 }}
         transition={kineticsSpring}
@@ -47,7 +47,7 @@ export default function WorkNav({
         className="w-12 h-12 rounded-full bg-[#3D3D3D] flex items-center justify-center shadow-lg text-[#A8A8A8] hover:text-white transition-colors duration-300"
       >
         <ArrowLeft className="w-5 h-5" />
-      </motion.button>
+      </m.button>
 
       {/* Section Pill */}
       <nav
@@ -58,7 +58,7 @@ export default function WorkNav({
         {sections.map(({ id, icon: Icon, label }) => {
           const isActive = activeSection === id;
           return (
-            <motion.button
+            <m.button
               // Press only: a hover scale would fight the sliding pill
               whileTap={kineticsPress.whileTap}
               data-motion
@@ -75,7 +75,7 @@ export default function WorkNav({
             >
               {/* Animated white pill background */}
               {isActive && (
-                <motion.span
+                <m.span
                   layoutId="work-section-indicator"
                   className="absolute inset-0 bg-white rounded-full shadow-sm"
                   transition={kineticsSpring}
@@ -97,7 +97,7 @@ export default function WorkNav({
               {/* Label — only show when active */}
               <AnimatePresence>
                 {isActive && (
-                  <motion.span
+                  <m.span
                     key={`label-${id}`}
                     initial={{ opacity: 0, width: 0 }}
                     animate={{ opacity: 1, width: "auto" }}
@@ -106,13 +106,13 @@ export default function WorkNav({
                     className="relative z-10 text-sm font-semibold tracking-tight overflow-hidden whitespace-nowrap"
                   >
                     {label}
-                  </motion.span>
+                  </m.span>
                 )}
               </AnimatePresence>
-            </motion.button>
+            </m.button>
           );
         })}
       </nav>
-    </motion.div>
+    </m.div>
   );
 }

@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { urlFor } from "@/lib/sanity";
 import { tools } from "@/lib/tools-data";
@@ -154,7 +154,7 @@ function ConnectorLines({ projects }: { projects: Project[] }) {
       {projects.map((_, i) => {
         const { x, y } = getPosition(i, projects.length);
         return (
-          <motion.line
+          <m.line
             key={i}
             x1={CANVAS_CX}
             y1={CANVAS_CY}
@@ -264,7 +264,7 @@ function ProjectModal({
   );
 
   return (
-    <motion.div
+    <m.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -281,7 +281,7 @@ function ProjectModal({
       />
 
       {/* Modal — stacks vertically on mobile, side-by-side on md+ */}
-      <motion.div
+      <m.div
         className="relative z-10 w-full max-w-4xl bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
         style={{ maxHeight: "92vh" }}
         initial={{ opacity: 0, scale: 0.92, y: 24 }}
@@ -294,7 +294,7 @@ function ProjectModal({
           {slides.length > 0 ? (
             <>
               <AnimatePresence mode="wait">
-                <motion.div
+                <m.div
                   key={slideIdx}
                   className="absolute inset-0"
                   initial={{ opacity: 0, x: 20 }}
@@ -337,7 +337,7 @@ function ProjectModal({
                       </p>
                     </div>
                   )}
-                </motion.div>
+                </m.div>
               </AnimatePresence>
 
               {/* Alt text label */}
@@ -522,8 +522,8 @@ function ProjectModal({
             </div>
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }
 
@@ -556,7 +556,7 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
   }, [onClose]);
 
   return (
-    <motion.div
+    <m.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -567,7 +567,7 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
-      <motion.div
+      <m.div
         className="relative z-10 w-full max-w-3xl rounded-2xl overflow-hidden bg-white shadow-2xl flex flex-col md:flex-row"
         style={{ maxHeight: "92vh" }}
         initial={{ opacity: 0, scale: 0.92, y: 20 }}
@@ -672,7 +672,7 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
               </button>
               <AnimatePresence>
                 {contactOpen && (
-                  <motion.div
+                  <m.div
                     className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-stone-200 rounded-xl shadow-lg overflow-hidden z-30"
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -691,7 +691,7 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
                         {label}
                       </a>
                     ))}
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
             </div>
@@ -707,8 +707,8 @@ function ProfileModal({ onClose }: { onClose: () => void }) {
             </a>
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }
 
@@ -956,7 +956,7 @@ export default function CanvasView({
                   />
 
                   {/* Profile Node */}
-                  <motion.div
+                  <m.div
                     className="absolute z-10"
                     style={{
                       left: CANVAS_CX,
@@ -977,13 +977,13 @@ export default function CanvasView({
                         dispatchModalEvent(true);
                       }}
                     />
-                  </motion.div>
+                  </m.div>
 
                   {/* Project Nodes */}
                   {visible.map((project, i) => {
                     const { x, y } = getPosition(i, visible.length);
                     return (
-                      <motion.div
+                      <m.div
                         key={project._id}
                         className="absolute z-10"
                         style={{
@@ -1004,7 +1004,7 @@ export default function CanvasView({
                             dispatchModalEvent(true);
                           }}
                         />
-                      </motion.div>
+                      </m.div>
                     );
                   })}
                 </div>

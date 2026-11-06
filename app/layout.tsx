@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import FloatingNav from "@/components/ui/FloatingNav";
+import MotionProvider from "@/components/MotionProvider";
 import { Analytics } from "@vercel/analytics/next";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -57,8 +58,10 @@ export default function RootLayout({
         className={`${jakarta.variable} antialiased bg-zinc-800 text-white`}
         suppressHydrationWarning
       >
-        <FloatingNav />
-        {children}
+        <MotionProvider>
+          <FloatingNav />
+          {children}
+        </MotionProvider>
         <Analytics />
       </body>
     </html>

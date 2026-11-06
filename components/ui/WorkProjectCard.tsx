@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Check, Share2 } from "lucide-react";
 import { kineticsPress } from "@/lib/kinetics-motion";
 
@@ -84,7 +84,7 @@ export default function WorkProjectCard({ title, slug, imageUrl, bg, isPrivate }
           Private
         </div>
       ) : (
-        <motion.button
+        <m.button
           {...kineticsPress}
           type="button"
           onClick={copyLink}
@@ -93,7 +93,7 @@ export default function WorkProjectCard({ title, slug, imageUrl, bg, isPrivate }
           className={`absolute right-3 top-3 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#1A1A1A] shadow-sm backdrop-blur-sm focus-visible:opacity-100 ${REVEAL}`}
         >
           {copied ? <Check className="h-4 w-4 text-green-600" /> : <Share2 className="h-4 w-4" />}
-        </motion.button>
+        </m.button>
       )}
     </div>
   );

@@ -3,10 +3,10 @@
 import { useEffect, useState, ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft, Moon, Sun } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { kineticsOvershoot, kineticsPress } from "@/lib/kinetics-motion";
 
-const MotionLink = motion.create(Link);
+const MotionLink = m.create(Link);
 
 export default function ProjectThemeWrapper({
   children,
@@ -93,14 +93,14 @@ export default function ProjectThemeWrapper({
               </span>
             </MotionLink>
 
-            <motion.button
+            <m.button
               {...kineticsPress}
               onClick={() => setIsDark(!isDark)}
               className="p-3 rounded-full transition-colors bg-white/50 hover:bg-white border border-stone-200 text-stone-600 dark:bg-[#2a2a2a] dark:hover:bg-[#333333] dark:border-white/10 dark:text-zinc-300 shadow-sm flex-shrink-0"
               aria-label="Toggle Dark Mode"
             >
               {mounted ? (
-                <motion.span
+                <m.span
                   key={isDark ? "sun" : "moon"}
                   initial={{ rotate: -90, scale: 0.6, opacity: 0 }}
                   animate={{ rotate: 0, scale: 1, opacity: 1 }}
@@ -108,11 +108,11 @@ export default function ProjectThemeWrapper({
                   className="block"
                 >
                   {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-                </motion.span>
+                </m.span>
               ) : (
                 <div className="w-5 h-5" /> // placeholder during SSR
               )}
-            </motion.button>
+            </m.button>
           </div>
         </header>
 

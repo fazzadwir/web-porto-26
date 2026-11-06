@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { motion, MotionConfig, type Variants } from "framer-motion";
+import { m, MotionConfig, type Variants } from "framer-motion";
 import KineticHeading from "@/components/ui/KineticHeading";
 import Reveal from "@/components/ui/Reveal";
 import {
@@ -11,7 +11,7 @@ import {
   kineticsSpring,
 } from "@/lib/kinetics-motion";
 
-const MotionImage = motion.create(Image);
+const MotionImage = m.create(Image);
 
 const SHADOW = "0 8px 20px rgba(0,0,0,0.15)";
 const SHADOW_HOVER = "0 18px 36px rgba(0,0,0,0.22)";
@@ -109,7 +109,7 @@ const Experience = () => {
         <MotionConfig reducedMotion="user">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
             {experiences.map((exp, i) => (
-              <motion.article
+              <m.article
                 key={exp.id}
                 custom={i}
                 variants={cardVariants}
@@ -138,7 +138,7 @@ const Experience = () => {
                 />
 
                 {/* Colored panel: role title */}
-                <motion.div
+                <m.div
                   variants={titleVariants}
                   className="relative flex items-end min-h-52 md:min-h-0 md:w-[51%] md:shrink-0 p-6 md:p-[4.5cqw] pb-10 md:pb-[4.5cqw]"
                 >
@@ -149,10 +149,10 @@ const Experience = () => {
                       </span>
                     ))}
                   </h3>
-                </motion.div>
+                </m.div>
 
                 {/* White panel: details */}
-                <motion.div
+                <m.div
                   variants={panelVariants}
                   className="relative -mt-6 md:mt-0 md:flex-1 bg-stone-50 rounded-t-3xl md:rounded-t-none md:rounded-l-3xl p-6 md:p-[4.5cqw] shadow-[-4px_0_12px_rgba(0,0,0,0.08)]"
                 >
@@ -165,8 +165,8 @@ const Experience = () => {
                   <p className="text-stone-500 text-sm leading-relaxed">
                     {exp.description}
                   </p>
-                </motion.div>
-              </motion.article>
+                </m.div>
+              </m.article>
             ))}
           </div>
         </MotionConfig>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { kineticsOvershoot, kineticsPress, kineticsSpring } from "@/lib/kinetics-motion";
 import { urlFor } from "@/lib/sanity";
 import CoverCollage, { type CollageItem } from "@/components/ui/CoverCollage";
@@ -69,7 +69,7 @@ export default function MotionSection({ projects }: MotionSectionProps) {
 
       {/* ─────────────────── Title + Filters ─────────────────── */}
       <div className="px-5 sm:px-8 lg:px-16 pt-10 pb-8 max-w-[1220px] mx-auto">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...kineticsOvershoot, delay: 0.05 }}
@@ -83,10 +83,10 @@ export default function MotionSection({ projects }: MotionSectionProps) {
           <p className="text-[#6B6B6B] mt-1 text-sm sm:text-base">
             Just start learning this
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Filter chips */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...kineticsSpring, delay: 0.12 }}
@@ -95,7 +95,7 @@ export default function MotionSection({ projects }: MotionSectionProps) {
           {filters.map((cat) => {
             const isActive = activeFilter === cat;
             return (
-              <motion.button
+              <m.button
                 key={cat}
                 {...kineticsPress}
                 onClick={() => setActiveFilter(cat)}
@@ -108,17 +108,17 @@ export default function MotionSection({ projects }: MotionSectionProps) {
               >
                 {/* Dark pill slides to the selected filter */}
                 {isActive && (
-                  <motion.span
+                  <m.span
                     layoutId="motion-filter-indicator"
                     className="absolute inset-0 rounded-full bg-[#1A1A1A]"
                     transition={kineticsSpring}
                   />
                 )}
                 <span className="relative">{cat}</span>
-              </motion.button>
+              </m.button>
             );
           })}
-        </motion.div>
+        </m.div>
       </div>
 
       {/* ─────────────────── Project Grid ─────────────────── */}
@@ -136,7 +136,7 @@ export default function MotionSection({ projects }: MotionSectionProps) {
 // ─────────────────── Empty State ───────────────────
 function EmptyState() {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={kineticsOvershoot}
@@ -145,7 +145,7 @@ function EmptyState() {
       {/* Spinning diamond shapes matching Motion category palette */}
       <div className="flex gap-4 mb-2">
         {["#DAFA4D", "#FF6B9D", "#4DCFFA", "#B4FA4D"].map((color, i) => (
-          <motion.div
+          <m.div
             key={i}
             className="w-8 h-8"
             style={{ backgroundColor: color, borderRadius: 4 }}
@@ -165,7 +165,7 @@ function EmptyState() {
       <p className="text-[#AAAAAA] text-sm">
         Motion work is in progress — check back soon.
       </p>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -191,7 +191,7 @@ function MotionGrid({ projects }: { projects: Project[] }) {
         const bg = bgColors[index % bgColors.length];
 
         return (
-          <motion.div
+          <m.div
             key={project._id}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -204,7 +204,7 @@ function MotionGrid({ projects }: { projects: Project[] }) {
               bg={bg}
               isPrivate={isPrivate}
             />
-          </motion.div>
+          </m.div>
         );
       })}
     </div>
